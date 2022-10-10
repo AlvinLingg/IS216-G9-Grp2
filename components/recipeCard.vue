@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="rounded-3xl w-80">
+  <div class="w-80">
+    <div class="rounded-3xl w-full">
       <img
         class="object-cover rounded-3xl"
         src="../assets/test-img.jpg"
