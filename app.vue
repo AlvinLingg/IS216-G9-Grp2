@@ -5,4 +5,8 @@
     </NuxtLayout>
   </div>
 </template>
-<style></style>
+<style>
+* {
+  font-family: "Poppins", "sans-serif";
+}
+</style>
