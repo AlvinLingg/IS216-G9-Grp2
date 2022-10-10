@@ -2,7 +2,9 @@
 export default defineNuxtConfig({
   modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
   googleFonts: {
-    families: { Poppins: true },
+    families: {
+      Poppins: true,
+    },
   },
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",

@@ -1,7 +1,13 @@
 <template>
   <div class="flex items-center justify-between flex-wrap w-full p-5">
-    <div class="text-2xl font-bold">NOM.NOM</div>
-    <div class="block md:hidden" @click="toggleMenu" style="color: #4b4d4c">
+    <div class="text-2xl font-bold px-5">
+      <nuxt-link href="/">NOM.NOM</nuxt-link>
+    </div>
+    <div
+      class="block md:hidden mx-5"
+      @click="toggleMenu"
+      style="color: #4b4d4c"
+    >
       <svg v-if="menuOpen" class="w-6" viewBox="0 0 20 20">
         <title>Close</title>
         <path
@@ -18,20 +24,20 @@
       :class="menuOpen ? 'block' : 'hidden'"
     >
       <div
-        class="items-center flex flex-col sm:flex-row justify-center sm:justify-between md:justify-end text-sm"
+        class="items-center flex flex-col sm:flex-row justify-center sm:justify-between md:justify-end text-base"
       >
-        <nuxt-link href="/discover">
-          <span> Discover </span>
+        <nuxt-link href="/discover" class="md:my-0 my-4">
+          <span class="px-5"> Discover </span>
         </nuxt-link>
 
-        <nuxt-link href="/recipes">
-          <span> My Recipes </span>
+        <nuxt-link href="/recipes" class="md:my-0 my-4">
+          <span class="px-5"> My Recipes </span>
         </nuxt-link>
 
-        <nuxt-link href="/fridge">
-          <span> My Fridge </span>
+        <nuxt-link href="/fridge" class="md:my-0 my-4">
+          <span class="px-5"> My Fridge </span>
         </nuxt-link>
-        <div class="md:hidden">
+        <div class="md:hidden my-4">
           <button
             class="px-5 py-2 rounded-xl bg-brand text-secondary font-bold"
           >
@@ -54,19 +60,15 @@
 export default {
   data() {
     return {
-      menuOpen: false
+      menuOpen: false,
     };
   },
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
-    }
-  }
+    },
+  },
 };
 </script>
 
-<style>
-span {
-  margin: 8px;
-}
-</style>
+<style></style>
