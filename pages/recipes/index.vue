@@ -1,4 +1,7 @@
-<template></template>
+<template>
+  <CuisineCard />
+  <CuisineCarousel />
+</template>
 
 <script></script>
 

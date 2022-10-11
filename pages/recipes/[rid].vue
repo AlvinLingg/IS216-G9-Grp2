@@ -5,8 +5,8 @@ const rid = route.params.rid;
 <template>
   <div>
     <Navbar />
-    <div class="container mx-auto">
-      <div class="grid sm:grid-cols-1 gap-4 md:grid-cols-2 gap-4">
+    <div class="container mx-auto h-max">
+      <div class="grid sm:grid-cols-1 gap-10 md:grid-cols-2 gap-5 p-6">
         <div><FoodCarousel /></div>
         <div><RecipeDetails /></div>
       </div>
