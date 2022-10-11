@@ -1,7 +1,9 @@
 <template>
-  <div class="container mx-auto">
+  <div>
     <Navbar />
-    <recipeCard />
+    <div class="container mx-auto">
+      <RecipeCard />
+    </div>
   </div>
 </template>
 
