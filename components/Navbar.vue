@@ -80,25 +80,19 @@
         </label>
       </div>
     </div>
-    <div
-      tabindex="0"
-      class="collapse bg-base-100 rounded-box"
-      :class="menuOpen ? 'collapse-open' : 'collapse-close'"
-    >
-      <div class="collapse-content lg:hidden">
-        <ul
-          tabindex="0"
-          class="menu menu-compact mt-0 p-2 pt-0 bg-base-100 rounded-box"
-        >
-          <li><nuxt-link to="/" class="mx-auto">Discover</nuxt-link></li>
-          <li>
-            <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
-          </li>
-          <li>
-            <a class="btn text-white mx-auto">Login/Register</a>
-          </li>
-        </ul>
-      </div>
+    <div class="lg:hidden" v-if="menuOpen">
+      <ul
+        tabindex="0"
+        class="menu menu-compact mt-0 mb-3 p-2 pt-0 bg-base-100 rounded-box"
+      >
+        <li><nuxt-link to="/" class="mx-auto">Discover</nuxt-link></li>
+        <li>
+          <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
+        </li>
+        <li>
+          <a class="btn text-white mx-auto">Login/Register</a>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
@@ -113,7 +107,6 @@ export default {
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
-      console.log("123");
     },
   },
 };
