@@ -1,58 +1,103 @@
 <template>
   <div class="container mx-auto">
-    <div class="flex items-center justify-between flex-wrap w-full p-5">
-      <div class="text-2xl font-bold px-5">
-        <nuxt-link href="/">NOM.NOM</nuxt-link>
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <nuxt-link to="/" class="btn btn-ghost normal-case text-2xl"
+          >NOM.NOM
+        </nuxt-link>
       </div>
-      <div
-        class="block md:hidden mx-5"
-        @click="toggleMenu"
-        style="color: #4b4d4c"
-      >
-        <svg v-if="menuOpen" class="w-6" viewBox="0 0 20 20">
-          <title>Close</title>
-          <path
-            d="M9.00023 7.58599L13.9502 2.63599L15.3642 4.04999L10.4142 8.99999L15.3642 13.95L13.9502 15.364L9.00023 10.414L4.05023 15.364L2.63623 13.95L7.58623 8.99999L2.63623 4.04999L4.05023 2.63599L9.00023 7.58599Z"
-          />
-        </svg>
-        <svg v-else class="w-6" viewBox="0 0 20 20">
-          <title>Menu</title>
-          <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-        </svg>
+      <div class="navbar-center hidden lg:flex">
+        <ul class="menu menu-horizontal p-0">
+          <li><nuxt-link to="/">Discover</nuxt-link></li>
+          <li><nuxt-link to="/fridge">My Fridge</nuxt-link></li>
+        </ul>
       </div>
-      <div
-        class="md:block basis-full md:basis-auto"
-        :class="menuOpen ? 'block' : 'hidden'"
-      >
-        <div
-          class="items-center flex flex-col sm:flex-row justify-center sm:justify-between md:justify-end text-base"
-        >
-          <nuxt-link href="/discover" class="md:my-0 my-4">
-            <span class="px-5"> Discover </span>
-          </nuxt-link>
-
-          <nuxt-link href="/recipes" class="md:my-0 my-4">
-            <span class="px-5"> My Recipes </span>
-          </nuxt-link>
-
-          <nuxt-link href="/fridge" class="md:my-0 my-4">
-            <span class="px-5"> My Fridge </span>
-          </nuxt-link>
-          <div class="md:hidden my-4">
-            <button
-              class="px-5 py-2 rounded-xl bg-brand text-secondary font-bold"
-            >
-              Login
-            </button>
-            <button class="px-5 py-2 text-secondary">Register</button>
-          </div>
-        </div>
-      </div>
-      <div class="hidden md:block">
-        <button class="px-5 py-2 rounded-xl bg-brand text-secondary font-bold">
-          Login
+      <div class="navbar-end">
+        <button class="btn btn-ghost btn-circle">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
         </button>
-        <button class="px-5 py-2 text-secondary">Register</button>
+        <a class="btn hidden lg:inline-flex"
+          >Login/Register
+          <svg
+            class="fill-current"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
+            />
+          </svg>
+        </a>
+        <label
+          class="btn btn-ghost lg:hidden swap swap-rotate"
+          @click="toggleMenu()"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+            :class="menuOpen ? 'swap-on' : 'swap-off'"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+            />
+          </svg>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="w-6 h-6"
+            :class="menuOpen ? 'swap-off' : 'swap-on'"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </label>
+      </div>
+    </div>
+    <div
+      tabindex="0"
+      class="collapse bg-base-100 rounded-box"
+      :class="menuOpen ? 'collapse-open' : 'collapse-close'"
+    >
+      <div class="collapse-content lg:hidden">
+        <ul
+          tabindex="0"
+          class="menu menu-compact mt-0 p-2 pt-0 bg-base-100 rounded-box"
+        >
+          <li><nuxt-link to="/" class="mx-auto">Discover</nuxt-link></li>
+          <li>
+            <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
+          </li>
+          <li>
+            <a class="btn text-white mx-auto">Login/Register</a>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
@@ -68,6 +113,7 @@ export default {
   methods: {
     toggleMenu() {
       this.menuOpen = !this.menuOpen;
+      console.log("123");
     },
   },
 };
