@@ -1,5 +1,5 @@
 <template>
-  <div class="h-3/5 md: h-2/5 sm: h-3/4">
+  <div class="h-3/5 sm:h-3/4 md:h-2/5">
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         Shrimp Scampi Pasta
@@ -9,7 +9,7 @@
       </p>
       <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
     </div>
-    <div class="overflow-auto" style="max-height: 30%">
+    <div class="overflow-auto max-h-[30%] md:max-h-[25%] lg:max-h-[35%]">
       <ul class="leading-loose text-s text-gray-500">
         <li>2 tbsp extra olive oil</li>
         <li>1 cup quinoa</li>
@@ -23,8 +23,8 @@
       </ul>
     </div>
     <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
-    <div class="overflow-auto" style="max-height: 45%">
-      <ul class="leading-loose text-s text-gray-500">
+    <div class="overflow-auto max-h-[40%] md:max-h-[40%] lg:max-h-[50%]">
+      <ul class="leading-loose text-s text-gray-500 pr-3">
         <li class="font-semibold">Step 1</li>
         <li class="leading-tight mb-3">
           In a shallow dish or bowl, mix together the flour, salt, pepper and
