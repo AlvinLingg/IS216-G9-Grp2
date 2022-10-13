@@ -1,5 +1,6 @@
 <template>
-  <div class="h-3/5 sm:h-3/4 md:h-2/5">
+  <!-- <div class="h-3/5 sm:h-3/4 md:h-2/5"> -->
+  <div class="h-[500px]">
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         Shrimp Scampi Pasta
