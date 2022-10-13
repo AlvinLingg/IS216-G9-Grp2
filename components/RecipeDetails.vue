@@ -1,6 +1,5 @@
 <template>
-  <!-- <div class="h-3/5 sm:h-3/4 md:h-2/5"> -->
-  <div class="h-[500px]">
+  <div class="h-[750px] lg:h-[550px] xl:h-[750px]">
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         Shrimp Scampi Pasta
@@ -10,7 +9,7 @@
       </p>
       <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
     </div>
-    <div class="overflow-auto max-h-[30%] md:max-h-[25%] lg:max-h-[35%]">
+    <div class="overflow-auto max-h-[40%] lg:max-h-[28%]">
       <ul class="leading-loose text-s text-gray-500">
         <li>2 tbsp extra olive oil</li>
         <li>1 cup quinoa</li>
@@ -24,7 +23,7 @@
       </ul>
     </div>
     <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
-    <div class="overflow-auto max-h-[40%] md:max-h-[40%] lg:max-h-[50%]">
+    <div class="overflow-auto max-h-[40%] lg:max-h-[37%]">
       <ul class="leading-loose text-s text-gray-500 pr-3">
         <li class="font-semibold">Step 1</li>
         <li class="leading-tight mb-3">
