@@ -1,6 +1,6 @@
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
-  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts"],
+  modules: ["@nuxtjs/tailwindcss", "@nuxtjs/google-fonts", "@nuxtjs/proxy"],
   googleFonts: {
     families: {
       Poppins: true,
@@ -13,5 +13,14 @@ export default defineNuxtConfig({
     config: {},
     injectPosition: 0,
     viewer: true,
+  },
+  runtimeConfig: {
+    private: {
+      dbAccessKeyId: process.env.DB_ACCESS_KEY_ID,
+      dbSecretAccessKey: process.env.DB_SECRET_ACCESS_KEY,
+    },
+  },
+  serverMiddleware: {
+    "/api": "~/api",
   },
 });
