@@ -12,9 +12,22 @@ const props = defineProps(["recipes", "instructions"]);
         {{ props.recipes.title }}
       </h1>
       <p class="text-s text-gray-500">
-        {{ capitalizeFirstLetter(props.recipes.dishTypes[0]) }} •
-        {{ props.recipes.readyInMinutes }} minutes •
-        {{ props.recipes.servings }} servings
+        {{
+          props.recipes.dishTypes.length != 0
+            ? capitalizeFirstLetter(props.recipes.dishTypes[0])
+            : "Others"
+        }}
+        •
+        {{
+          props.recipes.readyInMinutes.length != 0
+            ? props.recipes.readyInMinutes
+            : "Nil"
+        }}
+        minutes •
+        {{
+          props.recipes.servings.length != 0 ? props.recipes.servings : ">1"
+        }}
+        serving(s)
       </p>
       <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
     </div>

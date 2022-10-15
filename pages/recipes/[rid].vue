@@ -1,4 +1,5 @@
 <script setup>
+import NoExist from "../../components/NoExist.vue";
 const route = useRoute();
 const rid = route.params.rid;
 
@@ -23,13 +24,22 @@ const { data: instructions, error2 } = await useAsyncData(
 <template>
   <div>
     <Navbar />
-    <div class="container mx-auto">
+    <div class="container mx-auto" v-if="recipes != null">
       <div class="grid sm:grid-cols-1 gap-10 lg:grid-cols-2 gap-5 p-6">
-        <div><FoodCarousel :imageURL="recipes.image" /></div>
+        <div>
+          <FoodCarousel
+            :imageURL="
+              recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
+            "
+          />
+        </div>
         <div>
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
         </div>
       </div>
+    </div>
+    <div class="container mx-auto" v-else>
+      <NoExist />
     </div>
   </div>
 </template>
