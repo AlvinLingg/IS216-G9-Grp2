@@ -1,5 +1,5 @@
 <template>
-  <div class="w-80">
+  <div class="w-70">
     <div class="rounded-3xl w-full">
       <img
         class="object-cover rounded-3xl"
