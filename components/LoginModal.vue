@@ -77,12 +77,6 @@ const updateEmail = async () => {
           class="input input-bordered input-md w-full max-w-xs mr-[10px]"
           v-model="email"
         /><input type="submit" value="Submit" class="btn" @click="userLogin" />
-        <input
-          type="submit"
-          value="updateEmail"
-          class="btn"
-          @click="updateEmail"
-        />
       </p>
     </div>
   </div>

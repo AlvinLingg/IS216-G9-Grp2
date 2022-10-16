@@ -38,6 +38,6 @@ export default defineNuxtConfig({
     },
   },
   serverMiddleware: {
-    "/api": "~/api",
+    "/express/api": "~/api",
   },
 });

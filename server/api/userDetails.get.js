@@ -2,8 +2,6 @@ import db from "../../db";
 import jwt from "jsonwebtoken";
 
 export default defineEventHandler((event) => {
-  // console.log(event);
-  // return { dog: "asdas", coen: "oprhan" };
   const accessToken = event.req.body.accessToken || null;
   const config = useRuntimeConfig();
   const jwtAccessSecret = config.private.jwtAccessSecret;
@@ -41,7 +39,6 @@ export default defineEventHandler((event) => {
       }
     }
   );
-
 
   return { authenticatedUser };
 });

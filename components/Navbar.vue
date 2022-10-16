@@ -8,7 +8,7 @@ const toggleMenu = () => {
 const userCookie = useCookie("user");
 const userStore = useUserStore();
 if (userCookie?.value?.accessToken) {
-  let { data, error } = await useFetch("/api/test", {
+  const { data, error } = await useFetch("/api/userDetails", {
     headers: {
       "Content-Type": "application/json",
     },
@@ -17,7 +17,7 @@ if (userCookie?.value?.accessToken) {
       accessToken: userCookie.value.accessToken,
     },
   });
-  console.log("data", data.value);
+  console.log("data", data);
   console.log("error", error);
 }
 </script>
