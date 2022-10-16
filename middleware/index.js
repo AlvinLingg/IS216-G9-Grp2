@@ -7,7 +7,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-var upload = multer({
+let upload = multer({
   storage: multerS3({
     s3: s3,
     bucket: "mywad2bucket",
@@ -31,7 +31,14 @@ app.post("/upload", upload.array("files"), function (req, res, next) {
   });
 });
 
-export default {
-  path: "/express/api",
-  handler: app,
-};
+app.get("/", (req, res) => {
+  res.json({
+    message: "hello world",
+  });
+});
+
+app.get("/test", (req, res) => {
+  res.json("test");
+});
+
+export default app;
