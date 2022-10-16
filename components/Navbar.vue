@@ -1,3 +1,27 @@
+<script setup>
+import { useUserStore } from "~~/store/userStore";
+const menuOpen = ref(false);
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value;
+};
+
+const userCookie = useCookie("user");
+const userStore = useUserStore();
+if (userCookie?.value?.accessToken) {
+  let { data, error } = await useFetch("/api/test", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+    method: "GET",
+    body: {
+      accessToken: userCookie.value.accessToken,
+    },
+  });
+  console.log("data", data.value);
+  console.log("error", error);
+}
+</script>
+
 <template>
   <div class="container mx-auto">
     <div class="navbar bg-base-100">
@@ -29,20 +53,7 @@
             />
           </svg>
         </button>
-        <a class="btn hidden lg:inline-flex"
-          >Login/Register
-          <svg
-            class="fill-current"
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"
-            />
-          </svg>
-        </a>
+        <LoginModal modal-name="Login/Register" :mobile="false" />
         <label
           class="btn btn-ghost lg:hidden swap swap-rotate"
           @click="toggleMenu()"
@@ -90,26 +101,11 @@
           <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
         </li>
         <li>
-          <a class="btn text-white mx-auto">Login/Register</a>
+          <LoginModal modal-name="Login/Register" :mobile="true" />
         </li>
       </ul>
     </div>
   </div>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      menuOpen: false,
-    };
-  },
-  methods: {
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen;
-    },
-  },
-};
-</script>
 
 <style></style>

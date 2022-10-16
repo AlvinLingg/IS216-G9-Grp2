@@ -31,6 +31,10 @@ app.post("/upload", upload.array("files"), function (req, res, next) {
   });
 });
 
+app.get("/test", function (req, res, next) {
+  res.json("test");
+});
+
 export default {
   path: "/api",
   handler: app,
