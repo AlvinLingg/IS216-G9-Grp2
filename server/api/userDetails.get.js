@@ -2,10 +2,6 @@ import db from "../../db";
 import jwt from "jsonwebtoken";
 
 export default defineEventHandler((event) => {
-  const accessToken = event.req.body.accessToken || null;
-  const config = useRuntimeConfig();
-  const jwtAccessSecret = config.private.jwtAccessSecret;
-
   const authenticateToken = (token) => {
     try {
       let test = jwt.verify(token, jwtAccessSecret);
@@ -15,30 +11,36 @@ export default defineEventHandler((event) => {
     }
   };
 
+  const accessToken = event.req.body.accessToken || null;
+  const config = useRuntimeConfig();
+  const jwtAccessSecret = config.private.jwtAccessSecret;
+
   if (!accessToken) {
     return { user: null };
   }
 
   let authenticatedUser = authenticateToken(accessToken);
+  if (!authenticatedUser) {
+    return { user: null };
+  }
 
-  db.query(
-    {
-      TableName: "user",
-      KeyConditionExpression: "uniqueUserId = :uniqueUserId",
-      ExpressionAttributeValues: {
-        ":uniqueUserId": authenticatedUser.uniqueUserId,
-      },
+  const getQueryParams = {
+    TableName: "user",
+    KeyConditionExpression: "uniqueUserId = :uniqueUserId",
+    ExpressionAttributeValues: {
+      ":uniqueUserId": authenticatedUser.uniqueUserId,
     },
-    (err, data) => {
-      if (err) {
-        console.log(err);
-        return err;
-      } else {
-        // console.log("DATA", data);
-        return data;
-      }
-    }
-  );
+  };
 
-  return { authenticatedUser };
+  const result = new Promise((resolve, reject) => {
+    db.query(getQueryParams, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
+  });
+
+  return result;
 });

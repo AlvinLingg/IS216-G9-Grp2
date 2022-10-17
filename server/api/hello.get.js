@@ -21,5 +21,6 @@ export default defineEventHandler((event) => {
   });
 
   //try accessing http://localhost:3000/api/hello?id=10
+  console.log(result);
   return result;
 });

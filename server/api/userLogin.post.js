@@ -56,11 +56,11 @@ export default defineEventHandler(async (event) => {
     { expiresIn: "7 days" }
   );
 
-  // TODO: Add refresh token and user's unique id to database table 'refreshToken'
-  const refreshToken = jwt.sign(
-    { email: body.email, uniqueUserId: body.uniqueUserId },
-    config.private.jwtAccessSecret
-  );
+  // TODO if have time: Add refresh token and user's unique id to database table 'refreshToken'
+  // const refreshToken = jwt.sign(
+  //   { email: body.email, uniqueUserId: body.uniqueUserId },
+  //   config.private.jwtAccessSecret
+  // );
 
   return { accessToken: accessToken };
 });
@@ -68,9 +68,3 @@ export default defineEventHandler(async (event) => {
 // 1. Acc creation wif magic
 // 2. Acc creation into our db
 // 3. Redirection upon (1), with user state stored into cookies (persisted state)
-
-email: "is216g9group2@gmail.com";
-isMfaEnabled: false;
-issuer: "did:ethr:0xE9f29f87096Eb95475398A9e476d575C281c5562";
-phoneNumber: null;
-publicAddress: "0xe9f29f87096eb95475398a9e476d575c281c5562";

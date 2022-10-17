@@ -1,3 +1,10 @@
+<script setup>
+import { useUserStore } from "~~/store/userStore";
+const userStore = useUserStore();
+
+console.log(userStore.user);
+</script>
+
 <template>
   <div>
     <Navbar />
@@ -6,9 +13,5 @@
     </div>
   </div>
 </template>
-
-<script>
-export default {};
-</script>
 
 <style></style>

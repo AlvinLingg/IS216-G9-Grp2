@@ -1,25 +1,8 @@
 <script setup>
-import { useUserStore } from "~~/store/userStore";
 const menuOpen = ref(false);
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
-
-const userCookie = useCookie("user");
-const userStore = useUserStore();
-if (userCookie?.value?.accessToken) {
-  const { data, error } = await useFetch("/api/userDetails", {
-    headers: {
-      "Content-Type": "application/json",
-    },
-    method: "GET",
-    body: {
-      accessToken: userCookie.value.accessToken,
-    },
-  });
-  console.log("data", data);
-  console.log("error", error);
-}
 </script>
 
 <template>
