@@ -109,38 +109,29 @@ const updateEmail = async () => {
 </script>
 
 <template>
-  <label
-    for="login-register-modal"
-    class="btn modal-button"
-    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'"
-    >{{ props.modalName }}</label
-  >
+  <label for="login-register-modal" class="btn modal-button"
+    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'">{{ props.modalName }}</label>
 
   <input type="checkbox" id="login-register-modal" class="modal-toggle" />
   <div class="modal">
-    <div class="modal-box relative">
-      <label
-        for="login-register-modal"
-        class="btn btn-sm btn-circle absolute right-2 top-2"
-        >✕</label
-      >
+    <div class="modal-box max-w-sm relative py-[3rem] px-[2rem]">
+      <label for="login-register-modal" class="btn btn-sm btn-ghost absolute right-2 top-2">✕</label>
       <Form @submit="userLogin">
-        <h3 class="text-lg font-bold">
-          Enter your email below to login/register!
-        </h3>
-        <p class="py-4">
-          <Field
-            name="email"
-            type="email"
-            placeholder="email@example.com"
-            :rules="validateEmail"
-            class="input input-bordered input-md w-full max-w-xs mr-[10px]"
-          /><input type="submit" value="Submit" class="btn" />
+        <h3 class="text-2xl font-bold text-center">Sign In</h3>
+        <p class="py-4 px-4">
+          <span class="text-sm text-slate-600">
+            Email Address
+          </span>
+          <Field name="email" type="email" placeholder="email@example.com" :rules="validateEmail"
+            class="input input-bordered input-md w-full mt-1" />
+          <ErrorMessage as="p" name="email" class="text-sm text-red-600 mt-1" />
+          <span v-if="loginSuccess">Login Successful! Refreshing in 3 seconds!</span>
+
+        <div class="modal-action mt-5">
+          <input type="submit" value="Continue" class="btn-action primary-color" />
+        </div>
         </p>
-        <ErrorMessage name="email" class="text-red-600" />
-        <span v-if="loginSuccess"
-          >Login Successful! Refreshing in 3 seconds!</span
-        >
+
       </Form>
     </div>
   </div>

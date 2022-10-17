@@ -24,7 +24,7 @@
                 <h2 class="font-bold text-slate-600">Fridge Information</h2>
                 <div class="flex flex-wrap gap-2 mt-3">
                     <div v-for="ingredient in selectedIngredients"
-                        class="badge border-[#ffd780] bg-[#ffd780] text-[#3d4451] p-5 cursor-pointer hover:bg-[#e94249] hover:border-[#e94249] hover:text-white"
+                        class="badge primary-color p-5 cursor-pointer hover:bg-[#e94249] hover:border-[#e94249] hover:text-white"
                         @click="removeIngredient(ingredient)">
                         <span class="mr-2 font-semibold">{{ingredient}}</span>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -76,23 +76,25 @@
 import categories from "../data/categories.json";
 import ingredients from "../data/ingredients.json";
 
-const categoriesData = ref(categories);
 let selected = ref({});
 let suggestedRecipes = ref({});
 let searchTerm = ref("");
-let parsedCategories = {};
-
 let selectedIngredients = ref(new Set(["Water", "Flour", "Sugar", "Cooking Oil", "Salt"])); // common pantry items
-let strIngredients = Array.from(selectedIngredients.value).join(",");
+// let strIngredients = Array.from(selectedIngredients.value).join(",");
+let strIngredients = computed(() => Array.from(selectedIngredients.value).join(","));
 
-for (let category of Object.keys(categories)) {
-    parsedCategories[category] = {
-        total: categories[category].total,
-        image: "/categories/" + categories[category].image,
-        source: categories[category].source,
-        ingredients: new Set(categories[category].ingredients),
-    };
-}
+let parsedCategories = computed(() => {
+    let temp = {};
+    for (let category of Object.keys(categories)) {
+        temp[category] = {
+            total: categories[category].total,
+            image: "/categories/" + categories[category].image,
+            source: categories[category].source,
+            ingredients: new Set(categories[category].ingredients),
+        };
+    }
+    return temp;
+});
 
 const searchIngredients = computed(() => {
     if (searchTerm.value === "") {
@@ -111,9 +113,9 @@ const selectIngredient = async (ingredient) => {
     selectedIngredients.value.add(ingredient);
     searchTerm.value = ''
 
-    let strIngredients = Array.from(selectedIngredients.value).join(",");
-    for (let category of Object.keys(parsedCategories)) {
-        if (parsedCategories[category].ingredients.has(ingredient)) {
+    // let strIngredients = Array.from(selectedIngredients.value).join(",");
+    for (let category of Object.keys(parsedCategories.value)) {
+        if (parsedCategories.value[category].ingredients.has(ingredient)) {
             if (category in selected.value) {
                 selected.value[category].add(ingredient);
             }
@@ -122,15 +124,15 @@ const selectIngredient = async (ingredient) => {
             }
         }
     }
-    retrieveRecipe(strIngredients, 0, 12);
+    retrieveRecipe(strIngredients.value, 0, 12);
 }
 
 const removeIngredient = (ingredient) => {
     selectedIngredients.value.delete(ingredient);
-    let strIngredients = Array.from(selectedIngredients.value).join(",");
+    // let strIngredients = Array.from(selectedIngredients.value).join(",");
 
-    for (let category of Object.keys(parsedCategories)) {
-        if (parsedCategories[category].ingredients.has(ingredient)) {
+    for (let category of Object.keys(parsedCategories.value)) {
+        if (parsedCategories.value[category].ingredients.has(ingredient)) {
             selected.value[category].delete(ingredient);
             if (selected.value[category].size === 0) {
                 delete selected.value[category];
@@ -138,7 +140,7 @@ const removeIngredient = (ingredient) => {
         }
     }
     console.log(strIngredients);
-    retrieveRecipe(strIngredients, 0, 12);
+    retrieveRecipe(strIngredients.value, 0, 12);
 }
 
 let rotatingApiKey = [
@@ -164,5 +166,5 @@ const redirectUser = (recipeData) => {
     navigateTo("/recipes/" + recipeData.id);
 }
 
-retrieveRecipe(strIngredients, 0, 12);
+retrieveRecipe(strIngredients.value, 0, 12);
 </script>
