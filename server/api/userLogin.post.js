@@ -21,6 +21,7 @@ export default defineEventHandler(async (event) => {
       email: body.email,
       profilePicture: "",
       address: "",
+      displayName: "",
     },
   };
 
@@ -56,7 +57,7 @@ export default defineEventHandler(async (event) => {
     { expiresIn: "7 days" }
   );
 
-  // TODO if have time: Add refresh token and user's unique id to database table 'refreshToken'
+  // TODO: (if have time) Add refresh token and user's unique id to database table 'refreshToken'
   // const refreshToken = jwt.sign(
   //   { email: body.email, uniqueUserId: body.uniqueUserId },
   //   config.private.jwtAccessSecret

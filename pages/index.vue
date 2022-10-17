@@ -1,9 +1,4 @@
-<script setup>
-import { useUserStore } from "~~/store/userStore";
-const userStore = useUserStore();
-
-console.log(userStore.user);
-</script>
+<script setup></script>
 
 <template>
   <div>

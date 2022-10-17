@@ -1,8 +1,23 @@
 <script setup>
+import { useUserStore } from "~~/store/userStore";
+const userStore = useUserStore();
+const userCookie = useCookie("user");
+const signOut = () => {
+  userStore.setUser(null);
+  userCookie.value = null;
+  window.location.reload();
+};
+
 const menuOpen = ref(false);
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
+
+if (userStore.user) {
+  console.log(userStore.user.displayName);
+} else {
+  console.log("no user!");
+}
 </script>
 
 <template>
@@ -36,7 +51,32 @@ const toggleMenu = () => {
             />
           </svg>
         </button>
-        <LoginModal modal-name="Login/Register" :mobile="false" />
+        <LoginModal
+          v-if="!userStore.user"
+          modal-name="Login/Register"
+          :mobile="false"
+        />
+        <div v-else class="dropdown dropdown-end hidden lg:inline-block">
+          <label tabindex="0" class="btn m-1"
+            ><img
+              class="w-[20px] h-[20px] mr-[10px]"
+              src="~/assets/user.png"
+              alt="Rounded avatar"
+            />{{
+              userStore.user.displayName == "" // TODO: WHAT TO DISPLAY HERE??
+                ? "no name"
+                : userStore.user.displayName
+            }}</label
+          >
+          <ul
+            tabindex="0"
+            class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li><nuxt-link to="/">View Profile (route not set)</nuxt-link></li>
+            <li><nuxt-link to="/">Edit Profile (route not set)</nuxt-link></li>
+            <li><a @click="signOut">Sign Out</a></li>
+          </ul>
+        </div>
         <label
           class="btn btn-ghost lg:hidden swap swap-rotate"
           @click="toggleMenu()"
@@ -83,8 +123,22 @@ const toggleMenu = () => {
         <li>
           <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
         </li>
-        <li>
+        <li v-if="!userStore.user">
           <LoginModal modal-name="Login/Register" :mobile="true" />
+        </li>
+        <li v-else>
+          <!-- TODO: nuxt link to profile page -->
+          <nuxt-link class="mx-auto">
+            <img
+              class="w-[20px] h-[20px]"
+              src="~/assets/user.png"
+              alt="Rounded avatar"
+            />{{
+              userStore.user.displayName == ""
+                ? "no name"
+                : userStore.user.displayName
+            }}
+          </nuxt-link>
         </li>
       </ul>
     </div>

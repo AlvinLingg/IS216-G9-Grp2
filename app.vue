@@ -12,16 +12,13 @@ if (userCookie?.value?.accessToken) {
       accessToken: userCookie.value.accessToken,
     },
   });
-  if (error) {
-    console.log(error);
-  }
 
   if (data?.value?.user === null) {
     userStore.setUser(null);
     userCookie.value = null;
   } else if (data?.value?.Items) {
     userStore.setUser(data.value.Items[0]);
-    // TODO if have time: regenerate accessToken to cookie to refresh session time
+    // TODO: (if have time) regenerate accessToken to cookie to refresh session time
   }
 }
 </script>
