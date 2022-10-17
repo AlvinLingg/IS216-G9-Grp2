@@ -1,19 +1,32 @@
 <template>
-    <div class="w-60 mx-auto">
-      <div class="rounded-3xl w-full">
-        <img
-          class="object-cover rounded-3xl"
-          src="../assets/test-img.jpg"
-          alt=""
-        />
+  <div id= "card" class="flex flex-col content-center">
+      <img
+        class="object-cover rounded-3xl aspect-[16/9]"
+        src="../assets/test-img.jpg"
+        alt=""
+      />
+      <div class="h-7">
+        <h2 class="absolute font-semibold text-md">Mediterranean</h2>
       </div>
-    <h3 class="mt-4 font-semibold text-xl">Mediterranean</h3>
-    </div>
+  </div>
 </template>
-  
+
 <script>
 export default {};
 </script>
-  
-<style></style>
+
+<style>
+@media (max-width: 500px){
+#card>img {
+  aspect-ratio: 4/3;
+}
+}
+
+@media (max-width: 400px){
+#card>img {
+  aspect-ratio: 3/3;
+}
+}
+</style>
+
   
