@@ -1,25 +1,25 @@
 import db from "../../db";
 
 export default defineEventHandler((event) => {
-  const params = getQuery(event);
-
-  db.query(
-    {
-      TableName: "recipe",
-      KeyConditionExpression: "id = :id",
-      ExpressionAttributeValues: {
-        ":id": params.id,
-      },
+  const routeQuery = getQuery(event);
+  const params = {
+    TableName: "recipe",
+    KeyConditionExpression: "id = :id",
+    ExpressionAttributeValues: {
+      ":id": routeQuery.id,
     },
-    (err, data) => {
+  };
+
+  const result = new Promise((resolve, reject) => {
+    db.query(params, (err, data) => {
       if (err) {
-        console.log(err);
-        return err;
+        reject(err);
       } else {
-        console.log(data);
-        return data;
+        resolve(data);
       }
-    }
-  );
-  console.log(params);
+    });
+  });
+
+  //try accessing http://localhost:3000/api/hello?id=10
+  return result;
 });

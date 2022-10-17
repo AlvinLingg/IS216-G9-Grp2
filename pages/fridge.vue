@@ -47,7 +47,7 @@
                 <h2 class="font-bold text-slate-600">Suggested Recipe</h2>
                 <div class="grid  gap-6 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
                     <div v-for="recipe in Object.keys(suggestedRecipes)"
-                        class="card bg-base-100 shadow-lg hover:cursor-pointer"
+                        class="card bg-base-100 shadow-md hover:cursor-pointer hover:shadow-xl ease-in duration-150"
                         @click="redirectUser(suggestedRecipes[recipe])">
                         <img class="h=[100px] object-cover rounded-top-3xl border-b"
                             :src="suggestedRecipes[recipe].image" alt="" />

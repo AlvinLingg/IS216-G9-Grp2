@@ -17,12 +17,21 @@
     <button @click="showMessageFromBackend">Show message from backend</button>
 
     <img v-for="imageUrl in fileUrls" :src="imageUrl" />
+    <button @click="testPOST">Hello World</button>
 </template>
 
 <script setup>
 import ingredients from "../../data/ingredients.json"
 let uploadedFiles = ref();
 let heyaa = ref("");
+
+const testPOST = async () => {
+    const { data, error } = await useFetch("/api/hello", {
+        method: "POST",
+    });
+
+    return data.value;
+}
 
 const handleFileSelection = (e) => {
     console.log(e.target.files);

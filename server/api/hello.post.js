@@ -2,23 +2,22 @@ import db from "../../db";
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  console.log(body);
-
-  db.put(
-    {
-      TableName: "recipe",
-      Item: {
-        id: Date.now().toString(),
-      },
+  const params = {
+    TableName: "recipe",
+    Item: {
+      id: Date.now().toString(),
     },
-    (err, data) => {
+  };
+
+  const result = new Promise((resolve, reject) => {
+    db.put(params, (err, data) => {
       if (err) {
-        console.log(err);
-        return err;
+        reject(err);
       } else {
-        console.log(data);
-        return data;
+        resolve(data);
       }
-    }
-  );
+    });
+  });
+
+  return result;
 });
