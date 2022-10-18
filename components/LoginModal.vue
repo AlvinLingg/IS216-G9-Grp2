@@ -1,5 +1,12 @@
 <script setup>
 import { ErrorMessage, Form, Field } from "vee-validate";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  NumberDictionary,
+} from "unique-names-generator";
+
 const userCookie = useCookie("user");
 const { $magic } = useNuxtApp();
 let loginSuccess = false;
@@ -15,21 +22,58 @@ const props = defineProps({
   },
 });
 
+const getRandomInt = (max) => {
+  return Math.floor(Math.random() * max);
+};
+
 const userLogin = async (values) => {
-  console.log(values.email);
+  // Get all profile handles in DB
+  const { data: allProfileHandles } = await useFetch(
+    "/api/getAllProfileHandle",
+    {
+      method: "GET",
+    }
+  );
+
+  // Generate new profile handle
+  let newProfileHandle =
+    uniqueNamesGenerator({
+      dictionaries: [adjectives, colors],
+      separator: "",
+      style: "capital",
+    }) + getRandomInt(1000);
+  while (allProfileHandles.value.includes(newProfileHandle)) {
+    newProfileHandle =
+      uniqueNamesGenerator({
+        dictionaries: [adjectives, colors],
+        separator: "",
+        style: "capital",
+      }) + getRandomInt(1000);
+  }
+
   try {
     await $magic.auth.loginWithMagicLink({
       email: values.email,
     });
     let metadata = await $magic.user.getMetadata();
-    const { data } = await useFetch("/api/userLogin", {
+
+    const { data: allProfileHandles } = await useFetch(
+      "/api/getAllProfileHandle",
+      {
+        method: "GET",
+      }
+    );
+    console.log("allprofilehandlesss", allProfileHandles);
+
+    const { data: newCookie } = await useFetch("/api/userLogin", {
       method: "POST",
       body: {
         email: metadata.email,
         uniqueUserId: metadata.issuer,
+        profileHandle: newProfileHandle,
       },
     });
-    userCookie.value = data.value;
+    userCookie.value = newCookie.value;
     loginSuccess = true;
     setTimeout(() => {
       window.location.reload();
@@ -80,7 +124,7 @@ const updateEmail = async () => {
         class="btn btn-sm btn-circle absolute right-2 top-2"
         >✕</label
       >
-      <Form @submit="userLogin()">
+      <Form @submit="userLogin">
         <h3 class="text-lg font-bold">
           Enter your email below to login/register!
         </h3>

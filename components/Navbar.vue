@@ -1,7 +1,8 @@
 <script setup>
-import { useUserStore } from "~~/store/userStore";
+import { useUserStore } from "~/store/userStore";
 const userStore = useUserStore();
 const userCookie = useCookie("user");
+
 const signOut = () => {
   userStore.setUser(null);
   userCookie.value = null;
@@ -12,12 +13,6 @@ const menuOpen = ref(false);
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
-
-if (userStore.user) {
-  console.log(userStore.user.displayName);
-} else {
-  console.log("no user!");
-}
 </script>
 
 <template>

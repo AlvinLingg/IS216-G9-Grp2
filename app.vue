@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "~~/store/userStore";
+import { useUserStore } from "~/store/userStore";
 const userCookie = useCookie("user");
 const userStore = useUserStore();
 if (userCookie?.value?.accessToken) {

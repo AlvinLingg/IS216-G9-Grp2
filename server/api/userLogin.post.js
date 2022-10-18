@@ -22,15 +22,19 @@ export default defineEventHandler(async (event) => {
       profilePicture: "",
       address: "",
       displayName: "",
+      profileHandle: body.profileHandle,
     },
+    ConditionExpression: "attribute_not_exists(profileHandle)",
   };
 
   // Adds user to db
   const addToDb = (postRequestParams) => {
     db.put(postRequestParams, (err, data) => {
       if (err) {
+        console.log(error);
         return err;
       } else {
+        console.log(data);
         return data;
       }
     });
