@@ -43,10 +43,12 @@ const toggleMenu = () => {
               }}</label>
           <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
             <li>
-              <nuxt-link to="/">View Profile (route not set)</nuxt-link>
+              <button @click="navigateTo('/profile/' + userStore.user.profileHandle)">View
+                Profile</button>
             </li>
             <li>
-              <nuxt-link to="/">Edit Profile (route not set)</nuxt-link>
+              <button @click="navigateTo('/profile/edit')">Edit
+                Profile</button>
             </li>
             <li><a @click="signOut">Sign Out</a></li>
           </ul>

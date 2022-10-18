@@ -5,9 +5,9 @@ export default defineEventHandler(async (event) => {
   const params = {
     TableName: "user",
     IndexName: "profileHandle-index",
-    KeyConditionExpression: "profileHandle = :id",
+    KeyConditionExpression: "profileHandle = :handle",
     ExpressionAttributeValues: {
-      ":id": routeQuery.id,
+      ":handle": routeQuery.handle,
     },
   };
 

@@ -41,7 +41,7 @@ export default defineNuxtConfig({
   serverMiddleware: [
     {
       path: "/express",
-      handler: "~/middleware/index.js",
+      handler: "~/express/index.js",
     },
   ],
 });

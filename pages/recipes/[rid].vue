@@ -28,10 +28,12 @@ const { data: instructions, error2 } = await useAsyncData(
       <div class="pl-6 mt-5">
         <div class="text-sm breadcrumbs">
           <ul>
-            <li><nuxt-link to="./">Recipes</nuxt-link></li>
+            <li>
+              <nuxt-link to="./">Recipes</nuxt-link>
+            </li>
             <li>
               <span class="text-ellipsis w-36 overflow-hidden">{{
-                recipes.title
+              recipes.title
               }}</span>
             </li>
           </ul>
@@ -39,11 +41,9 @@ const { data: instructions, error2 } = await useAsyncData(
       </div>
       <div class="grid sm:grid-cols-1 gap-10 lg:grid-cols-2 gap-5 p-6">
         <div>
-          <FoodCarousel
-            :imageURL="
-              recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
-            "
-          />
+          <FoodCarousel :imageURL="
+            recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
+          " />
         </div>
         <div>
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
@@ -51,11 +51,13 @@ const { data: instructions, error2 } = await useAsyncData(
       </div>
     </div>
     <div class="container mx-auto" v-else>
-      <NoExist />
+      <NoExist errorTitle="Recipe Not Found" errorMessage="This recipe does not exist or was removed!" />
     </div>
   </div>
 </template>
 <script>
 export default {};
 </script>
-<style></style>
+<style>
+
+</style>

@@ -1,11 +1,24 @@
+
+<script setup>
+const props = defineProps({
+  errorMessage: {
+    type: String,
+    required: true,
+  },
+  errorTitle: {
+    type: String,
+    required: true,
+  }
+})</script>
+
 <template>
   <div class="grid grid-cols-1 h-[70vh] lg:grid-cols-2 mt-[0px] p-10">
     <div class="self-center">
       <h1 class="bold mb-4 text-4xl sm:text-6xl">404</h1>
       <h1 class="bold mb-4 text-4xl sm:text-6xl">Oooops!</h1>
-      <h1 class="bold mb-7 text-4xl sm:text-6xl">Recipe Not Found</h1>
+      <h1 class="bold mb-7 text-4xl sm:text-6xl">{{errorTitle}}</h1>
       <p class="text-lg text-gray-500 mb-9 sm:text-2xl">
-        This recipe doesn't exist or was removed!
+        {{errorMessage}}
       </p>
       <button class="rounded-full bg-[#FFD67E] py-5 px-10 font-bold">
         <nuxt-link to="./">Back to Previous Page :-)</nuxt-link>
@@ -17,5 +30,6 @@
   </div>
 </template>
 
-<script></script>
-<style></style>
+<style>
+
+</style>

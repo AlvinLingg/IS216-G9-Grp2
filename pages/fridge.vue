@@ -48,7 +48,7 @@
                 <div class="grid  gap-6 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
                     <div v-for="recipe in Object.keys(suggestedRecipes)"
                         class="card bg-base-100 shadow-md hover:cursor-pointer hover:shadow-xl ease-in duration-150"
-                        @click="redirectUser(suggestedRecipes[recipe])">
+                        @click="navigateTo('/recipes/' + suggestedRecipes[recipe].id)">
                         <img class="h=[100px] object-cover rounded-top-3xl border-b"
                             :src="suggestedRecipes[recipe].image" alt="" />
                         <div class="card-body p-5 gap-0">
@@ -113,7 +113,6 @@ const selectIngredient = async (ingredient) => {
     selectedIngredients.value.add(ingredient);
     searchTerm.value = ''
 
-    // let strIngredients = Array.from(selectedIngredients.value).join(",");
     for (let category of Object.keys(parsedCategories.value)) {
         if (parsedCategories.value[category].ingredients.has(ingredient)) {
             if (category in selected.value) {
@@ -129,7 +128,6 @@ const selectIngredient = async (ingredient) => {
 
 const removeIngredient = (ingredient) => {
     selectedIngredients.value.delete(ingredient);
-    // let strIngredients = Array.from(selectedIngredients.value).join(",");
 
     for (let category of Object.keys(parsedCategories.value)) {
         if (parsedCategories.value[category].ingredients.has(ingredient)) {
@@ -160,10 +158,6 @@ const retrieveRecipe = async (ingredients, apiIndex = 0, number = 12) => {
         }
     });
     suggestedRecipes.value = data.value;
-}
-
-const redirectUser = (recipeData) => {
-    navigateTo("/recipes/" + recipeData.id);
 }
 
 retrieveRecipe(strIngredients.value, 0, 12);
