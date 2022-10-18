@@ -38,7 +38,21 @@
 <script setup>
 const route = useRoute();
 const openTab = ref(0);
-console.log(route.params.uid);
+const userProfile = ref({});
+
+onMounted(async () => {
+    const { data: tempUserProfile } = await useFetch("/api/getProfileByHandle", {
+        method: "GET",
+        params: {
+            id: route.params.uid,
+        },
+    });
+
+    userProfile.value = tempUserProfile.value["Items"][0];
+
+    console.log(userProfile.value);
+});
+
 
 const toggleTab = (index) => {
     openTab.value = index;
