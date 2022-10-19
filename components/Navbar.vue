@@ -1,4 +1,5 @@
 <script setup>
+import { Form, Field } from "vee-validate";
 import { useUserStore } from "~/store/userStore";
 const userStore = useUserStore();
 const userCookie = useCookie("user");
@@ -15,7 +16,7 @@ const signOut = async () => {
   window.location.reload();
 };
 
-const menuOpen = ref(false);
+const menuOpen = ref(true);
 const toggleMenu = () => {
   menuOpen.value = !menuOpen.value;
 };
@@ -136,31 +137,56 @@ const toggleDropdown = (event) => {
         class="menu menu-compact mt-0 mb-3 p-2 pt-0 bg-base-100 rounded-box"
       >
         <li>
+          <!-- TODO: Search route (Form @submit="??") -->
+          <Form>
+            <Field
+              name="search"
+              type="text"
+              placeholder="Search for a recipe"
+              class="input input-bordered input-sm w-full max-w-xs mx-auto text-center"
+            />
+          </Form>
+        </li>
+        <li>
           <nuxt-link to="/" class="mx-auto">Discover</nuxt-link>
         </li>
         <li>
           <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
         </li>
-        <li v-if="!userStore.user">
-          <LoginModal modal-name="Sign In" :mobile="true" />
-        </li>
-        <li v-else>
-          <!-- TODO: nuxt link to profile page, What to display here?? dropdown also? -->
-          <nuxt-link class="mx-auto">
-            <img
-              class="w-[20px] h-[20px]"
-              src="~/assets/user.png"
-              alt="Rounded avatar"
-            />{{
-              userStore.user.displayName == ""
-                ? "no name"
-                : userStore.user.displayName
-            }}
-          </nuxt-link>
-        </li>
+        <div v-if="!userStore.user">
+          <li></li>
+          <li>
+            <LoginModal modal-name="Sign In" :mobile="true" />
+          </li>
+        </div>
+        <div v-else>
+          <li>
+            <nuxt-link to="/recipes/create" class="mx-auto">
+              Upload a Recipe
+            </nuxt-link>
+          </li>
+          <li></li>
+          <li>
+            <nuxt-link
+              class="mx-auto"
+              :to="'/profile/' + userStore.user.profileHandle"
+              >View Profile</nuxt-link
+            >
+          </li>
+          <li>
+            <nuxt-link class="mx-auto" to="/profile/edit"
+              >Edit Profile</nuxt-link
+            >
+          </li>
+          <li></li>
+          <li>
+            <a @click="signOut" class="mx-auto">Sign Out</a>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
 </template>
 
-<style></style>
+<style scoped>
+</style>

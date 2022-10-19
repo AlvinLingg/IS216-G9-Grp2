@@ -117,6 +117,7 @@ const validateEmail = (value) => {
             placeholder="email@example.com"
             :rules="validateEmail"
             class="input input-bordered input-md w-full mt-1"
+            :disabled="emailSubmitted"
           />
           <ErrorMessage as="p" name="email" class="text-sm text-red-600 mt-1" />
 
