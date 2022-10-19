@@ -24,7 +24,6 @@ export default defineEventHandler(async (event) => {
       displayName: "",
       profileHandle: body.profileHandle,
     },
-    ConditionExpression: "attribute_not_exists(profileHandle)",
   };
 
   // Adds user to db

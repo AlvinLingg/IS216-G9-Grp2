@@ -4,12 +4,12 @@ import {
   uniqueNamesGenerator,
   adjectives,
   colors,
-  NumberDictionary,
 } from "unique-names-generator";
 
 const userCookie = useCookie("user");
 const { $magic } = useNuxtApp();
-let loginSuccess = false;
+let loginSuccess = ref(false);
+let emailSubmitted = ref(false);
 
 const props = defineProps({
   modalName: {
@@ -27,6 +27,7 @@ const getRandomInt = (max) => {
 };
 
 const userLogin = async (values) => {
+  emailSubmitted.value = true;
   // Get all profile handles in DB
   const { data: allProfileHandles } = await useFetch(
     "/api/getAllProfileHandle",
@@ -57,14 +58,6 @@ const userLogin = async (values) => {
     });
     let metadata = await $magic.user.getMetadata();
 
-    const { data: allProfileHandles } = await useFetch(
-      "/api/getAllProfileHandle",
-      {
-        method: "GET",
-      }
-    );
-    console.log("allprofilehandlesss", allProfileHandles);
-
     const { data: newCookie } = await useFetch("/api/userLogin", {
       method: "POST",
       body: {
@@ -74,10 +67,11 @@ const userLogin = async (values) => {
       },
     });
     userCookie.value = newCookie.value;
-    loginSuccess = true;
+
+    loginSuccess.value = true;
     setTimeout(() => {
       window.location.reload();
-    }, 3000);
+    }, 1500);
   } catch (error) {
     console.log(error);
   }
@@ -95,43 +89,59 @@ const validateEmail = (value) => {
 
   return true;
 };
-
-// TODO: update profile page
-const updateEmail = async () => {
-  try {
-    await $magic.user.updateEmail({
-      email: "wad2wadd2@gmail.com",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
 </script>
 
 <template>
-  <label for="login-register-modal" class="btn modal-button"
-    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'">{{ props.modalName }}</label>
+  <label
+    for="login-register-modal"
+    class="btn modal-button"
+    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'"
+    >{{ props.modalName }}</label
+  >
 
   <input type="checkbox" id="login-register-modal" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box max-w-sm relative py-[3rem] px-[2rem]">
-      <label for="login-register-modal" class="btn btn-sm btn-ghost absolute right-2 top-2">✕</label>
+      <label
+        for="login-register-modal"
+        class="btn btn-sm btn-ghost absolute right-2 top-2"
+        >✕</label
+      >
       <Form @submit="userLogin">
         <h3 class="text-2xl font-bold text-center">Sign In</h3>
-        <p class="py-4 px-4">
-          <span class="text-sm text-slate-600">
-            Email Address
-          </span>
-          <Field name="email" type="email" placeholder="email@example.com" :rules="validateEmail"
-            class="input input-bordered input-md w-full mt-1" />
+        <div class="pt-4 px-4">
+          <span class="text-sm text-slate-600"> Email Address </span>
+          <Field
+            name="email"
+            type="email"
+            placeholder="email@example.com"
+            :rules="validateEmail"
+            class="input input-bordered input-md w-full mt-1"
+          />
           <ErrorMessage as="p" name="email" class="text-sm text-red-600 mt-1" />
-          <span v-if="loginSuccess">Login Successful! Refreshing in 3 seconds!</span>
 
-        <div class="modal-action mt-5">
-          <input type="submit" value="Continue" class="btn-action primary-color" />
+          <div class="modal-action mt-5">
+            <input
+              v-if="!emailSubmitted"
+              type="submit"
+              value="Continue"
+              class="btn-action primary-color"
+            />
+            <input
+              v-else="!emailSubmitted"
+              disabled
+              value="Submitted. Please wait"
+              class="btn-action primary-color"
+            />
+          </div>
+          <div
+            v-if="loginSuccess"
+            class="bg-green-300 text-center p-3 mt-3 rounded-full"
+          >
+            <p>Login Successful!</p>
+            <p>Refreshing...</p>
+          </div>
         </div>
-        </p>
-
       </Form>
     </div>
   </div>
