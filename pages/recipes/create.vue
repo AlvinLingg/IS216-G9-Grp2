@@ -13,7 +13,7 @@
                         Upload Image
                     </label>
                     <div class="w-32 h-32 border-2 border-dashed rounded-xl p-8 mt-2 cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500"
-                        v-on:click="triggerClick">
+                        @click="$refs.fileUploadInput.click()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                             stroke="currentColor">
                             <path strokeLinecap=" round" strokeLinejoin="round"
@@ -218,11 +218,6 @@ const removeStep = (index) => {
 
 const updateSteps = (e, index) => {
     instructionsSteps.value[index] = e.target.value;
-}
-
-const triggerClick = () => {
-    console.log(fileUploadInput.value);
-    fileUploadInput.value.click();
 }
 
 const handleFileSelection = (e) => {
