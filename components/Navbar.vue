@@ -2,10 +2,16 @@
 import { useUserStore } from "~/store/userStore";
 const userStore = useUserStore();
 const userCookie = useCookie("user");
+const { $magic } = useNuxtApp();
 
-const signOut = () => {
+const signOut = async () => {
   userStore.setUser(null);
   userCookie.value = null;
+  try {
+    await $magic.user.logout();
+  } catch (error) {
+    console.log(error);
+  }
   window.location.reload();
 };
 
