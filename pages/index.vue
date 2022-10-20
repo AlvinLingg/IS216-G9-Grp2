@@ -1,21 +1,16 @@
-
-
 <template>
-  <div>
-    <Navbar />
-    <div class="section p-10 max-w-6xl m-auto">
-      <div class="flex flex-col gap-5">
-        <h1 class="text-5xl font-bold">Recipes of the day</h1>
-        <div class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
-          <RecipeCard :recipes="recipesOfTheDay.recipes" :showIngredients="true" :showPreparationTime="true" />
-        </div>
+  <Navbar />
+  <div class="section p-5 max-w-6xl m-auto">
+    <div class="flex flex-col gap-5">
+      <h1 class="text-5xl font-bold">Recipes of the day</h1>
+      <div class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
+        <RecipeCard :recipes="recipesOfTheDay.recipes" :showIngredients="true" :showPreparationTime="true" />
       </div>
-      <div class="flex flex-col gap-5 mt-10">
-        <h1 class="text-5xl font-bold">Popular recipes</h1>
-        <div class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
-          <RecipeCard :recipes="Object.values(popularRecipesInfo)" :showIngredients="true"
-            :showPreparationTime="true" />
-        </div>
+    </div>
+    <div class="flex flex-col gap-5 mt-10">
+      <h1 class="text-5xl font-bold">Popular recipes</h1>
+      <div class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
+        <RecipeCard :recipes="Object.values(popularRecipesInfo)" :showIngredients="true" :showPreparationTime="true" />
       </div>
     </div>
   </div>

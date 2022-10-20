@@ -62,7 +62,7 @@ let selected = ref({});
 let searchTerm = ref("");
 let selectedIngredients = ref(new Set(["Water", "Flour", "Sugar", "Cooking Oil", "Salt"])); // common pantry items
 let strIngredients = computed(() => Array.from(selectedIngredients.value).join(","));
-let suggestedRecipes = ref(await findByIngredients(0, strIngredients.value, 12));
+let suggestedRecipes = ref(await findByIngredients(0, strIngredients.value, 1)); //remember to change to 12 later
 
 let parsedCategories = computed(() => {
     let temp = {};
