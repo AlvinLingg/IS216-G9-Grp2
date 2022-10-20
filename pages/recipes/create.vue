@@ -1,5 +1,4 @@
 <template>
-    {{ data }}
     <div class="container mx-auto">
         <Navbar />
         <div class="section p-10 max-w-6xl m-auto">
