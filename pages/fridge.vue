@@ -46,25 +46,7 @@
             <div class="mt-5">
                 <h2 class="font-bold text-slate-600">Suggested Recipe</h2>
                 <div class="grid  gap-6 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1">
-                    <div v-for="recipe in Object.keys(suggestedRecipes)"
-                        class="card bg-base-100 shadow-md hover:cursor-pointer hover:shadow-xl ease-in duration-150"
-                        @click="navigateTo('/recipes/' + suggestedRecipes[recipe].id)">
-                        <img class="h=[100px] object-cover rounded-top-3xl border-b"
-                            :src="suggestedRecipes[recipe].image" alt="" />
-                        <div class="card-body p-5 gap-0">
-                            <h2 class="card-title truncate block">{{suggestedRecipes[recipe].title}}</h2>
-                            <div>
-                                <p v-if="suggestedRecipes[recipe].missedIngredientCount > 0"
-                                    class="text-gray-500 text-sm">
-                                    {{suggestedRecipes[recipe].missedIngredientCount + " Missing Ingredients"}}
-                                </p>
-                                <p v-else class="text-gray-500 text-sm">
-                                    No Missing Ingredients
-                                </p>
-                            </div>
-
-                        </div>
-                    </div>
+                    <RecipeCard :isFridgeRecipe="true" :recipes="Object.values(suggestedRecipes)" />
                 </div>
             </div>
         </div>
@@ -77,11 +59,10 @@ import categories from "../data/categories.json";
 import ingredients from "../data/ingredients.json";
 
 let selected = ref({});
-let suggestedRecipes = ref({});
 let searchTerm = ref("");
 let selectedIngredients = ref(new Set(["Water", "Flour", "Sugar", "Cooking Oil", "Salt"])); // common pantry items
-// let strIngredients = Array.from(selectedIngredients.value).join(",");
 let strIngredients = computed(() => Array.from(selectedIngredients.value).join(","));
+let suggestedRecipes = ref(await findByIngredients(0, strIngredients.value, 12));
 
 let parsedCategories = computed(() => {
     let temp = {};
@@ -123,10 +104,10 @@ const selectIngredient = async (ingredient) => {
             }
         }
     }
-    retrieveRecipe(strIngredients.value, 0, 12);
+    suggestedRecipes.value = await findByIngredients(0, strIngredients.value, 12);
 }
 
-const removeIngredient = (ingredient) => {
+const removeIngredient = async (ingredient) => {
     selectedIngredients.value.delete(ingredient);
 
     for (let category of Object.keys(parsedCategories.value)) {
@@ -137,28 +118,8 @@ const removeIngredient = (ingredient) => {
             }
         }
     }
-    console.log(strIngredients);
-    retrieveRecipe(strIngredients.value, 0, 12);
+
+    suggestedRecipes.value = await findByIngredients(0, strIngredients.value, 12);
 }
 
-let rotatingApiKey = [
-    "1e8aa973fadf4c31abf5e308dccafda7",
-];
-
-const retrieveRecipe = async (ingredients, apiIndex = 0, number = 12) => {
-    console.log("running", ingredients);
-    const { data } = await useFetch("/recipes/findByIngredients", {
-        initialCache: false,
-        method: "GET",
-        baseURL: "https://api.spoonacular.com",
-        params: {
-            apiKey: rotatingApiKey[apiIndex],
-            ingredients: ingredients,
-            number: number,
-        }
-    });
-    suggestedRecipes.value = data.value;
-}
-
-retrieveRecipe(strIngredients.value, 0, 12);
 </script>

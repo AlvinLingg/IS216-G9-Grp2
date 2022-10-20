@@ -1,5 +1,5 @@
 let rotatingApiKey = [
-  "1e8aa973fadf4c31abf5e308dccafda7",
+  // "1e8aa973fadf4c31abf5e308dccafda7",
   "c289e5d9fb424c119062224ee8fbb2f6",
   "3782981a622a4494b42ebadb4539d2ff",
   "b0a472a003a1473ab852f3b58113c40a",
@@ -10,10 +10,12 @@ let rotatingApiKey = [
   "30688f7e6c9f4ad196b66f0df72a4738",
 ];
 
-export const retrieveRandomRecipe = async (apiIndex, number) => {
+let baseURL = "https://api.spoonacular.com";
+
+export const getRandomRecipe = async (apiIndex, number) => {
   let data = $fetch("/recipes/random", {
     method: "GET",
-    baseURL: "https://api.spoonacular.com",
+    baseURL: baseURL,
     params: {
       apiKey: rotatingApiKey[apiIndex],
       number: number,
@@ -24,11 +26,128 @@ export const retrieveRandomRecipe = async (apiIndex, number) => {
     })
     .catch((err) => {
       if (apiIndex < rotatingApiKey.length - 1) {
-        return retrieveRandomRecipe(apiIndex + 1, number);
+        return getRandomRecipe(apiIndex + 1, number);
       } else {
         return null;
       }
     });
 
+  return data;
+};
+
+export const getPopularRecipes = async (apiIndex, number, offset) => {
+  let data = $fetch("/recipes/complexSearch", {
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      sort: "popularity",
+      sortDirection: "desc",
+      number: number,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return getPopularRecipes(apiIndex + 1, number, offset);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
+export const getRecipeInformationBulk = async (apiIndex, ids) => {
+  let data = $fetch("/recipes/informationBulk", {
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      ids: ids,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return getRecipeInformationBulk(apiIndex + 1, ids);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
+export const findByIngredients = async (apiIndex, ingredients, number) => {
+  let data = $fetch("/recipes/findByIngredients", {
+    initialCache: false,
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      ingredients: ingredients,
+      number: number,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return findByIngredients(apiIndex + 1, ingredients, number);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
+export const searchRecipe = async (apiIndex, query, number) => {
+  let data = $fetch("/recipes/complexSearch", {
+    initialCache: false,
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      query: query,
+      number: number,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return searchRecipe(apiIndex + 1, query, number);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
+export const getSimilarRecipes = async (apiIndex, id, number) => {
+  let data = $fetch(`/recipes/${id}/similar`, {
+    initialCache: false,
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      number: number,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return getSimilarRecipes(apiIndex + 1, id, number);
+      } else {
+        return null;
+      }
+    });
   return data;
 };
