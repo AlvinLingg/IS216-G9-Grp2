@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
       if (err) {
         reject(err);
       } else {
-        resolve(data);
+        resolve(data.Items);
       }
     });
   });

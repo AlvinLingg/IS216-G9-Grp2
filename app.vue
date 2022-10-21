@@ -4,7 +4,7 @@ const userCookie = useCookie("user");
 const userStore = useUserStore();
 
 if (userCookie?.value?.accessToken) {
-  const { data, error } = await useFetch("/api/userDetails", {
+  const { data } = await useFetch("/api/userDetails", {
     headers: {
       "Content-Type": "application/json",
     },
