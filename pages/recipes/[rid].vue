@@ -21,13 +21,33 @@ const { data: instructions, error2 } = await useAsyncData(
     return await response;
   }
 );
+const getUserFavorites = async () => {
+  const { data, error } = await useFetch("/api/getFavorite", {
+    method: "GET",
+    query: {
+      id: `${rid}${userStore.user.uniqueUserId}`,
+    },
+  });
+  return data;
+};
+const test = await getUserFavorites();
+console.log("hello", test.value["Items"].length);
+
 const handleClick = async () => {
-  console.log(userStore.user.uniqueUserId);
+  // update db -> send to api
+  await useFetch("/api/favorite", {
+    method: "POST",
+    body: {
+      rid: rid,
+      uid: userStore.user.uniqueUserId,
+    },
+  });
 };
 </script>
 <template>
   <div>
     <Navbar />
+    {{ test["Items"] }}
     <div class="container mx-auto" v-if="recipes != null">
       <div class="pl-6 mt-5">
         <div class="text-sm breadcrumbs">
