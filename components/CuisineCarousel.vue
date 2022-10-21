@@ -1,12 +1,15 @@
 <template>
   <div id="row">
     <div id="header">
-      <div id="progressbar">
-      </div>
+      <div id="progressbar"></div>
     </div>
     <div id="container">
-      <button v-on:click="shiftleft()" id="handle"
-        class="bg-gray-600 hover:bg-gray-700 active:scale-y-110 rounded-r-xl">&#8249;
+      <button
+        v-on:click="shiftleft()"
+        id="handle"
+        class="bg-gray-600 hover:bg-gray-700 active:scale-y-110 rounded-r-xl"
+      >
+        &#8249;
       </button>
       <div id="slider" ref="slider" class="">
         <CuisineCard />
@@ -36,126 +39,135 @@
         <CuisineCard />
         <CuisineCard />
       </div>
-      <button v-on:click="shiftright()" id="handle"
-        class="bg-gray-600 hover:bg-gray-700 active:scale-y-110 rounded-l-xl">&#8250;
+      <button
+        v-on:click="shiftright()"
+        id="handle"
+        class="bg-gray-600 hover:bg-gray-700 active:scale-y-110 rounded-l-xl"
+      >
+        &#8250;
       </button>
     </div>
   </div>
-
 </template>
 
 <script>
-
 export default {
   mounted() {
-    const progressbar = document.getElementById("progressbar")
-    this.calculateProgressBar(progressbar)
+    const progressbar = document.getElementById("progressbar");
+    this.calculateProgressBar(progressbar);
     const throttleProgressBar = this.throttle(() => {
-      this.calculateProgressBar(progressbar)
-    }, 250)
-    window.addEventListener("resize", throttleProgressBar)
+      this.calculateProgressBar(progressbar);
+    }, 250);
+    window.addEventListener("resize", throttleProgressBar);
   },
 
   methods: {
     shiftleft() {
-      const progressbar = document.getElementById("progressbar")
-      const progressBarItemCount = progressbar.children.length
-      const slider = document.getElementById("slider")
-      console.log(slider)
+      const progressbar = document.getElementById("progressbar");
+      const progressBarItemCount = progressbar.children.length;
+      const slider = document.getElementById("slider");
+      console.log(slider);
       const sliderindex = parseInt(
-        getComputedStyle(slider).getPropertyValue("--slider-index"))
+        getComputedStyle(slider).getPropertyValue("--slider-index")
+      );
 
       if (sliderindex - 1 < 0) {
-        slider.style.setProperty("--slider-index", progressBarItemCount - 1)
-        progressbar.children[progressBarItemCount - 1].setAttribute("id", "progressboxa")
-        progressbar.children[0].setAttribute("id", "progressbox")
-      }
-
-      else {
-        slider.style.setProperty("--slider-index", sliderindex - 1)
-        progressbar.children[sliderindex].setAttribute("id", "progressbox")
-        progressbar.children[sliderindex - 1].setAttribute("id", "progressboxa")
+        slider.style.setProperty("--slider-index", progressBarItemCount - 1);
+        progressbar.children[progressBarItemCount - 1].setAttribute(
+          "id",
+          "progressboxa"
+        );
+        progressbar.children[0].setAttribute("id", "progressbox");
+      } else {
+        slider.style.setProperty("--slider-index", sliderindex - 1);
+        progressbar.children[sliderindex].setAttribute("id", "progressbox");
+        progressbar.children[sliderindex - 1].setAttribute(
+          "id",
+          "progressboxa"
+        );
       }
     },
 
     shiftright() {
-      const progressbar = document.getElementById("progressbar")
-      const progressBarItemCount = progressbar.children.length
-      const slider = document.getElementById("slider")
+      const progressbar = document.getElementById("progressbar");
+      const progressBarItemCount = progressbar.children.length;
+      const slider = document.getElementById("slider");
       const sliderindex = parseInt(
-        getComputedStyle(slider).getPropertyValue("--slider-index"))
+        getComputedStyle(slider).getPropertyValue("--slider-index")
+      );
 
       if (sliderindex + 1 >= progressBarItemCount) {
-        slider.style.setProperty("--slider-index", 0)
-        progressbar.children[sliderindex].setAttribute("id", "progressbox")
-        progressbar.children[0].setAttribute("id", "progressboxa")
-      }
-
-      else {
-        slider.style.setProperty("--slider-index", sliderindex + 1)
-        progressbar.children[sliderindex].setAttribute("id", "progressbox")
-        progressbar.children[sliderindex + 1].setAttribute("id", "progressboxa")
+        slider.style.setProperty("--slider-index", 0);
+        progressbar.children[sliderindex].setAttribute("id", "progressbox");
+        progressbar.children[0].setAttribute("id", "progressboxa");
+      } else {
+        slider.style.setProperty("--slider-index", sliderindex + 1);
+        progressbar.children[sliderindex].setAttribute("id", "progressbox");
+        progressbar.children[sliderindex + 1].setAttribute(
+          "id",
+          "progressboxa"
+        );
       }
     },
 
     calculateProgressBar(progressbar) {
-      progressbar.innerHTML = ""
-      const slider = document.getElementById("slider")
-      const itemCount = slider.children.length
+      progressbar.innerHTML = "";
+      const slider = document.getElementById("slider");
+      const itemCount = slider.children.length;
       const itemsPerScreen = parseInt(
-        getComputedStyle(slider).getPropertyValue("--items-per-screen"))
+        getComputedStyle(slider).getPropertyValue("--items-per-screen")
+      );
       let sliderindex = parseInt(
-        getComputedStyle(slider).getPropertyValue("--slider-index"))
-      const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen)
+        getComputedStyle(slider).getPropertyValue("--slider-index")
+      );
+      const progressBarItemCount = Math.ceil(itemCount / itemsPerScreen);
 
       if (sliderindex >= progressBarItemCount) {
-        slider.style.setProperty("--slider-index", progressBarItemCount - 1)
-        sliderindex = progressBarItemCount - 1
+        slider.style.setProperty("--slider-index", progressBarItemCount - 1);
+        sliderindex = progressBarItemCount - 1;
       }
 
       for (let i = 0; i < progressBarItemCount; i++) {
-        const barItem = document.createElement("div")
+        const barItem = document.createElement("div");
         if (i === sliderindex) {
-          barItem.setAttribute("id", "progressboxa")
+          barItem.setAttribute("id", "progressboxa");
+        } else {
+          barItem.setAttribute("id", "progressbox");
         }
-        else {
-          barItem.setAttribute("id", "progressbox")
-        }
-        progressbar.append(barItem)
+        progressbar.append(barItem);
       }
     },
     throttle(cb, delay = 1000) {
-      let shouldWait = false
-      let waitingArgs
+      let shouldWait = false;
+      let waitingArgs;
       const timeoutFunc = () => {
         if (waitingArgs == null) {
-          shouldWait = false
+          shouldWait = false;
+        } else {
+          cb(...waitingArgs);
+          waitingArgs = null;
+          setTimeout(timeoutFunc, delay);
         }
-        else {
-          cb(...waitingArgs)
-          waitingArgs = null
-          setTimeout(timeoutFunc, delay)
-        }
-      }
+      };
       return (...args) => {
         if (shouldWait) {
-          waitingArgs = args
-          return
+          waitingArgs = args;
+          return;
         }
 
-        cb(...args)
-        shouldWait = true
-        setTimeout(timeoutFunc, delay)
-      }
+        cb(...args);
+        shouldWait = true;
+        setTimeout(timeoutFunc, delay);
+      };
     },
-  }
+  },
 };
 </script>
 
 <style scoped>
 :root {
   --handle-size: 2rem;
-  --img-gap: .25rem;
+  --img-gap: 0.25rem;
 }
 
 body {
@@ -178,7 +190,7 @@ body {
   transition: transform 250ms ease-in-out;
 }
 
-#slider>div,
+#slider > div,
 h3 {
   flex: 0 0 calc(100% / var(--items-per-screen));
   max-width: calc(100% / var(--items-per-screen));
@@ -193,7 +205,7 @@ h3 {
   z-index: 10;
   margin: var(--img-gap) 0;
   width: var(--handle-size);
-  padding: 0 .5rem;
+  padding: 0 0.5rem;
   color: white;
   font-size: 5rem;
   display: flex;
@@ -213,20 +225,20 @@ align-items: center;
   margin-left: 0;
   margin-right: auto;
   display: flex;
-  gap: .25rem;
+  gap: 0.25rem;
 }
 
 #progressbox {
-  flex: 0 0 .5rem;
-  width: .5rem;
-  height: .2rem;
+  flex: 0 0 0.5rem;
+  width: 0.5rem;
+  height: 0.2rem;
   background-color: rgb(105, 105, 105);
 }
 
 #progressboxa {
-  flex: 0 0 .5rem;
-  width: .5rem;
-  height: .2rem;
+  flex: 0 0 0.5rem;
+  width: 0.5rem;
+  height: 0.2rem;
   background-color: rgb(173, 173, 173);
 }
 
@@ -247,7 +259,7 @@ align-items: center;
     --items-per-screen: 1;
   }
 
-  #slider>div {
+  #slider > div {
     aspect-ratio: 4/3;
   }
 }
@@ -257,7 +269,7 @@ align-items: center;
     --items-per-screen: 1;
   }
 
-  #slider>div {
+  #slider > div {
     aspect-ratio: 3/3;
   }
 }

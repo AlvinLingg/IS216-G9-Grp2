@@ -85,8 +85,8 @@ const searchQuery = ref("");
               src="~/assets/user.png"
               alt="Rounded avatar"
             />{{
-              userStore.user.displayName == "" // TODO: WHAT TO DISPLAY HERE??
-                ? "no name"
+              userStore.user.displayName == ""
+                ? `@${userStore.user.profileHandle}`
                 : userStore.user.displayName
             }}</label
           >
@@ -200,3 +200,5 @@ const searchQuery = ref("");
     </div>
   </div>
 </template>
+
+<style scoped></style>

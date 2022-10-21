@@ -84,6 +84,7 @@ const handleClick = async () => {
       />
       <button @click="handleClick">post</button>
     </div>
+    <Comments />
   </div>
 </template>
 <script>

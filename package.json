@@ -27,6 +27,7 @@
     "pinia": "^2.0.23",
     "sweetalert2": "^11.5.2",
     "unique-names-generator": "^4.7.1",
+    "uuid": "^9.0.0",
     "vee-validate": "^4.7.0",
     "vue": "^3.2.41",
     "yup": "^0.32.11"

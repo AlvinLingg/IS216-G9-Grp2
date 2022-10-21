@@ -92,26 +92,53 @@ const validateEmail = (value) => {
 </script>
 
 <template>
-  <label for="login-register-modal" class="btn modal-button"
-    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'">{{ props.modalName }}</label>
+  <label
+    for="login-register-modal"
+    class="btn modal-button"
+    :class="mobile ? 'text-white mx-auto' : 'hidden lg:inline-flex'"
+    >{{ props.modalName }}</label
+  >
 
   <input type="checkbox" id="login-register-modal" class="modal-toggle" />
   <div class="modal">
     <div class="modal-box max-w-sm relative py-[3rem] px-[2rem]">
-      <label for="login-register-modal" class="btn btn-sm btn-ghost absolute right-2 top-2">✕</label>
+      <label
+        for="login-register-modal"
+        class="btn btn-sm btn-ghost absolute right-2 top-2"
+        >✕</label
+      >
       <Form @submit="userLogin">
         <h3 class="text-2xl font-bold text-center">Sign In</h3>
         <div class="pt-4 px-4">
           <span class="text-sm text-slate-600"> Email Address </span>
-          <Field name="email" type="email" placeholder="email@example.com" :rules="validateEmail"
-            class="input input-bordered input-md w-full mt-1" :disabled="emailSubmitted" />
+          <Field
+            name="email"
+            type="email"
+            placeholder="email@example.com"
+            :rules="validateEmail"
+            class="input input-bordered input-md w-full mt-1"
+            :disabled="emailSubmitted"
+          />
           <ErrorMessage as="p" name="email" class="text-sm text-red-600 mt-1" />
 
           <div class="modal-action mt-5">
-            <input v-if="!emailSubmitted" type="submit" value="Continue" class="btn-action primary-color" />
-            <input v-else="!emailSubmitted" disabled value="Submitted. Please wait" class="btn-action primary-color" />
+            <input
+              v-if="!emailSubmitted"
+              type="submit"
+              value="Continue"
+              class="btn-action primary-color"
+            />
+            <input
+              v-else="!emailSubmitted"
+              disabled
+              value="Submitted. Please wait"
+              class="btn-action primary-color"
+            />
           </div>
-          <div v-if="loginSuccess" class="bg-green-300 text-center p-3 mt-3 rounded-full">
+          <div
+            v-if="loginSuccess"
+            class="bg-green-300 text-center p-3 mt-3 rounded-full"
+          >
             <p>Login Successful!</p>
             <p>Refreshing...</p>
           </div>

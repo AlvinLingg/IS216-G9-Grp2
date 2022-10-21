@@ -24,9 +24,7 @@ const props = defineProps(["recipes", "instructions"]);
             : "Nil"
         }}
         minutes •
-        {{
-          props.recipes.servings.length != 0 ? props.recipes.servings : ">1"
-        }}
+        {{ props.recipes.servings.length != 0 ? props.recipes.servings : ">1" }}
         serving(s)
       </p>
       <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
