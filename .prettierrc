@@ -1,5 +1,4 @@
 {
-  "parser": "babel",
   "arrowParens": "always",
   "bracketSpacing": true,
   "endOfLine": "lf",
