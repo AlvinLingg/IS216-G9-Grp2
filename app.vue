@@ -1,5 +1,6 @@
 <script setup>
 import { useUserStore } from "~/store/userStore";
+
 const userCookie = useCookie("user");
 const userStore = useUserStore();
 

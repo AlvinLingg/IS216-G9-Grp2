@@ -44,4 +44,12 @@ export default defineNuxtConfig({
       handler: "~/express/index.js",
     },
   ],
+  buildModules: [
+    [
+      "unplugin-icons/nuxt",
+      {
+        /* options */
+      },
+    ],
+  ],
 });
