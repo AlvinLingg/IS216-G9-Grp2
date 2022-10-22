@@ -24,10 +24,10 @@ const props = defineProps({
 
 <template>
   <div
-    class="card bg-base-100 border p-2 rounded-2xl shadow-md hover:cursor-pointer hover:shadow-xl ease-in duration-150">
+    class="card bg-base-100 border p-2 rounded-2xl w-full  hover:cursor-pointer hover:shadow-md ease-in duration-150">
     <img class="h-[200px] object-cover rounded-lg" :src="recipe.image" alt="" />
     <div class="card-body pt-4 pb-2 px-2 gap-0">
-      <h2 class="card-title truncate block text-sm">{{ recipe.title }}</h2>
+      <h2 class="card-title truncate block text-sm w-[80%]">{{ recipe.title }}</h2>
       <template v-if="props.isFridgeRecipe">
         <p v-if="recipe.missedIngredientCount > 0" class="text-gray-500 text-sm">
           {{ recipe.missedIngredientCount + " Missing Ingredients" }}

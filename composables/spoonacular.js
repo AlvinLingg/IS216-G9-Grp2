@@ -156,6 +156,50 @@ export const searchRecipe = async (apiIndex, query, number) => {
   return data;
 };
 
+export const searchRecipeComplex = async (
+  apiIndex,
+  cuisine,
+  intolerance,
+  sort,
+  sortDirection,
+  number,
+  offset
+) => {
+  let data = $fetch("/recipes/complexSearch", {
+    initialCache: false,
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+      cuisine: cuisine,
+      intolerance: intolerance,
+      sort: sort,
+      sortDirection: sortDirection,
+      number: number,
+      offset: offset,
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return searchRecipeComplex(
+          apiIndex + 1,
+          cuisine,
+          intolerance,
+          sort,
+          sortDirection,
+          number,
+          offset
+        );
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
 export const getSimilarRecipes = async (apiIndex, id, number) => {
   let data = $fetch(`/recipes/${id}/similar`, {
     initialCache: false,

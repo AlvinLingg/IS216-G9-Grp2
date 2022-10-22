@@ -1,6 +1,5 @@
 <template>
   <div class="container mx-auto">
-    <Navbar />
     <div v-if="userProfile === undefined" class="section p-10 max-w-6xl m-auto">
       <NoExist />
     </div>
