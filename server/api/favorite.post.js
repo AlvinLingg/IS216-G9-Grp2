@@ -5,9 +5,9 @@ export default defineEventHandler(async (event) => {
   const params = {
     TableName: "favorite",
     Item: {
-      id: body.rid + body.uid.slice(9),
+      id: body.rid + body.uid,
       rid: body.rid,
-      uid: body.uid.slice(9),
+      uid: body.uid,
     },
   };
 
