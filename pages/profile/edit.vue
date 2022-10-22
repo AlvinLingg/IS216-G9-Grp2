@@ -61,6 +61,7 @@ const isHandleValid = ref(true);
 const isHandleEmpty = ref(false);
 const userHandle = ref(userStore.user.profileHandle);
 const displayName = ref(userStore.user.displayName);
+const uploadedFile = ref(null);
 
 const validateHandle = async (e) => {
   // make sure no illegal characters before sending api request
@@ -96,11 +97,33 @@ const validateHandle = async (e) => {
 };
 
 const handleFileSelection = (e) => {
-  console.log(e.target.files[0]);
+  uploadedFile.value = e.target.files[0];
+  console.log(uploadedFile.value);
 };
 
-const saveProfile = () => {
+const saveProfile = async () => {
   console.log("submitted hand", userHandle.value);
   console.log("submitted display", displayName.value);
+  console.log(userStore.user);
+
+  let formData = new FormData();
+  formData.append("files", uploadedFile.value);
+  let { data: uploadResponse } = await useFetch("/express/upload", {
+    headers: {
+      "Content-Disposition": formData,
+    },
+    method: "POST",
+    body: formData,
+  });
+
+  await $fetch("/api/updateProfile", {
+    method: "POST",
+    body: {
+      uniqueUserId: userStore.user.uniqueUserId,
+      displayName: displayName.value,
+      profileHandle: userHandle.value,
+      profilePicture: uploadResponse.value.urls[0].url,
+    },
+  });
 }
 </script>
