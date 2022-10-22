@@ -15,3 +15,7 @@
 .primary-color {
   @apply border-[#ffd780] bg-[#ffd780] text-[#3d4451] hover:bg-[#ffd780] hover:border-[#ffd780];
 }
+
+.grey-color{
+  @apply border-0 bg-[#16161a0a] text-[#16161a] hover:bg-[#16161a1a] hover:border-[#16161a1a];
+}

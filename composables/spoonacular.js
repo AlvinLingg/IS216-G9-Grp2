@@ -16,14 +16,13 @@ let rotatingApiKey = [
 let baseURL = "https://api.spoonacular.com";
 
 export const getValidApiKey = async (apiIndex, number) => {
-  let data = $fetch("/recipes/random", {
+  let data = $fetch("/recipes/1000000/information", {
     initialCache: false,
     server: true,
     method: "GET",
     baseURL: baseURL,
     params: {
       apiKey: rotatingApiKey[apiIndex],
-      number: number,
     },
   })
     .then((res) => {

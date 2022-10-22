@@ -23,8 +23,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div
-    class="card bg-base-100 border p-2 rounded-2xl shadow-md hover:cursor-pointer hover:shadow-xl ease-in duration-150">
+  <div class="card bg-base-100 border p-2 rounded-2xl hover:cursor-pointer hover:shadow-md ease-in duration-150">
     <img class="h-[200px] object-cover rounded-lg" :src="recipe.image" alt="" />
     <div class="card-body pt-4 pb-2 px-2 gap-0">
       <h2 class="card-title truncate block text-sm">{{ recipe.title }}</h2>
