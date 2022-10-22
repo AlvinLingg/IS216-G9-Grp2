@@ -21,7 +21,10 @@ const toggleCollapse = () => {
   expanded.value = !expanded.value;
 };
 const toggleReply = () => {
-  replyShown.value = !replyShown.value;
+  showReply.value = !showReply.value;
+};
+const toggleDelete = () => {
+  // TODO: add delete confirmation
 };
 
 const childComments = commentsArray.filter(
@@ -55,7 +58,7 @@ const validateReply = (value) => {
 };
 
 const expanded = ref(true);
-const replyShown = ref(false);
+const showReply = ref(false);
 const success = ref(false);
 const submitted = ref(false);
 
@@ -89,17 +92,18 @@ const dateDifference = commentsStore.getDateDifference(
 
         <!-- REPLY/EDIT BUTTONS -->
         <!-- TODO: beautify, make underline when hovered -->
-        <div class="reply-edit">
+        <div class="reply-delete">
           <a @click="toggleReply"> reply </a>
+          <a @click="toggleDelete">Delete</a>
         </div>
         <div v-if="success" class="text-green-300">
           Successfully added comment! refresh to view changes!
         </div>
-        <!-- WHY TF DOES THIS SHOW?? -->
+        <!-- TODO: WHY TF DOES THIS SHOW?? -->
         <!-- <div v-if="submitted && !success" class="text-red-600">
           An error has occurred. Please refresh the page and try again.
         </div> -->
-        <div v-if="replyShown" class="reply">
+        <div v-if="showReply" class="reply">
           <div class="form-control">
             <label class="label">
               <span class="label-text"

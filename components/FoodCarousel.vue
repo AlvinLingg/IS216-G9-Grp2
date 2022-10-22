@@ -22,10 +22,10 @@ const getUserFavorites = async () => {
   });
   return data;
 };
-var isFavored = await getUserFavorites();
+let isFavored = await getUserFavorites();
 
 // Initialize the state of the heart icon
-var liked = ref(false);
+const liked = ref(false);
 liked.value = isFavored.value["Count"] == 0 ? false : true;
 
 const handleClick = async () => {
