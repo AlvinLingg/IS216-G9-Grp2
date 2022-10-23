@@ -3,12 +3,13 @@ import { useCommentsStore } from "~/store/commentsStore";
 
 const route = useRoute();
 const recipeId = route.params.rid;
-const { data: commentsArray } = await useFetch("/api/getCommentsForRecipe", {
-  method: "GET",
-  params: { recipeId: recipeId },
-});
-
-console.log(commentsArray.value);
+const { data: commentsArray, pending } = await useFetch(
+  "/api/getCommentsForRecipe",
+  {
+    method: "GET",
+    params: { recipeId: recipeId },
+  }
+);
 
 const commentsStore = useCommentsStore();
 commentsStore.setComments([]);
@@ -21,9 +22,18 @@ const childComments = commentsArray.value.filter(
 <template>
   <div class="container mx-auto">
     <LoginModal />
-    <CommentsForm />
-    <div v-for="comment in childComments">
-      <Comment :comment-Id="comment.commentId" :current-comment="comment" />
+    <div v-if="pending">Loading Comments...</div>
+    <div v-else>
+      <h1 v-if="commentsArray.length > 0">
+        All comments ({{ commentsArray.length }})
+      </h1>
+      <h1 v-else>No comments yet! Be the first to say something!</h1>
+      <CommentsForm />
+      <div class="child-comments">
+        <div v-for="comment in childComments">
+          <Comment :comment-Id="comment.commentId" :current-comment="comment" />
+        </div>
+      </div>
     </div>
   </div>
 </template>

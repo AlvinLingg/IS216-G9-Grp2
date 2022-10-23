@@ -58,6 +58,7 @@ const userLogin = async (values) => {
     userCookie.value = newCookie.value;
 
     loginSuccess.value = true;
+    navigateTo("#");
     setTimeout(() => {
       window.location.reload();
     }, 1500);
@@ -111,7 +112,7 @@ const validateEmail = (value) => {
                 class="btn-action primary-color"
               />
               <input
-                v-else="!emailSubmitted"
+                v-else-if="emailSubmitted && !loginSuccess"
                 disabled
                 value="Submitted. Please wait"
                 class="btn-action primary-color"
@@ -119,7 +120,7 @@ const validateEmail = (value) => {
             </div>
             <div
               v-if="loginSuccess"
-              class="bg-green-300 text-center p-3 mt-3 rounded-full"
+              class="bg-green-300 text-center p-3 rounded-full"
             >
               <p>Login Successful!</p>
               <p>Refreshing...</p>

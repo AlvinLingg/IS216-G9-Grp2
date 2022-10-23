@@ -23,8 +23,8 @@ const toggleCollapse = () => {
 const toggleReply = () => {
   showReply.value = !showReply.value;
 };
-const toggleDelete = () => {
-  // TODO: add delete confirmation
+const toggleDeleteConfirmation = () => {
+  showDeleteConfirmation.value = !showDeleteConfirmation.value;
 };
 
 const childComments = commentsArray.filter(
@@ -33,7 +33,6 @@ const childComments = commentsArray.filter(
 
 const addComment = async (values) => {
   submitted.value = true;
-  // TODO: Call api to add comment, refresh page
   let commentBody = values.replyBody;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
@@ -46,6 +45,22 @@ const addComment = async (values) => {
     },
   });
   if (data) {
+    toastMessage = "Comment successfully submitted!";
+    success.value = true;
+    showReply.value = false;
+  }
+};
+
+const deleteComment = async () => {
+  const { data } = await useFetch("/api/deleteComment", {
+    method: "POST",
+    body: {
+      commentId: props.commentId,
+      recipeId: props.currentComment.recipeId,
+    },
+  });
+  if (data) {
+    toastMessage = "Comment successfully deleted!";
     success.value = true;
   }
 };
@@ -61,14 +76,28 @@ const expanded = ref(true);
 const showReply = ref(false);
 const success = ref(false);
 const submitted = ref(false);
+const showDelete = userStore.user
+  ? userStore.user.uniqueUserId === props.currentComment.userId
+  : false;
+const showDeleteConfirmation = ref(false);
+let toastMessage = "";
 
 const dateDifference = commentsStore.getDateDifference(
   props.currentComment.createdAt
 );
+
+watchEffect(() => {
+  if (success.value) {
+    setTimeout(() => {
+      success.value = false;
+    }, 2000);
+  }
+});
 </script>
 
 <template>
   <div class="comment">
+    <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
     <div class="grid grid-cols-[20px_auto]">
       <!-- COLLAPSE BAR (+/-) -->
       <div class="collapse-bar">
@@ -82,7 +111,24 @@ const dateDifference = commentsStore.getDateDifference(
       <div v-if="expanded" class="comment-body pl-2">
         <!-- COMMENTER's DETAILS -->
         <div class="profile-details">
-          <p>{{ props.currentComment.profileHandle }} | {{ dateDifference }}</p>
+          <p>
+            <nuxt-link
+              v-if="props.currentComment.profileHandle !== '[deleted]'"
+              :to="`/profile/${props.currentComment.profileHandle}`"
+              class="text-blue-600 profile_handle"
+            >
+              {{ props.currentComment.profileHandle }}
+            </nuxt-link>
+            <span v-else>[deleted]</span>
+            |
+            <span
+              :title="`${new Date(
+                props.currentComment.createdAt
+              ).toLocaleString()}`"
+            >
+              {{ dateDifference }}
+            </span>
+          </p>
         </div>
 
         <!-- COMMENT BODY -->
@@ -90,19 +136,30 @@ const dateDifference = commentsStore.getDateDifference(
           {{ props.currentComment.commentBody }}
         </div>
 
-        <!-- REPLY/EDIT BUTTONS -->
-        <!-- TODO: beautify, make underline when hovered -->
-        <div class="reply-delete">
-          <a @click="toggleReply"> reply </a>
-          <a @click="toggleDelete">Delete</a>
+        <!-- REPLY/DELETE BUTTONS -->
+        <div class="comment-menu">
+          <a
+            v-if="!userStore.user"
+            href="#login-register-modal"
+            class="comment-menu-item"
+          >
+            reply
+          </a>
+          <a v-else @click="toggleReply" class="comment-menu-item"> reply </a>
+          <a
+            v-if="showDelete"
+            @click="toggleDeleteConfirmation"
+            class="comment-menu-item"
+            >delete</a
+          >
+          <div v-if="showDeleteConfirmation" class="inline">
+            <span class="comment-menu-item" @click="deleteComment"> yes </span>
+            /
+            <span class="comment-menu-item" @click="toggleDeleteConfirmation">
+              no
+            </span>
+          </div>
         </div>
-        <div v-if="success" class="text-green-300">
-          Successfully added comment! refresh to view changes!
-        </div>
-        <!-- TODO: WHY TF DOES THIS SHOW?? -->
-        <!-- <div v-if="submitted && !success" class="text-red-600">
-          An error has occurred. Please refresh the page and try again.
-        </div> -->
         <div v-if="showReply" class="reply">
           <div class="form-control">
             <label class="label">
@@ -128,7 +185,7 @@ const dateDifference = commentsStore.getDateDifference(
         </div>
 
         <!-- MORE CHILD COMMENTS -->
-        <div class="new_comment" v-for="comment in childComments">
+        <div class="child-comment" v-for="comment in childComments">
           <Comment :comment-id="comment.commentId" :current-comment="comment" />
         </div>
       </div>
@@ -143,6 +200,7 @@ const dateDifference = commentsStore.getDateDifference(
 .comment {
   border: 1px solid black;
   margin: 3px;
+  margin-left: 0px;
 }
 
 .collapse-button {
@@ -156,5 +214,19 @@ const dateDifference = commentsStore.getDateDifference(
 .collapse-button:hover {
   background-color: #c72424;
   cursor: pointer;
+}
+
+.profile_handle:hover {
+  text-decoration: underline;
+}
+
+.comment-menu {
+  color: #888888;
+}
+.comment-menu-item {
+  cursor: pointer;
+}
+.comment-menu-item:hover {
+  text-decoration: underline;
 }
 </style>

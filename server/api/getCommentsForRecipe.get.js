@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
     .promise()
     .then((data) => {
       data.Items.forEach((item) => {
-        allProfileHandles[item.profileHandle] = item.uniqueUserId;
+        allProfileHandles[item.uniqueUserId] = item.profileHandle;
       });
     })
     .catch((error) => {
@@ -40,7 +40,6 @@ export default defineEventHandler(async (event) => {
     .query(commentsQueryParams)
     .promise()
     .then((data) => {
-      console.log(data.Items);
       data.Items.forEach((item) => {
         results.push({
           recipeId: item.recipeId,

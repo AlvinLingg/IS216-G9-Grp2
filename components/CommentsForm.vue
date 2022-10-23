@@ -15,7 +15,6 @@ const validateComment = (value) => {
 };
 
 const addComment = async (values) => {
-  // TODO: Callapi to add comment, refresh page
   let commentBody = values.commentBody;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
@@ -28,15 +27,26 @@ const addComment = async (values) => {
     },
   });
   if (data) {
+    toastMessage = "Comment successfully submitted!";
     success.value = true;
   }
 };
 
 const success = ref(false);
+let toastMessage = "";
+
+watchEffect(() => {
+  if (success.value) {
+    setTimeout(() => {
+      success.value = false;
+    }, 2000);
+  }
+});
 </script>
 
 <template>
   <div>
+    <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
     <div v-if="!userStore.user">
       <a href="#login-register-modal">
         <div class="relative max-w-[500px] h-[100px] flex">
@@ -50,20 +60,17 @@ const success = ref(false);
         </div>
       </a>
     </div>
-    <div>
+    <div v-else>
       <Form @submit="addComment">
         <Field
           name="commentBody"
           as="textarea"
           placeholder="Add a comment"
-          class="textarea textarea-bordered max-w-[500px] w-full h-[100px] mr-10"
+          class="textarea textarea-bordered max-w-[500px] w-full h-[100px] mr-10 block"
           :rules="validateComment"
         />
-        <input type="submit" value="Submit" class="btn btn-sm mr-1" />
+        <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-1 mb-3" />
       </Form>
-      <div v-if="success" class="text-green-300">
-        Successfully added comment! refresh to view changes!
-      </div>
     </div>
   </div>
 </template>
