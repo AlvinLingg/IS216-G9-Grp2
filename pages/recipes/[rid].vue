@@ -23,7 +23,7 @@ const { data: instructions, error2 } = await useAsyncData(
 <template>
   <div>
     <div class="container mx-auto" v-if="recipes != null">
-      <div class="pl-6 mt-5">
+      <div class="pl-6 mt-5 lg:mb-0">
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
@@ -37,7 +37,12 @@ const { data: instructions, error2 } = await useAsyncData(
           </ul>
         </div>
       </div>
-      <div class="grid sm:grid-cols-1 gap-x-5 lg:grid-cols-12 gap-x-10 p-6">
+      <!-- <div class="grid bg-red-200 grid-cols-1 lg:grid-cols-4">
+        <div class="bg-green-100">1</div>
+        <div class="bg-green-100">2</div>
+        <div class="bg-green-100 lg:col-span-2">3</div>
+      </div> -->
+      <div class="grid grid-cols-1 p-6 lg:grid-cols-12 lg:p-6">
         <div class="lg:col-span-4">
           <FoodCarousel
             :imageURL="
@@ -47,7 +52,7 @@ const { data: instructions, error2 } = await useAsyncData(
             :recipes="recipes"
           />
         </div>
-        <div class="mt-10 gap-y-0 lg:mt-0 col-span-8">
+        <div class="mt-10 gap-y-0 ml-0 lg:mt-0 lg:col-span-8 lg:ml-12">
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
         </div>
         <div class="gap-y-0 lg:col-span-12">

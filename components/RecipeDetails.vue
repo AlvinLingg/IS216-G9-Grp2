@@ -6,7 +6,10 @@ function capitalizeFirstLetter(string) {
 const props = defineProps(["recipes", "instructions"]);
 </script>
 <template>
-  <div class="h-[750px] lg:h-[500px] xl:h-[600px]">
+  <div
+    class="h-[750px] lg:h-[500px] xl:h-[600px]"
+    :class="{ 'h-[450px]': instructions.length == 0 }"
+  >
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         {{ props.recipes.title }}

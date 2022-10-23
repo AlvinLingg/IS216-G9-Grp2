@@ -77,7 +77,7 @@ const handleClick = async () => {
 </script>
 <template>
   <div>
-    <div class="card bg-base-100 shadow-xl sm: w-[500px] mr-3 lg:w-full">
+    <div class="card bg-base-100 shadow-xl w-full sm:w-4/5 md:w-3/5 lg:w-full">
       <figure>
         <img :src="props.imageURL" />
       </figure>
