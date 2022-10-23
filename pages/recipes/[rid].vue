@@ -3,7 +3,7 @@ const route = useRoute();
 const rid = route.params.rid;
 
 const { data: recipes, error } = await useAsyncData("recipes", async () => {
-  const apiKey = "6696c652a3be4db6a2cd1824f7baea8b";
+  const apiKey = "4d0942790e7a416aae65fbe85928171c";
   const response = await $fetch(
     `https://api.spoonacular.com/recipes/${rid}/information?apiKey=${apiKey}`
   );
@@ -12,7 +12,7 @@ const { data: recipes, error } = await useAsyncData("recipes", async () => {
 const { data: instructions, error2 } = await useAsyncData(
   "instructions",
   async () => {
-    const apiKey = "6696c652a3be4db6a2cd1824f7baea8b";
+    const apiKey = "4d0942790e7a416aae65fbe85928171c";
     const response = await $fetch(
       `https://api.spoonacular.com/recipes/${rid}/analyzedInstructions?apiKey=${apiKey}`
     );
@@ -22,7 +22,6 @@ const { data: instructions, error2 } = await useAsyncData(
 </script>
 <template>
   <div>
-    <Navbar />
     <div class="container mx-auto" v-if="recipes != null">
       <div class="pl-6 mt-5">
         <div class="text-sm breadcrumbs">
@@ -38,17 +37,22 @@ const { data: instructions, error2 } = await useAsyncData(
           </ul>
         </div>
       </div>
-      <div class="grid sm:grid-cols-1 gap-10 lg:grid-cols-2 gap-5 p-6">
-        <div>
+      <div class="grid sm:grid-cols-1 gap-x-5 lg:grid-cols-12 gap-x-10 p-6">
+        <div class="lg:col-span-4">
           <FoodCarousel
             :imageURL="
               recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
             "
             :rid="rid"
+            :recipes="recipes"
           />
         </div>
-        <div>
+        <div class="mt-10 gap-y-0 lg:mt-0 col-span-8">
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
+        </div>
+        <div class="gap-y-0 lg:col-span-12">
+          <h1 class="text-3xl font-semibold leading-relaxed">Comments</h1>
+          <Comments />
         </div>
       </div>
     </div>
@@ -58,7 +62,6 @@ const { data: instructions, error2 } = await useAsyncData(
         errorMessage="This recipe does not exist or was removed!"
       />
     </div>
-    <Comments />
   </div>
 </template>
 <script>

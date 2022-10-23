@@ -6,7 +6,7 @@ function capitalizeFirstLetter(string) {
 const props = defineProps(["recipes", "instructions"]);
 </script>
 <template>
-  <div class="h-[750px] lg:h-[550px] xl:h-[750px]">
+  <div class="h-[750px] lg:h-[500px] xl:h-[600px]">
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         {{ props.recipes.title }}
@@ -29,7 +29,7 @@ const props = defineProps(["recipes", "instructions"]);
       </p>
       <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
     </div>
-    <div class="overflow-auto max-h-[40%] lg:max-h-[28%]">
+    <div class="overflow-auto max-h-[25%] lg:max-h-[20%]">
       <ul class="leading-loose text-s text-gray-500">
         <li v-for="ingredients in props.recipes.extendedIngredients">
           {{ ingredients.original }}
@@ -37,7 +37,7 @@ const props = defineProps(["recipes", "instructions"]);
       </ul>
     </div>
     <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
-    <div class="overflow-auto max-h-[40%] lg:max-h-[37%]">
+    <div class="overflow-auto max-h-[47%] lg:max-h-[35%]">
       <ul
         class="leading-loose text-s text-gray-500 pr-3"
         v-if="instructions.length != 0"
