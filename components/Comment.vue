@@ -45,8 +45,8 @@ const addComment = async (values) => {
     },
   });
   if (data) {
-    toastMessage = "Comment successfully submitted!";
-    success.value = true;
+    toastMessage.value = "Comment successfully submitted!";
+    showToast();
     showReply.value = false;
   }
 };
@@ -60,8 +60,10 @@ const deleteComment = async () => {
     },
   });
   if (data) {
-    toastMessage = "Comment successfully deleted!";
-    success.value = true;
+    toastMessage.value = "Comment successfully deleted!";
+    commentDeleted.value = true;
+    showDeleteConfirmation.value = false;
+    showToast();
   }
 };
 
@@ -72,6 +74,13 @@ const validateReply = (value) => {
   return true;
 };
 
+const showToast = () => {
+  success.value = true;
+  setTimeout(() => {
+    success.value = false;
+  }, 2000);
+};
+
 const expanded = ref(true);
 const showReply = ref(false);
 const success = ref(false);
@@ -80,19 +89,12 @@ const showDelete = userStore.user
   ? userStore.user.uniqueUserId === props.currentComment.userId
   : false;
 const showDeleteConfirmation = ref(false);
-let toastMessage = "";
+const toastMessage = ref("");
+const commentDeleted = ref(false);
 
 const dateDifference = commentsStore.getDateDifference(
   props.currentComment.createdAt
 );
-
-watchEffect(() => {
-  if (success.value) {
-    setTimeout(() => {
-      success.value = false;
-    }, 2000);
-  }
-});
 </script>
 
 <template>
@@ -133,7 +135,11 @@ watchEffect(() => {
 
         <!-- COMMENT BODY -->
         <div class="comment-text">
-          {{ props.currentComment.commentBody }}
+          {{
+            commentDeleted
+              ? "Comment has been deleted"
+              : props.currentComment.commentBody
+          }}
         </div>
 
         <!-- REPLY/DELETE BUTTONS -->
@@ -147,7 +153,7 @@ watchEffect(() => {
           </a>
           <a v-else @click="toggleReply" class="comment-menu-item"> reply </a>
           <a
-            v-if="showDelete"
+            v-if="showDelete && !commentDeleted"
             @click="toggleDeleteConfirmation"
             class="comment-menu-item"
             >delete</a

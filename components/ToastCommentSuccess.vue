@@ -4,13 +4,17 @@ const props = defineProps({
     type: String,
   },
 });
+console.log(props);
 </script>
 
 <template>
-  <div class="toast toast-top toast-center">
+  <div class="toast toast-top toast-center mt-[80px]">
     <div class="alert alert-success w-[300px]">
       <div class="mx-auto">
-        <span>{{ props.toastMessage }} Reload to view changes!</span>
+        <span>
+          {{ props.toastMessage }}<br />
+          Reload to view changes!
+        </span>
       </div>
     </div>
   </div>

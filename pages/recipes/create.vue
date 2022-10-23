@@ -1,6 +1,5 @@
 <template>
   <div class="container mx-auto">
-    <Navbar />
     <div class="section p-10 max-w-6xl m-auto">
       <Form @submit="handleSubmit" :validation-schema="schema" v-slot="{ errors }">
         <h1 class="text-5xl font-bold">Create a new recipe</h1>

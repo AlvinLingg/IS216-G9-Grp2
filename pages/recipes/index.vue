@@ -1,5 +1,4 @@
 <template>
-  <Navbar />
   <div class="container mx-auto p-9">
     <h1 class="text-3xl font-semibold leading-relaxed mb-5">
       Browse by Cuisine

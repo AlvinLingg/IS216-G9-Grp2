@@ -60,8 +60,8 @@ const userLogin = async (values) => {
     loginSuccess.value = true;
     navigateTo("#");
     setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    window.location.reload();
+    }, 500);
   } catch (error) {
     console.log(error);
   }

@@ -15,33 +15,36 @@ const validateComment = (value) => {
 };
 
 const addComment = async (values) => {
-  let commentBody = values.commentBody;
-  const { data } = await useFetch("/api/addComment", {
-    method: "POST",
-    body: {
-      recipeId: recipeId,
-      parentCommentId: "0",
-      commentId: uuidv1() + recipeId,
-      userId: userStore.user.uniqueUserId,
-      commentBody: commentBody,
-    },
-  });
-  if (data) {
-    toastMessage = "Comment successfully submitted!";
-    success.value = true;
+  if (!refreshRequired.value) {
+    let commentBody = values.commentBody;
+    const { data } = await useFetch("/api/addComment", {
+      method: "POST",
+      body: {
+        recipeId: recipeId,
+        parentCommentId: "0",
+        commentId: uuidv1() + recipeId,
+        userId: userStore.user.uniqueUserId,
+        commentBody: commentBody,
+      },
+    });
+    if (data) {
+      toastMessage.value = "Comment successfully submitted!";
+      showToast();
+      refreshRequired.value = true;
+    }
   }
 };
 
-const success = ref(false);
-let toastMessage = "";
+const showToast = () => {
+  success.value = true;
+  setTimeout(() => {
+    success.value = false;
+  }, 2000);
+};
 
-watchEffect(() => {
-  if (success.value) {
-    setTimeout(() => {
-      success.value = false;
-    }, 2000);
-  }
-});
+const success = ref(false);
+const toastMessage = ref("");
+const refreshRequired = ref(false);
 </script>
 
 <template>
@@ -68,8 +71,14 @@ watchEffect(() => {
           placeholder="Add a comment"
           class="textarea textarea-bordered max-w-[500px] w-full h-[100px] mr-10 block"
           :rules="validateComment"
+          :disabled="refreshRequired"
         />
-        <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-1 mb-3" />
+        <input
+          type="submit"
+          value="Submit"
+          class="btn btn-sm mr-1 mt-1 mb-3"
+          :disabled="refreshRequired"
+        />
       </Form>
     </div>
   </div>

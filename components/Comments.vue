@@ -24,10 +24,15 @@ const childComments = commentsArray.value.filter(
     <LoginModal />
     <div v-if="pending">Loading Comments...</div>
     <div v-else>
-      <h1 v-if="commentsArray.length > 0">
-        All comments ({{ commentsArray.length }})
+      <h1
+        v-if="commentsArray.length > 0"
+        class="text-3xl font-semibold leading-relaxed"
+      >
+        Comments({{ commentsArray.length }})
       </h1>
-      <h1 v-else>No comments yet! Be the first to say something!</h1>
+      <h1 v-else class="text-3xl font-semibold leading-relaxed">
+        No comments yet! Be the first to say something!
+      </h1>
       <CommentsForm />
       <div class="child-comments">
         <div v-for="comment in childComments">

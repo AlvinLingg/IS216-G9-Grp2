@@ -51,7 +51,7 @@ const { data: instructions, error2 } = await useAsyncData(
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
         </div>
         <div class="gap-y-0 lg:col-span-12">
-          <h1 class="text-3xl font-semibold leading-relaxed">Comments</h1>
+          
           <Comments />
         </div>
       </div>
