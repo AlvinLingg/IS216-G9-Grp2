@@ -37,11 +37,6 @@ const { data: instructions, error2 } = await useAsyncData(
           </ul>
         </div>
       </div>
-      <!-- <div class="grid bg-red-200 grid-cols-1 lg:grid-cols-4">
-        <div class="bg-green-100">1</div>
-        <div class="bg-green-100">2</div>
-        <div class="bg-green-100 lg:col-span-2">3</div>
-      </div> -->
       <div class="grid grid-cols-1 p-6 lg:grid-cols-12 lg:p-6">
         <div class="lg:col-span-4">
           <FoodCarousel
@@ -56,7 +51,6 @@ const { data: instructions, error2 } = await useAsyncData(
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
         </div>
         <div class="gap-y-0 lg:col-span-12">
-          
           <Comments />
         </div>
       </div>

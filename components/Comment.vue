@@ -78,7 +78,7 @@ const showToast = () => {
   success.value = true;
   setTimeout(() => {
     success.value = false;
-  }, 2000);
+  }, 5000);
 };
 
 const expanded = ref(true);

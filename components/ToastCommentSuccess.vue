@@ -8,7 +8,7 @@ console.log(props);
 </script>
 
 <template>
-  <div class="toast toast-top toast-center mt-[80px]">
+  <div class="toast toast-end mt-[80px]">
     <div class="alert alert-success w-[300px]">
       <div class="mx-auto">
         <span>
