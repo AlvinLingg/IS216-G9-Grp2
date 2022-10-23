@@ -197,7 +197,28 @@ const dateDifference = commentsStore.getDateDifference(
       </div>
 
       <!-- COMMENT BODY CLOSE -->
-      <div v-else class="comment-body">CLOSED</div>
+      <div v-else class="comment-body pl-1">
+        <div class="profile-details">
+          <p>
+            <nuxt-link
+              v-if="props.currentComment.profileHandle !== '[deleted]'"
+              :to="`/profile/${props.currentComment.profileHandle}`"
+              class="text-blue-600 profile_handle"
+            >
+              {{ props.currentComment.profileHandle }}
+            </nuxt-link>
+            <span v-else>[deleted]</span>
+            |
+            <span
+              :title="`${new Date(
+                props.currentComment.createdAt
+              ).toLocaleString()}`"
+            >
+              {{ dateDifference }}
+            </span>
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </template>

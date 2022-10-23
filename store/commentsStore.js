@@ -40,5 +40,5 @@ export const useCommentsStore = defineStore("comments", () => {
     }
   }
 
-  return { comments, setComments, getDateDifference };
+  return { comments, getDateDifference, setComments };
 });

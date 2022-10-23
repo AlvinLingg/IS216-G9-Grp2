@@ -4,12 +4,11 @@ const props = defineProps({
     type: String,
   },
 });
-console.log(props);
 </script>
 
 <template>
-  <div class="toast toast-end mt-[80px]">
-    <div class="alert alert-success w-[300px]">
+  <div class="toast toast-end">
+    <div class="alert alert-success">
       <div class="mx-auto">
         <span>
           {{ props.toastMessage }}<br />

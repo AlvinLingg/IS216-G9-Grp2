@@ -2,7 +2,6 @@ import db from "../../db";
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  console.log(body.commentId);
   const params = {
     TableName: "comments",
     Key: {

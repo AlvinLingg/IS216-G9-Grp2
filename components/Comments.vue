@@ -20,6 +20,7 @@ const childComments = commentsArray.value.filter(
 </script>
 
 <template>
+  <!-- TODO: Upvoting and Downvoting -->
   <div class="container mx-auto">
     <LoginModal />
     <div v-if="pending">Loading Comments...</div>
