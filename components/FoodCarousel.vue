@@ -14,6 +14,8 @@ const props = defineProps({
     type: String,
   },
 });
+// Initialize isFavored
+var isFavored;
 
 // Initialize the state of the heart icon
 var liked = ref(false);
@@ -21,18 +23,19 @@ var liked = ref(false);
 // Initialize the state of the error toast
 var hideToast = ref(true);
 
+const getUserFavorites = async () => {
+  const { data, error } = await useFetch("/api/getFavorite", {
+    initialCache: false,
+    method: "GET",
+    query: {
+      id: `${props.rid}${userStore.user.uniqueUserId.slice(9)}`,
+    },
+  });
+  return data;
+};
+
 if (userStore.user != null) {
-  const getUserFavorites = async () => {
-    const { data, error } = await useFetch("/api/getFavorite", {
-      initialCache: false,
-      method: "GET",
-      query: {
-        id: `${props.rid}${userStore.user.uniqueUserId.slice(9)}`,
-      },
-    });
-    return data;
-  };
-  let isFavored = await getUserFavorites();
+  isFavored = await getUserFavorites();
   liked.value = isFavored.value["Count"] == 0 ? false : true;
 } else {
   liked.value = false;
