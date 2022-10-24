@@ -2,13 +2,17 @@
 const route = useRoute();
 const rid = route.params.rid;
 
-const { data: recipes, error } = await useAsyncData("recipes", async () => {
-  const apiKey = "4d0942790e7a416aae65fbe85928171c";
-  const response = await $fetch(
-    `https://api.spoonacular.com/recipes/${rid}/information?apiKey=${apiKey}`
-  );
-  return await response;
-});
+const { data: recipes, error } = await useAsyncData(
+  "recipes",
+  async () => {
+    const apiKey = "4d0942790e7a416aae65fbe85928171c";
+    const response = await $fetch(
+      `https://api.spoonacular.com/recipes/${rid}/information?apiKey=${apiKey}`
+    );
+    return await response;
+  },
+  { initialCache: false }
+);
 const { data: instructions, error2 } = await useAsyncData(
   "instructions",
   async () => {
@@ -17,7 +21,8 @@ const { data: instructions, error2 } = await useAsyncData(
       `https://api.spoonacular.com/recipes/${rid}/analyzedInstructions?apiKey=${apiKey}`
     );
     return await response;
-  }
+  },
+  { initialCache: false }
 );
 </script>
 <template>
@@ -50,7 +55,7 @@ const { data: instructions, error2 } = await useAsyncData(
         <div class="mt-10 gap-y-0 ml-0 lg:mt-0 lg:col-span-8 lg:ml-12">
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
         </div>
-        <div class="gap-y-0 lg:col-span-12">
+        <div class="gap-y-0 lg:col-span-12 lg:mt-12 xl:mt-0">
           <Comments />
         </div>
       </div>
