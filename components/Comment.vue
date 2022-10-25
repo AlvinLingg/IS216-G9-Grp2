@@ -115,7 +115,7 @@ const dateDifference = commentsStore.getDateDifference(
 <template>
   <div class="comment">
     <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
-    <div class="grid grid-cols-[20px_auto]">
+    <div class="grid grid-cols-[20px_calc(100%-20px)]">
       <!-- COLLAPSE BAR (+/-) -->
       <div class="collapse-bar">
         <!-- TODO: Make unhighlightable (how??) -->
@@ -150,7 +150,7 @@ const dateDifference = commentsStore.getDateDifference(
         </div>
 
         <!-- COMMENT BODY -->
-        <div class="comment-text">
+        <div class="comment-text break-words">
           {{
             commentDeleted
               ? "Comment has been deleted"
