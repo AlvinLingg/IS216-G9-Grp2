@@ -2,11 +2,11 @@ import { defineStore } from "pinia";
 
 export const useCommentsStore = defineStore("comments", () => {
   const comments = ref([]);
-  const currentDateTime = new Date();
   function setComments(newComments) {
     comments.value = newComments;
   }
   function getDateDifference(dateIsoString) {
+    const currentDateTime = new Date();
     const pastDate = new Date(dateIsoString);
     const diffMs = currentDateTime - pastDate;
     const diffYrs = Math.floor(diffMs / 31536000000); // years

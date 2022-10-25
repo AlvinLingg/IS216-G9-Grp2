@@ -43,6 +43,7 @@ const addComment = async (values) => {
       userId: userStore.user.uniqueUserId,
       commentBody: commentBody,
     },
+    initialCache: false,
   });
   if (data) {
     toastMessage.value = "Comment successfully submitted!";
@@ -58,6 +59,7 @@ const deleteComment = async () => {
       commentId: props.commentId,
       recipeId: props.currentComment.recipeId,
     },
+    initialCache: false,
   });
   if (data) {
     toastMessage.value = "Comment successfully deleted!";

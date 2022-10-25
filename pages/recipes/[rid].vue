@@ -5,7 +5,7 @@ const rid = route.params.rid;
 const { data: recipes, error } = await useAsyncData(
   "recipes",
   async () => {
-    const apiKey = "4d0942790e7a416aae65fbe85928171c";
+    const apiKey = "c21c98fdd76344339b22475b8c366a95";
     const response = await $fetch(
       `https://api.spoonacular.com/recipes/${rid}/information?apiKey=${apiKey}`
     );
@@ -16,7 +16,7 @@ const { data: recipes, error } = await useAsyncData(
 const { data: instructions, error2 } = await useAsyncData(
   "instructions",
   async () => {
-    const apiKey = "4d0942790e7a416aae65fbe85928171c";
+    const apiKey = "c21c98fdd76344339b22475b8c366a95";
     const response = await $fetch(
       `https://api.spoonacular.com/recipes/${rid}/analyzedInstructions?apiKey=${apiKey}`
     );

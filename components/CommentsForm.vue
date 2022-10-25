@@ -6,6 +6,7 @@ import { Form, Field } from "vee-validate";
 const userStore = useUserStore();
 const route = useRoute();
 const recipeId = route.params.rid;
+const emit = defineEmits(["refresh"]);
 
 const validateComment = (value) => {
   if (!value) {
@@ -15,23 +16,22 @@ const validateComment = (value) => {
 };
 
 const addComment = async (values) => {
-  if (!refreshRequired.value) {
-    let commentBody = values.commentBody;
-    const { data } = await useFetch("/api/addComment", {
-      method: "POST",
-      body: {
-        recipeId: recipeId,
-        parentCommentId: "0",
-        commentId: uuidv1() + recipeId,
-        userId: userStore.user.uniqueUserId,
-        commentBody: commentBody,
-      },
-    });
-    if (data) {
-      toastMessage.value = "Comment successfully submitted!";
-      showToast();
-      refreshRequired.value = true;
-    }
+  let commentBody = values.commentBody;
+  const { data } = await useFetch("/api/addComment", {
+    method: "POST",
+    body: {
+      recipeId: recipeId,
+      parentCommentId: "0",
+      commentId: uuidv1() + recipeId,
+      userId: userStore.user.uniqueUserId,
+      commentBody: commentBody,
+    },
+    initialCache: false,
+  });
+  if (data) {
+    toastMessage.value = "Comment successfully submitted!";
+    showToast();
+    emit("refreshComments");
   }
 };
 
@@ -44,7 +44,6 @@ const showToast = () => {
 
 const success = ref(false);
 const toastMessage = ref("");
-const refreshRequired = ref(false);
 </script>
 
 <template>
@@ -71,14 +70,8 @@ const refreshRequired = ref(false);
           placeholder="Add a comment"
           class="textarea textarea-bordered max-w-[500px] w-full h-[100px] mr-10 block"
           :rules="validateComment"
-          :disabled="refreshRequired"
         />
-        <input
-          type="submit"
-          value="Submit"
-          class="btn btn-sm mr-1 mt-1 mb-3"
-          :disabled="refreshRequired"
-        />
+        <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-1 mb-3" />
       </Form>
     </div>
   </div>

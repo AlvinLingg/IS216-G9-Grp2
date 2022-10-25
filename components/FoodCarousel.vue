@@ -15,13 +15,13 @@ const props = defineProps({
   },
 });
 // Initialize isFavored
-var isFavored;
+let isFavored;
 
 // Initialize the state of the heart icon
-var liked = ref(false);
+let liked = ref(false);
 
 // Initialize the state of the error toast
-var hideToast = ref(true);
+let hideToast = ref(true);
 
 const getUserFavorites = async () => {
   const { data, error } = await useFetch("/api/getFavorite", {
