@@ -8,6 +8,7 @@ const { data: commentsArray, pending } = await useFetch(
   {
     method: "GET",
     params: { recipeId: recipeId },
+    initialCache: false,
   }
 );
 

@@ -114,13 +114,13 @@ const searchQuery = ref("");
           </Form>
         </li>
         <li>
-          <nuxt-link to="/" class="mx-auto">Home</nuxt-link>
+          <nuxt-link to="/" class="mx-auto" @click="toggleMenu()">Home</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/explore" class="mx-auto">Explore</nuxt-link>
+          <nuxt-link to="/explore" class="mx-auto" @click="toggleMenu()">Explore</nuxt-link>
         </li>
         <li>
-          <nuxt-link to="/fridge" class="mx-auto">My Fridge</nuxt-link>
+          <nuxt-link to="/fridge" class="mx-auto" @click="toggleMenu()">My Fridge</nuxt-link>
         </li>
         <div v-if="!userStore.user">
           <li></li>
@@ -131,16 +131,16 @@ const searchQuery = ref("");
         </div>
         <div v-else>
           <li>
-            <nuxt-link to="/recipes/create" class="mx-auto">
+            <nuxt-link to="/recipes/create" class="mx-auto" @click="toggleMenu()">
               Upload a Recipe
             </nuxt-link>
           </li>
           <li></li>
           <li>
-            <nuxt-link class="mx-auto" :to="'/profile/' + userStore.user.profileHandle">View Profile</nuxt-link>
+            <nuxt-link class="mx-auto" :to="`/profile/${userStore.user.profileHandle}`" @click="toggleMenu()">View Profile</nuxt-link>
           </li>
           <li>
-            <nuxt-link class="mx-auto" to="/profile/edit">Edit Profile</nuxt-link>
+            <nuxt-link class="mx-auto" to="/profile/edit" @click="toggleMenu()">Edit Profile</nuxt-link>
           </li>
           <li></li>
           <li>

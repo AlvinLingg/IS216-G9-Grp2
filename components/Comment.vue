@@ -104,6 +104,7 @@ const dateDifference = commentsStore.getDateDifference(
       <!-- COLLAPSE BAR (+/-) -->
       <div class="collapse-bar">
         <!-- TODO: Make unhighlightable (how??) -->
+        <!-- TODO: Try to save comments expanded/collapsed state -->
         <a class="collapse-button" @click="toggleCollapse">
           {{ expanded ? "-" : "+" }}
         </a>
