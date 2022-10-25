@@ -34,21 +34,32 @@ const childComments = commentsArray.filter(
 const addComment = async (values) => {
   submitted.value = true;
   let commentBody = values.replyBody;
+  let commentId = uuidv1() + props.currentComment.recipeId;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
     body: {
       recipeId: props.currentComment.recipeId,
       parentCommentId: props.commentId,
-      commentId: uuidv1() + props.currentComment.recipeId,
+      commentId: commentId,
       userId: userStore.user.uniqueUserId,
       commentBody: commentBody,
     },
     initialCache: false,
   });
   if (data) {
+    repliedComment.value = {
+      commentBody: commentBody,
+      commentId: commentId,
+      createdAt: new Date().toISOString(),
+      parentCommentId: props.commentId,
+      profileHandle: userStore.user.profileHandle,
+      recipeId: props.currentComment.recipeId,
+      userId: userStore.user.uniqueUserId,
+    };
     toastMessage.value = "Comment successfully submitted!";
     showToast();
     showReply.value = false;
+    replied.value = true;
   }
 };
 
@@ -87,12 +98,14 @@ const expanded = ref(true);
 const showReply = ref(false);
 const success = ref(false);
 const submitted = ref(false);
+const replied = ref(false);
 const showDelete = userStore.user
   ? userStore.user.uniqueUserId === props.currentComment.userId
   : false;
 const showDeleteConfirmation = ref(false);
 const toastMessage = ref("");
 const commentDeleted = ref(false);
+const repliedComment = ref({});
 
 const dateDifference = commentsStore.getDateDifference(
   props.currentComment.createdAt
@@ -154,14 +167,21 @@ const dateDifference = commentsStore.getDateDifference(
           >
             reply
           </a>
-          <a v-else @click="toggleReply" class="comment-menu-item"> reply </a>
+          <a
+            v-else-if="!replied"
+            @click="toggleReply"
+            class="comment-menu-item"
+          >
+            reply
+          </a>
+          <a v-else class="comment-menu-item"> replied </a>
           <a
             v-if="showDelete && !commentDeleted"
             @click="toggleDeleteConfirmation"
             class="comment-menu-item"
             >delete</a
           >
-          <div v-if="showDeleteConfirmation" class="inline">
+          <div v-if="showDeleteConfirmation" class="inline text-rose-500">
             <span class="comment-menu-item" @click="deleteComment"> yes </span>
             /
             <span class="comment-menu-item" @click="toggleDeleteConfirmation">
@@ -181,16 +201,25 @@ const dateDifference = commentsStore.getDateDifference(
                 name="replyBody"
                 as="textarea"
                 placeholder="Add a reply"
-                class="textarea textarea-bordered w-11/12 mr-10"
+                class="textarea textarea-bordered max-w-[500px] w-full h-[100px] block"
                 :rules="validateReply"
               />
-              <input type="submit" value="Submit" class="btn btn-sm mr-1" />
-              <!-- TODO: WHY IS THIS SUBMITTING??/ -->
-              <button class="btn btn-sm" @click="toggleReply">Cancel</button>
+              <div class="mt-1">
+                <input type="submit" value="Submit" class="btn btn-sm mr-1" />
+                <button class="btn btn-sm" @click="toggleReply">Cancel</button>
+              </div>
             </Form>
 
             <label class="label"> </label>
           </div>
+        </div>
+
+        <!-- Newest Reply -->
+        <div v-if="replied" class="replied-comment">
+          <Comment
+            :current-comment="repliedComment"
+            :comment-id="repliedComment.commentId"
+          />
         </div>
 
         <!-- MORE CHILD COMMENTS -->
