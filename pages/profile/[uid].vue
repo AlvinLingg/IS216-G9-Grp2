@@ -103,15 +103,24 @@
           v-if="userStore.user"
           class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
         >
-          <h1 class="text-3xl font-bold">Oops!</h1>
-          <p class="mt-3">Looks like you have not liked any recipes.</p>
-          <p>Let&#39;s go explore some recipes!</p>
-          <button
-            class="btn rounded-3xl primary-color mt-3"
-            @click="navigateTo('/')"
-          >
-            Discover Recipes
-          </button>
+          <div v-if="favoritedRecipes.length == 0">
+            <h1 class="text-3xl font-bold">Oops!</h1>
+            <p class="mt-3">Looks like you have not liked any recipes.</p>
+            <p>Let&#39;s go explore some recipes!</p>
+            <button
+              class="btn rounded-3xl primary-color mt-3"
+              @click="navigateTo('/')"
+            >
+              Discover Recipes
+            </button>
+          </div>
+          <div v-else>
+            <RecipeCard
+              v-for="favorites in favoritedRecipes"
+              :recipe="favorites['rid']"
+              @click="navigateTo(`/recipes/${recipe.id}`)"
+            />
+          </div>
         </div>
         <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
           <h1 class="text-3xl font-bold">Oops!</h1>
@@ -134,6 +143,7 @@ const route = useRoute();
 const openTab = ref(0);
 const userProfile = ref({});
 const userStore = useUserStore();
+var favoritedRecipes = ref([]);
 
 const fetchUserProfile = async () => {
   const { data } = await useFetch("/api/getProfileByHandle", {
@@ -141,6 +151,7 @@ const fetchUserProfile = async () => {
     params: {
       handle: route.params.uid,
     },
+    initialCache: false,
   });
   return data.value[0];
 };
@@ -149,4 +160,21 @@ userProfile.value = await fetchUserProfile();
 const toggleTab = (index) => {
   openTab.value = index;
 };
+
+const getUserFavorites = async () => {
+  const { data, error } = await useFetch("/api/getFavoriteByUID", {
+    initialCache: false,
+    method: "GET",
+    query: {
+      uid: `${userStore.user.uniqueUserId.slice(9)}`,
+    },
+  });
+  return data;
+};
+
+favoritedRecipes = await getUserFavorites();
+
+//make a recipesToDisplay and send to recipe card to display
+//make the same shit for profiles who were visited when not logged in,
+// need to get the profilehandle and get RID by their profile handle
 </script>
