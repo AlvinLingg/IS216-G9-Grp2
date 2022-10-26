@@ -13,11 +13,13 @@
           </label>
 
           <div
-            class="w-32 h-32 border-2 border-dashed rounded-xl p-8 cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500"
+            class="w-32 h-32 border-2 border-dashed rounded-xl cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500"
             @click="$refs.fileUploadInput.click()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}"
-              stroke="currentColor">
-              <path strokeLinecap=" round" strokeLinejoin="round"
+            <img v-if="uploadedFile !== null || previewURL !== ''" :src="previewURL" alt=""
+              class="rounded-xl hover:opacity-75 object-cover w-full h-full" />
+            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}"
+              class="p-8" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round"
                 d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
           </div>
@@ -49,6 +51,8 @@
           </button>
         </div>
       </div>
+      <input type="checkbox" id="my-modal" class="modal-toggle" ref="cbStatusModal" />
+      <StatusModal modalID="my-modal" :modalState="modalState" />
     </div>
   </div>
 </template>
@@ -62,6 +66,16 @@ const isHandleEmpty = ref(false);
 const userHandle = ref(userStore.user.profileHandle);
 const displayName = ref(userStore.user.displayName);
 const uploadedFile = ref(null);
+const previewURL = ref(userStore.user.profilePicture);
+
+const cbStatusModal = ref(null);
+
+const modalState = ref({
+  status: "loading",
+  title: "Loading",
+  message: "Please wait..."
+});
+
 
 const validateHandle = async (e) => {
   // make sure no illegal characters before sending api request
@@ -101,29 +115,62 @@ const handleFileSelection = (e) => {
   console.log(uploadedFile.value);
 };
 
+
 const saveProfile = async () => {
   console.log("submitted hand", userHandle.value);
   console.log("submitted display", displayName.value);
-  console.log(userStore.user);
+  modalState.value = {
+    status: "loading",
+    title: "Loading",
+    message: "Please wait..."
+  }
+  cbStatusModal.value.checked = true;
 
-  let formData = new FormData();
-  formData.append("files", uploadedFile.value);
-  let { data: uploadResponse } = await useFetch("/express/upload", {
-    headers: {
-      "Content-Disposition": formData,
-    },
-    method: "POST",
-    body: formData,
-  });
+  let profilePicture = userStore.user.profilePicture;
 
-  await $fetch("/api/updateProfile", {
+  if (uploadedFile.value !== null) {
+    let formData = new FormData();
+    formData.append("files", uploadedFile.value);
+    let { data } = await useFetch("/express/upload", {
+      headers: {
+        "Content-Disposition": formData,
+      },
+      method: "POST",
+      body: formData,
+    });
+    profilePicture = data.value.urls[0].url;
+  }
+
+  $fetch("/api/updateProfile", {
     method: "POST",
     body: {
       uniqueUserId: userStore.user.uniqueUserId,
       displayName: displayName.value,
       profileHandle: userHandle.value,
-      profilePicture: uploadResponse.value.urls[0].url,
+      profilePicture: profilePicture,
     },
+  }).then((res) => {
+    let temp = { ...userStore.user };
+    temp.profilePicture = profilePicture;
+    temp.displayName = displayName.value;
+    temp.profileHandle = userHandle.value;
+    userStore.setUser(temp);
+    modalState.value = {
+      status: "success",
+      title: "Success",
+      message: "Profile updated successfully!"
+    }
+  }).catch((err) => {
+    console.log("err", err)
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Failed to update profile."
+    }
   });
 }
+
+watch(uploadedFile, () => {
+  previewURL.value = URL.createObjectURL(uploadedFile.value);
+})
 </script>

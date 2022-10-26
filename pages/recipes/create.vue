@@ -29,7 +29,7 @@
                 <img :src="url" :alt="index" class="rounded-xl object-cover w-12 h-12" />
                 <div class="flex flex-col justify-center">
                   <span class="font-bold truncated">{{
-                  uploadedFiles[index].name
+                      uploadedFiles[index].name
                   }}</span>
                   <span>{{ formatBytes(uploadedFiles[index].size) }}</span>
                 </div>
@@ -91,7 +91,7 @@
 
         <!-- Recipe Additional Information - Serving Size, Expected Cooking Time, Difficulty -->
         <div class="mt-5">
-          <div class="grid grid-cols-3 gap-5">
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div class="flex flex-col">
               <label for="search" class="label-title text-slate-600">Serving size</label>
               <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded" name="servingSize" />
@@ -101,7 +101,7 @@
               <label for="search" class="label-title text-slate-600">Expected cooking time</label>
               <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded" name="cookingTime" />
               <span class="text-red-500 text-sm">{{
-              errors.cookingTime
+                  errors.cookingTime
               }}</span>
             </div>
             <div class="flex flex-col">
@@ -117,7 +117,7 @@
 
         <div class="form-control my-2.5">
           <label class="label-title text-slate-600">Instructions</label>
-          <button class="btn mt-2" @click.prevent="addStep">Add a step</button>
+          <button class="btn mt-2 grey-color" @click.prevent="addStep">Add a step</button>
           <div v-for="(instructionStep, index) in instructionsSteps" class="mt-5">
             <div class="w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
               <div class="flex justify-between items-center py-2 px-3 border-b dark:border-gray-600">
@@ -135,9 +135,13 @@
           </div>
         </div>
 
-        <button class="btn mt-2">CREATE</button>
+        <div class="w-full mt-5 text-right"><button class="btn primary-color rounded-full">Create Recipe</button>
+
+        </div>
       </Form>
     </div>
+    <input type="checkbox" id="my-modal" class="modal-toggle" ref="cbStatusModal" />
+    <StatusModal modalID="my-modal" :modalState="modalState" />
   </div>
 </template>
 
@@ -163,6 +167,15 @@ let searchTerm = ref("");
 let selectedIngredients = ref(new Object());
 
 let instructionsSteps = ref([]);
+
+const cbStatusModal = ref(null);
+
+const modalState = ref({
+  status: "loading",
+  title: "Loading",
+  message: "Please wait..."
+});
+
 
 const searchIngredients = computed(() => {
   if (searchTerm.value === "") {
@@ -244,27 +257,44 @@ const updateIngredientSelect = (e, key) => {
 };
 
 const handleSubmit = async (values) => {
-  // console.log(values);
-  // if (uploadedFiles.value.length === 0) {
-  //     alert("Please upload at least one image");
-  //     return;
-  // }
+  console.log(values);
+  if (uploadedFiles.value.length === 0) {
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Please upload at least one image."
+    }
+    cbStatusModal.value.checked = true;
 
-  // if (Object.keys(selectedIngredients.value).length === 0) {
-  //     alert("Please select at least one ingredient");
-  //     return;
-  // }
+    return;
+  }
 
-  // if (instructionsSteps.value.length === 0) {
-  //     alert("Please specify at least one step");
-  //     return;
-  // }
+  if (Object.keys(selectedIngredients.value).length === 0) {
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Please select at least one ingredient."
+    }
+    cbStatusModal.value.checked = true;
+    return;
+  }
 
-  // let temp = {
-  //     ...values,
-  //     ingredientsNeeded: selectedIngredients.value,
-  //     instructions: instructionsSteps.value,
-  // }
+  if (instructionsSteps.value.length === 0) {
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Please specify at least one step."
+    }
+    cbStatusModal.value.checked = true;
+    return;
+  }
+
+  modalState.value = {
+    status: "loading",
+    title: "Loading",
+    message: "Please wait..."
+  }
+  cbStatusModal.value.checked = true;
 
   // Upload files to S3
   let formData = new FormData();
@@ -280,7 +310,7 @@ const handleSubmit = async (values) => {
   });
 
   // update db -> send to api
-  await useFetch("/api/createRecipe", {
+  $fetch("/api/createRecipe", {
     method: "POST",
     body: {
       ...values,
@@ -288,6 +318,18 @@ const handleSubmit = async (values) => {
       instructions: instructionsSteps.value,
       images: uploadResponse.value.urls,
     },
+  }).then((res) => {
+    modalState.value = {
+      status: "success",
+      title: "Success",
+      message: "Receipe created successfully!"
+    }
+  }).catch((err) => {
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Failed to create recipe."
+    }
   });
 };
 </script>

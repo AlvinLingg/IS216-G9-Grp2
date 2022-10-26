@@ -1,13 +1,11 @@
 <script setup>
-import { string } from 'yup';
-
 const props = defineProps({
     modalState: {
         type: Object,
         required: true,
     },
     modalID: {
-        type: string,
+        type: String,
         require: true
     }
 })
