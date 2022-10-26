@@ -83,8 +83,11 @@
 </template>
 
 <script setup>
-import intolerances from "../data/intolerances.json";
-import cuisines from "../data/cuisines.json";
+import intolerancesData from "../data/intolerances.json";
+import cuisinesData from "../data/cuisines.json";
+
+const intolerances = ref(intolerancesData);
+const cuisines = ref(cuisinesData);
 
 let sortOptions = {
     "popularity": "Popularity",
@@ -148,3 +151,6 @@ watch(offset, async () => {
 
 
 </script>
+<style>
+
+</style>

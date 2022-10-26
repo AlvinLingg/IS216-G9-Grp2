@@ -19,3 +19,7 @@
 .grey-color {
   @apply border-[#f6f6f6] bg-[#f6f6f6] text-[#3d4451] hover:bg-[#e7e7e8] hover:border-[#e7e7e8];
 }
+
+.spinner {
+  @apply w-16 h-16 border-4 border-blue-400 border-solid rounded-full animate-spin mx-auto;
+}

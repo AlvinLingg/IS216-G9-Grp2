@@ -86,6 +86,27 @@ export const getPopularRecipes = async (apiIndex, number, offset) => {
   return data;
 };
 
+export const getRecipeInformation = async (apiIndex, id) => {
+  let data = $fetch(`/recipes/${id}/information`, {
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return getRecipeInformation(apiIndex + 1, id);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
 export const getRecipeInformationBulk = async (apiIndex, ids) => {
   let data = $fetch("/recipes/informationBulk", {
     method: "GET",
@@ -101,6 +122,27 @@ export const getRecipeInformationBulk = async (apiIndex, ids) => {
     .catch((err) => {
       if (apiIndex < rotatingApiKey.length - 1) {
         return getRecipeInformationBulk(apiIndex + 1, ids);
+      } else {
+        return null;
+      }
+    });
+  return data;
+};
+
+export const analyzeRecipeInstructions = async (apiIndex, id) => {
+  let data = $fetch(`/recipes/${id}/analyzedInstructions`, {
+    method: "GET",
+    baseURL: baseURL,
+    params: {
+      apiKey: rotatingApiKey[apiIndex],
+    },
+  })
+    .then((res) => {
+      return res;
+    })
+    .catch((err) => {
+      if (apiIndex < rotatingApiKey.length - 1) {
+        return analyzeRecipeInstructions(apiIndex + 1, id);
       } else {
         return null;
       }

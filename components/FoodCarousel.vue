@@ -11,7 +11,7 @@ const props = defineProps({
     type: String,
   },
   recipes: {
-    type: String,
+    type: Object,
   },
 });
 // Initialize isFavored
@@ -84,16 +84,12 @@ const handleClick = async () => {
       <div class="card-body">
         <h2 class="card-title">
           {{ props.recipes.title }}
-          <div
-            class="badge cursor-pointer bg-transparent"
-            :class="{
-              'text-red-600': liked,
-              'hover:text-gray-600': liked,
-              'text-gray-600': !liked,
-              'hover:text-red-600': !liked,
-            }"
-            @click="handleClick"
-          >
+          <div class="badge cursor-pointer bg-transparent" :class="{
+            'text-red-600': liked,
+            'hover:text-gray-600': liked,
+            'text-gray-600': !liked,
+            'hover:text-red-600': !liked,
+          }" @click="handleClick">
             <heart-solid class="text-xs" />
             <span class="pl-1" v-if="!liked">Favorite</span>
             <span class="pl-1" v-else>Favorited</span>
@@ -101,42 +97,27 @@ const handleClick = async () => {
         </h2>
         <p class="text-gray-500">By: {{ props.recipes.sourceName }}</p>
         <div class="card-actions mt-5">
-          <div
-            class="badge badge-outline"
-            v-if="
-              props.recipes.vegetarian && props.recipes.vegetarian.length != 0
-            "
-          >
+          <div class="badge badge-outline" v-if="
+            props.recipes.vegetarian && props.recipes.vegetarian.length != 0
+          ">
             Vegetarian
           </div>
-          <div
-            class="badge badge-outline"
-            v-if="props.recipes.vegan && props.recipes.vegan.length != 0"
-          >
+          <div class="badge badge-outline" v-if="props.recipes.vegan && props.recipes.vegan.length != 0">
             Vegan
           </div>
-          <div
-            class="badge badge-outline"
-            v-if="
-              props.recipes.glutenFree && props.recipes.glutenFree.length != 0
-            "
-          >
+          <div class="badge badge-outline" v-if="
+            props.recipes.glutenFree && props.recipes.glutenFree.length != 0
+          ">
             Gluten-Free
           </div>
-          <div
-            class="badge badge-outline"
-            v-if="
-              props.recipes.dairyFree && props.recipes.dairyFree.length != 0
-            "
-          >
+          <div class="badge badge-outline" v-if="
+            props.recipes.dairyFree && props.recipes.dairyFree.length != 0
+          ">
             Dairy-Free
           </div>
-          <div
-            class="badge badge-outline"
-            v-if="
-              props.recipes.sustainable && props.recipes.sustainable.length != 0
-            "
-          >
+          <div class="badge badge-outline" v-if="
+            props.recipes.sustainable && props.recipes.sustainable.length != 0
+          ">
             Sustainable
           </div>
         </div>
@@ -154,4 +135,6 @@ const handleClick = async () => {
 
 <script></script>
 
-<style></style>
+<style>
+
+</style>

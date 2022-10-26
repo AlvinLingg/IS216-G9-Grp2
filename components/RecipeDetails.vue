@@ -3,28 +3,34 @@ function capitalizeFirstLetter(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const props = defineProps(["recipes", "instructions"]);
+const props = defineProps({
+  recipes: {
+    type: Object,
+    required: true,
+  },
+  instructions: {
+    type: Object,
+    required: true,
+  },
+});
 </script>
 <template>
-  <div
-    class="h-[750px] lg:h-[500px] xl:h-[600px]"
-    :class="{ 'h-[450px]': instructions.length == 0 }"
-  >
+  <div class="h-[750px] lg:h-[500px] xl:h-[600px]" :class="{ 'h-[450px]': instructions.length == 0 }">
     <div class="h-fit">
       <h1 class="text-3xl font-semibold leading-relaxed">
         {{ props.recipes.title }}
       </h1>
       <p class="text-s text-gray-500">
         {{
-          props.recipes.dishTypes.length != 0
-            ? capitalizeFirstLetter(props.recipes.dishTypes[0])
-            : "Others"
+            props.recipes.dishTypes.length != 0
+              ? capitalizeFirstLetter(props.recipes.dishTypes[0])
+              : "Others"
         }}
         •
         {{
-          props.recipes.readyInMinutes.length != 0
-            ? props.recipes.readyInMinutes
-            : "Nil"
+            props.recipes.readyInMinutes.length != 0
+              ? props.recipes.readyInMinutes
+              : "Nil"
         }}
         minutes •
         {{ props.recipes.servings.length != 0 ? props.recipes.servings : ">1" }}
@@ -41,10 +47,7 @@ const props = defineProps(["recipes", "instructions"]);
     </div>
     <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
     <div class="overflow-auto max-h-[47%] lg:max-h-[35%]">
-      <ul
-        class="leading-loose text-s text-gray-500 pr-3"
-        v-if="instructions.length != 0"
-      >
+      <ul class="leading-loose text-s text-gray-500 pr-3" v-if="instructions.length != 0">
         <li class="mb-3" v-for="step in props.instructions[0].steps">
           <p class="font-semibold pb-2">Step {{ step.number }}</p>
           <p class="leading-tight">{{ step.step }}</p>
