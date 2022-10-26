@@ -12,11 +12,14 @@ export default defineEventHandler(async (event) => {
       vote: body.vote,
     },
   };
-  db.put(params, (err, data) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(data);
-    }
+  const result = new Promise((resolve, reject) => {
+    db.put(params, (err, data) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(data);
+      }
+    });
   });
+  return result;
 });

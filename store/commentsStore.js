@@ -2,6 +2,10 @@ import { defineStore } from "pinia";
 
 export const useCommentsStore = defineStore("comments", () => {
   const comments = ref([]);
+  const commentsScore = ref({});
+  function setCommentsScore(scoreObject) {
+    commentsScore.value = scoreObject;
+  }
   function setComments(newComments) {
     comments.value = newComments;
   }
@@ -42,5 +46,11 @@ export const useCommentsStore = defineStore("comments", () => {
     }
   }
 
-  return { comments, getDateDifference, setComments };
+  return {
+    comments,
+    commentsScore,
+    getDateDifference,
+    setComments,
+    setCommentsScore,
+  };
 });
