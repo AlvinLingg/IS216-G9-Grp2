@@ -1,19 +1,15 @@
 <script setup>
 import AngleLine from "~icons/clarity/angle-line";
 import { useUserStore } from "~/store/userStore";
+import { useCommentsStore } from "~/store/commentsStore";
 
 const props = defineProps({
   commentId: {
     type: String,
   },
-  userVote: {
-    type: Number,
-  },
-  voteCount: {
-    type: Number,
-  },
 });
 
+const commentsStore = useCommentsStore();
 const route = useRoute();
 const rid = route.params.rid;
 const userStore = useUserStore();
@@ -61,9 +57,8 @@ const postVoteToApi = (voteValue) => {
     initialCache: false,
   });
 };
-
-vote.value = props.userVote;
-voteCount.value = props.voteCount;
+vote.value = commentsStore.commentsScore.value[props.commentId].userVote;
+voteCount.value = commentsStore.commentsScore.value[props.commentId].voteCount;
 </script>
 
 <template>

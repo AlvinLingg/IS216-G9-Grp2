@@ -4,28 +4,28 @@ export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const params = {
     TableName: "commentVotes",
-    IndexName: "commentId-index",
-    KeyConditionExpression: "commentId = :commentId",
+    IndexName: "recipeId-index",
+    KeyConditionExpression: "recipeId = :recipeId",
     ExpressionAttributeValues: {
-      ":commentId": query.commentId,
+      ":recipeId": query.recipeId,
     },
   };
 
-  const results = { userVote: 0, voteCount: 0 };
+  const results = {};
 
   await db
     .query(params)
     .promise()
     .then((data) => {
-      let voteCount = 0;
-      console.log("data", data.Items);
       data.Items.forEach((item) => {
-        voteCount += item.vote;
-        if (query.userId === item.userId) {
-          results.userVote = item.vote;
+        if (!(item.commentId in results)) {
+          results[item.commentId] = { userVote: 0, voteCount: 0 };
+        }
+        results[item.commentId].voteCount += item.vote;
+        if (item.userId === query.userId) {
+          results[item.commentId].userVote = item.vote;
         }
       });
-      results.voteCount = voteCount;
     })
     .catch((error) => {
       console.log(error);

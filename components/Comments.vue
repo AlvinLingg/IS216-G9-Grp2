@@ -1,8 +1,12 @@
 <script setup>
 import { useCommentsStore } from "~/store/commentsStore";
+import { useUserStore } from "~/store/userStore";
 
 const route = useRoute();
 const recipeId = route.params.rid;
+const userStore = useUserStore();
+const commentsStore = useCommentsStore();
+
 const {
   data: commentsArray,
   pending,
@@ -13,7 +17,16 @@ const {
   initialCache: false,
 });
 
-const commentsStore = useCommentsStore();
+const { data: voteData } = await useFetch("/api/getCommentScore", {
+  method: "GET",
+  params: {
+    recipeId: recipeId,
+    userId: !userStore.user ? null : userStore.user.uniqueUserId,
+  },
+  initialCache: false,
+});
+commentsStore.setCommentsScore(voteData);
+
 commentsStore.setComments([]);
 commentsStore.setComments(commentsArray.value);
 const childComments = ref([]);
