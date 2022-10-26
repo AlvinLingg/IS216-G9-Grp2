@@ -101,7 +101,7 @@
       >
         <div
           v-if="userStore.user"
-          class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
+          class="text-center p-10 bg-[#f3f4f6] rounded-3xl"
         >
           <div v-if="favoritedRecipes.length == 0">
             <h1 class="text-3xl font-bold">Oops!</h1>
@@ -114,14 +114,18 @@
               Discover Recipes
             </button>
           </div>
-          <div v-else>
+          <div
+            class="grid gap-4 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 xs:grid-cols-1"
+            v-else
+          >
             <RecipeCard
-              v-for="favorites in favoritedRecipes"
-              :recipe="favorites['rid']"
+              v-for="recipe in recipesToDisplay"
+              :recipe="recipe"
               @click="navigateTo(`/recipes/${recipe.id}`)"
             />
           </div>
         </div>
+
         <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
           <h1 class="text-3xl font-bold">Oops!</h1>
           <p class="mt-3">
@@ -139,11 +143,14 @@
 
 <script setup>
 import { useUserStore } from "~~/store/userStore";
+import { useApiStore } from "~/store/apiStore";
+const apiStore = useApiStore();
 const route = useRoute();
 const openTab = ref(0);
 const userProfile = ref({});
 const userStore = useUserStore();
 var favoritedRecipes = ref([]);
+var recipesToDisplay = ref([]);
 
 const fetchUserProfile = async () => {
   const { data } = await useFetch("/api/getProfileByHandle", {
@@ -161,20 +168,30 @@ const toggleTab = (index) => {
   openTab.value = index;
 };
 
-const getUserFavorites = async () => {
-  const { data, error } = await useFetch("/api/getFavoriteByUID", {
-    initialCache: false,
-    method: "GET",
-    query: {
-      uid: `${userStore.user.uniqueUserId.slice(9)}`,
-    },
-  });
-  return data;
-};
+// Likes
+if (userProfile.value != undefined) {
+  const getUserFavorites = async () => {
+    const { data, error } = await useFetch("/api/getFavoriteByUID", {
+      initialCache: false,
+      method: "GET",
+      query: {
+        uid: `${userProfile.value["uniqueUserId"].slice(9)}`,
+      },
+    });
+    return data;
+  };
 
-favoritedRecipes = await getUserFavorites();
+  favoritedRecipes = await getUserFavorites();
+  let recipes;
 
-//make a recipesToDisplay and send to recipe card to display
-//make the same shit for profiles who were visited when not logged in,
-// need to get the profilehandle and get RID by their profile handle
+  for (let i = 0; i < favoritedRecipes.value.length; i++) {
+    recipes = ref(
+      await getRecipeInformation(
+        apiStore.apiIndex,
+        favoritedRecipes.value[i].rid
+      )
+    );
+    recipesToDisplay.value.push(recipes.value);
+  }
+}
 </script>
