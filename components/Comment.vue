@@ -17,6 +17,15 @@ const props = defineProps({
   },
 });
 
+const { data: voteData } = await useFetch("/api/getCommentScore", {
+  method: "GET",
+  params: {
+    commentId: props.commentId,
+    userId: !userStore.user ? null : userStore.user.uniqueUserId,
+  },
+  initialCache: false,
+});
+
 const toggleCollapse = () => {
   expanded.value = !expanded.value;
 };
@@ -160,6 +169,11 @@ const dateDifference = commentsStore.getDateDifference(
 
         <!-- REPLY/DELETE BUTTONS -->
         <div class="comment-menu">
+          <CommentVote
+            :commentId="props.commentId"
+            :userVote="voteData.userVote"
+            :voteCount="voteData.voteCount"
+          />
           <a
             v-if="!userStore.user"
             href="#login-register-modal"

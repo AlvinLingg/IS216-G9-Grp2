@@ -12,7 +12,6 @@ export default defineEventHandler(async (event) => {
     .scan(params)
     .promise()
     .then((data) => {
-      console.log(data.Items);
       data.Items.forEach((item) => {
         scanResults.push(item.profileHandle);
       });

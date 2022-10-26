@@ -109,7 +109,7 @@ const searchQuery = ref("");
         <li>
           <Form>
             <Field name="search" type="text" placeholder="Search for a recipe"
-              class="input input-bordered input-sm w-full max-w-xs mx-auto text-center" v-model="searchQuery"
+              class="input input-bordered input-sm w-full max-w-xs mx-auto text-center md:hidden" v-model="searchQuery"
               @keyup.enter="navigateTo(`/search?q=${searchQuery}`)" />
           </Form>
         </li>

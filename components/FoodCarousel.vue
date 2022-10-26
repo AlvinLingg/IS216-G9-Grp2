@@ -18,10 +18,10 @@ const props = defineProps({
 let isFavored;
 
 // Initialize the state of the heart icon
-let liked = ref(false);
+const liked = ref(false);
 
 // Initialize the state of the error toast
-let hideToast = ref(true);
+const hideToast = ref(true);
 
 const getUserFavorites = async () => {
   const { data, error } = await useFetch("/api/getFavorite", {
