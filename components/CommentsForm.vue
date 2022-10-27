@@ -6,7 +6,7 @@ import { Form, Field } from "vee-validate";
 const userStore = useUserStore();
 const route = useRoute();
 const recipeId = route.params.rid;
-const emit = defineEmits(["refresh"]);
+const emit = defineEmits(["refreshComments"]);
 
 const validateComment = (value) => {
   if (!value) {

@@ -24,6 +24,26 @@ export default defineEventHandler(async (event) => {
   };
   let status = null;
 
+  db.put(
+    {
+      TableName: "commentVotes",
+      Item: {
+        ridCidUid: `${body.recipeId}-${body.commentId}-${body.userId}`,
+        recipeId: body.recipeId,
+        commentId: body.commentId,
+        userId: body.userId,
+        vote: 1,
+      },
+    },
+    (err, data) => {
+      if (err) {
+        status = err;
+      } else {
+        status = data;
+      }
+    }
+  );
+
   await db
     .put(postRequestParams)
     .promise()

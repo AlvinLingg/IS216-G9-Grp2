@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
   const params = {
     TableName: "commentVotes",
     Item: {
-      ridCidUid: body.ridCidUid,
+      ridCidUid: `${body.recipeId}-${body.commentId}-${body.userId}`,
       recipeId: body.recipeId,
       commentId: body.commentId,
       userId: body.userId,

@@ -56,6 +56,10 @@ const addComment = async (values) => {
       recipeId: props.currentComment.recipeId,
       userId: userStore.user.uniqueUserId,
     };
+    commentsStore.commentsScore.value[commentId] = {
+      userVote: 1,
+      voteCount: 1,
+    };
     toastMessage.value = "Comment successfully submitted!";
     showToast();
     showReply.value = false;
@@ -159,7 +163,7 @@ const dateDifference = commentsStore.getDateDifference(
         </div>
 
         <!-- REPLY/DELETE BUTTONS -->
-        <div class="comment-menu">
+        <div class="comment-menu inline-flex">
           <CommentVote :commentId="props.commentId" />
           <a
             v-if="!userStore.user"
@@ -285,6 +289,8 @@ const dateDifference = commentsStore.getDateDifference(
 }
 .comment-menu-item {
   cursor: pointer;
+  margin-left: 5px;
+  margin-right: 5px;
 }
 .comment-menu-item:hover {
   text-decoration: underline;

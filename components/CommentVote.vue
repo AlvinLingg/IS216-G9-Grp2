@@ -48,7 +48,6 @@ const postVoteToApi = (voteValue) => {
   useFetch("/api/voteComment", {
     method: "POST",
     body: {
-      ridCidUid: `${rid}-${props.commentId}-${userStore.user.uniqueUserId}`,
       recipeId: rid,
       commentId: props.commentId,
       userId: userStore.user.uniqueUserId,
