@@ -17,17 +17,14 @@ const {
   initialCache: false,
 });
 
-const { data: voteData, refresh: refreshVotesFetch } = await useFetch(
-  "/api/getCommentScore",
-  {
-    method: "GET",
-    params: {
-      recipeId: recipeId,
-      userId: !userStore.user ? null : userStore.user.uniqueUserId,
-    },
-    initialCache: false,
-  }
-);
+const { data: voteData } = await useFetch("/api/getCommentScore", {
+  method: "GET",
+  params: {
+    recipeId: recipeId,
+    userId: !userStore.user ? null : userStore.user.uniqueUserId,
+  },
+  initialCache: false,
+});
 commentsStore.setCommentsScore(voteData);
 
 commentsStore.setComments([]);
@@ -42,13 +39,10 @@ const populateCommentsStore = () => {
       tempArray.push(element);
     });
   childComments.value = tempArray;
-
-  commentsStore.setCommentsScore(voteData);
 };
 
 const refreshComments = () => {
   refreshCommentsFetch();
-  refreshVotesFetch();
 };
 
 watch(commentsArray, () => {

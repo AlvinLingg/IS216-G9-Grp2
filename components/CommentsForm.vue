@@ -2,7 +2,9 @@
 import { v1 as uuidv1 } from "uuid";
 import { useUserStore } from "~/store/userStore";
 import { Form, Field } from "vee-validate";
+import { useCommentsStore } from "~/store/commentsStore";
 
+const commentsStore = useCommentsStore();
 const userStore = useUserStore();
 const route = useRoute();
 const recipeId = route.params.rid;
@@ -17,18 +19,23 @@ const validateComment = (value) => {
 
 const addComment = async (values) => {
   let commentBody = values.commentBody;
+  let commentId = uuidv1() + recipeId;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
     body: {
       recipeId: recipeId,
       parentCommentId: "0",
-      commentId: uuidv1() + recipeId,
+      commentId: commentId,
       userId: userStore.user.uniqueUserId,
       commentBody: commentBody,
     },
     initialCache: false,
   });
   if (data) {
+    commentsStore.commentsScore.value[commentId] = {
+      userVote: 1,
+      voteCount: 1,
+    };
     toastMessage.value = "Comment successfully submitted!";
     showToast();
     emit("refreshComments");
