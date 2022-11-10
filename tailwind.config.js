@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const { screens } = require("tailwindcss/defaultTheme");
+
 module.exports = {
   content: [
     `components/**/*.{vue,js}`,
@@ -11,7 +13,10 @@ module.exports = {
     `./nuxt.config.{js,ts}`,
   ],
   theme: {
-    extend: {},
+    screens: {
+      xs: "520px",
+      ...screens,
+    },
   },
   daisyui: {
     themes: [
