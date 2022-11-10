@@ -1,6 +1,17 @@
 <script setup>
 import HeartSolid from "~icons/clarity/heart-solid";
+import ShareSolid from "~icons/clarity/share-solid";
+import Twitter from "~icons/cib/twitter";
+import FacebookF from "~icons/cib/facebook-f";
+import Reddit from "~icons/cib/reddit";
+
 import { useUserStore } from "~~/store/userStore";
+
+const route = useRoute();
+console.log(route.path);
+
+// URL to Share
+const UrlPath = "https://wad2-nomnom.vercel.app";
 
 const userStore = useUserStore();
 const props = defineProps({
@@ -77,9 +88,11 @@ const handleClick = async () => {
 </script>
 <template>
   <div>
-    <div class="card bg-base-100 shadow-xl w-full sm:w-4/5 md:w-3/5 lg:w-full">
+    <div
+      class="card bg-base-100 shadow-xl w-full overflow-visible sm:w-4/5 md:w-3/5 lg:w-full"
+    >
       <figure class="relative">
-        <img :src="props.imageURL" />
+        <img :src="props.imageURL" class="rounded-xl" />
         <div
           class="rounded-full p-4 cursor-pointer bg-white absolute right-6 top-6"
           :class="{
@@ -94,14 +107,14 @@ const handleClick = async () => {
           <heart-solid class="text-xl" />
         </div>
       </figure>
-      <div class="card-body">
+      <div class="card-body p-8 pb-5">
         <h2 class="card-title">
           {{ props.recipes.title }}
         </h2>
         <p class="text-gray-500">By: {{ props.recipes.sourceName }}</p>
-        <div class="card-actions mt-5">
+        <div class="mt-2">
           <div
-            class="badge badge-outline"
+            class="badge badge-outline mr-3"
             v-if="
               props.recipes.vegetarian && props.recipes.vegetarian.length != 0
             "
@@ -109,13 +122,13 @@ const handleClick = async () => {
             Vegetarian
           </div>
           <div
-            class="badge badge-outline"
+            class="badge badge-outline mr-3"
             v-if="props.recipes.vegan && props.recipes.vegan.length != 0"
           >
             Vegan
           </div>
           <div
-            class="badge badge-outline"
+            class="badge badge-outline mr-3"
             v-if="
               props.recipes.glutenFree && props.recipes.glutenFree.length != 0
             "
@@ -123,7 +136,7 @@ const handleClick = async () => {
             Gluten-Free
           </div>
           <div
-            class="badge badge-outline"
+            class="badge badge-outline mr-3"
             v-if="
               props.recipes.dairyFree && props.recipes.dairyFree.length != 0
             "
@@ -131,7 +144,7 @@ const handleClick = async () => {
             Dairy-Free
           </div>
           <div
-            class="badge badge-outline"
+            class="badge badge-outline mr-3"
             v-if="
               props.recipes.sustainable && props.recipes.sustainable.length != 0
             "
@@ -139,8 +152,39 @@ const handleClick = async () => {
             Sustainable
           </div>
         </div>
+        <div class="card-actions justify-end mt-3">
+          <div class="dropdown dropdown-bottom dropdown-end">
+            <label tabindex="0" class="btn m-1">
+              <share-solid class="text-xl mr-3" /> Share
+            </label>
+            <ul
+              tabindex="0"
+              class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <a
+                  :href="`https://www.facebook.com/sharer/sharer.php?u=${UrlPath}${route.path}`"
+                  ><facebook-f class="text-xl mr-1" />Facebook</a
+                >
+              </li>
+              <li>
+                <a
+                  :href="`https://twitter.com/share?url=${UrlPath}${route.path}&text=Check%20this%20recipe%20out!%20%0A%0A${props.recipes.title}:%0A%0A`"
+                  ><twitter class="text-xl mr-1" />Twitter</a
+                >
+              </li>
+              <li>
+                <a
+                  :href="`https://reddit.com/submit?url=Check%20this%20recipe%20out!%20%0A%0A${UrlPath}${route.path}&title=${props.recipes.title}`"
+                  ><reddit class="text-xl mr-1" />Reddit</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
+
     <div
       class="toast toast-center justify-center"
       :class="{ hidden: hideToast }"
@@ -153,7 +197,5 @@ const handleClick = async () => {
     </div>
   </div>
 </template>
-
-<script></script>
 
 <style></style>
