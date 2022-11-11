@@ -174,7 +174,7 @@ export const findByIngredients = async (apiIndex, ingredients, number) => {
   return data;
 };
 
-export const searchRecipe = async (apiIndex, query, number) => {
+export const searchRecipe = async (apiIndex, query, number, offset) => {
   let data = $fetch("/recipes/complexSearch", {
     initialCache: false,
     method: "GET",
@@ -183,6 +183,7 @@ export const searchRecipe = async (apiIndex, query, number) => {
       apiKey: rotatingApiKey[apiIndex],
       query: query,
       number: number,
+      offset: offset,
     },
   })
     .then((res) => {
@@ -190,7 +191,7 @@ export const searchRecipe = async (apiIndex, query, number) => {
     })
     .catch((err) => {
       if (apiIndex < rotatingApiKey.length - 1) {
-        return searchRecipe(apiIndex + 1, query, number);
+        return searchRecipe(apiIndex + 1, query, number, offset);
       } else {
         return null;
       }

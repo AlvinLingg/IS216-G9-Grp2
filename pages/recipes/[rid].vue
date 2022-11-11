@@ -16,11 +16,11 @@ const instructions = ref(
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
-              <nuxt-link to="./">Recipes</nuxt-link>
+              <nuxt-link to="/explore">Recipes</nuxt-link>
             </li>
             <li>
               <span class="text-ellipsis w-36 overflow-hidden">{{
-                recipes.title
+                  recipes.title
               }}</span>
             </li>
           </ul>
@@ -28,13 +28,9 @@ const instructions = ref(
       </div>
       <div class="grid grid-cols-1 p-6 lg:grid-cols-12 lg:p-6">
         <div class="lg:col-span-4">
-          <FoodCarousel
-            :imageURL="
-              recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
-            "
-            :rid="rid"
-            :recipes="recipes"
-          />
+          <FoodCarousel :imageURL="
+            recipes.image.length != 0 ? recipes.image : '../assets/Img404.PNG'
+          " :rid="rid" :recipes="recipes" />
         </div>
         <div class="mt-10 gap-y-0 ml-0 lg:mt-0 lg:col-span-8 lg:ml-12">
           <RecipeDetails :recipes="recipes" :instructions="instructions" />
@@ -47,11 +43,10 @@ const instructions = ref(
       </div>
     </div>
     <div class="container mx-auto" v-else>
-      <NoExist
-        errorTitle="Recipe Not Found"
-        errorMessage="This recipe does not exist or was removed!"
-      />
+      <NoExist errorTitle="Recipe Not Found" errorMessage="This recipe does not exist or was removed!" />
     </div>
   </div>
 </template>
-<style></style>
+<style>
+
+</style>

@@ -9,33 +9,19 @@
         <div class="mt-5">
           <label class="label-title text-slate-600"> Upload Image </label>
           <div
-            class="w-32 h-32 border-2 border-dashed rounded-xl p-8 mt-2 cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500"
+            class="w-32 h-32 border-2 border-dashed rounded-xl cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500 mt-2"
             @click="$refs.fileUploadInput.click()">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}"
-              stroke="currentColor">
-              <path strokeLinecap=" round" strokeLinejoin="round"
+            <img v-if="uploadedFile !== null || previewURL !== null" :src="previewURL" alt=""
+              class="rounded-xl hover:opacity-75 object-cover w-full h-full" />
+            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}"
+              class="p-8" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round"
                 d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
             </svg>
           </div>
 
-          <input class="hidden" type="file" ref="fileUploadInput" accept="image/png, image/gif, image/jpeg" multiple
+          <input class="hidden" type="file" ref="fileUploadInput" accept="image/png, image/gif, image/jpeg"
             @change="handleFileSelection" />
-
-          <div class="grid grid-cols-3 gap-5 mt-5">
-            <div v-for="(url, index) in objectURLs" class="w-full border p-5 rounded-xl flex indicator">
-              <span class="indicator-item badge bg-[#e94249] border-[#e94249] py-3 cursor-pointer"
-                @click="removeImage(index)">x</span>
-              <div class="flex flex-row gap-5">
-                <img :src="url" :alt="index" class="rounded-xl object-cover w-12 h-12" />
-                <div class="flex flex-col justify-center">
-                  <span class="font-bold truncated">{{
-                      uploadedFiles[index].name
-                  }}</span>
-                  <span>{{ formatBytes(uploadedFiles[index].size) }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
           <span class="text-red-500 text-sm">{{ errors.images }}</span>
         </div>
 
@@ -44,7 +30,7 @@
           <div class="grid grid-cols-3 gap-5">
             <div class="flex flex-col col-span-3">
               <label for="search" class="label-title text-slate-600">Recipe Name</label>
-              <Field type="text" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded" name="recipeName" />
+              <Field type="text" class="p-3 mb-0.5 mt-2 w-full border border-gray-300  rounded-lg" name="recipeName" />
               <span class="text-red-500 text-sm">{{ errors.recipeName }}</span>
             </div>
           </div>
@@ -57,7 +43,7 @@
               Which ingredients do you need?
             </label>
             <input type="text" id="search" placeholder="Type here..." v-model="searchTerm"
-              class="p-3 mb-0.5 w-16S0 border border-gray-300 rounded" />
+              class="p-3 mb-0.5 w-16S0 border border-gray-300  rounded-lg" />
           </div>
           <ul v-if="searchIngredients.length"
             class="rounded bg-white border border-gray-300 px-4 py-2 space-y-1 z-10 absolute">
@@ -70,23 +56,27 @@
               {{ ingredient }}
             </li>
           </ul>
-          <div class="flex text-lg pt-2 items-center" v-for="(item, key, index) in selectedIngredients" :key="index">
-            <input class="input input-bordered w-full max-w-xs mr-4" type="number" placeholder="0"
-              @change="updateIngredientInput($event, key)" />
-            <select class="select select-bordered w-full max-w-xs mr-4" @change="updateIngredientSelect($event, key)">
-              <option value="teaspoon">tsp</option>
-              <option value="tablespoon">tbsp</option>
-              <option value="millilitre">ml</option>
-              <option value="litre">l</option>
-              <option value="milligram">mg</option>
-              <option value="gram">g</option>
-              <option value="kilogram">kg</option>
-            </select>
-            <span>of&nbsp;</span>
-            <span class="mr-4">{{ key }}</span>
-            <span class="badge py-3 cursor-pointer bg-[#e94249] border-[#e94249]"
-              @click="removeIngredient(key)">remove</span>
+          <div v-for="(item, key, index) in selectedIngredients" :key="index">
+            <div class="flex text-lg pt-2 items-center">
+              <input class="input input-bordered w-full max-w-xs mr-4  rounded-lg" type="number" placeholder="0"
+                min="0.01" @change="updateIngredientInput($event, key)" />
+              <select class="select select-bordered w-full max-w-xs mr-4" @change="updateIngredientSelect($event, key)">
+                <option value="teaspoon">tsp</option>
+                <option value="tablespoon">tbsp</option>
+                <option value="millilitre">ml</option>
+                <option value="litre">l</option>
+                <option value="milligram">mg</option>
+                <option value="gram">g</option>
+                <option value="kilogram">kg</option>
+              </select>
+              <span>of&nbsp;</span>
+              <span class="mr-4">{{ key }}</span>
+              <span class="badge py-3 cursor-pointer bg-[#e94249] border-[#e94249]"
+                @click="removeIngredient(key)">remove</span>
+            </div><span v-if="selectedIngredients[key].error" class="text-red-500 text-sm">Ingredient value must be
+              greater than 0</span>
           </div>
+
         </div>
 
         <!-- Recipe Additional Information - Serving Size, Expected Cooking Time, Difficulty -->
@@ -94,12 +84,14 @@
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div class="flex flex-col">
               <label for="search" class="label-title text-slate-600">Serving size</label>
-              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded" name="servingSize" />
+              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
+                name="servingSize" />
               <span class="text-red-500 text-sm">{{ errors.servingSize }}</span>
             </div>
             <div class="flex flex-col">
               <label for="search" class="label-title text-slate-600">Expected cooking time</label>
-              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded" name="cookingTime" />
+              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
+                name="cookingTime" />
               <span class="text-red-500 text-sm">{{
                   errors.cookingTime
               }}</span>
@@ -154,14 +146,16 @@ import * as yup from "yup";
 // define validation schema
 const schema = yup.object({
   recipeName: yup.string().required("Please enter a recipe name"),
-  servingSize: yup.number().required("Serving size is required"),
-  cookingTime: yup.number().required("Cooking time is required"),
+  servingSize: yup.number().required("Serving size is required").min(1, "Minimum serving size is 1"),
+  cookingTime: yup.number().required("Cooking time is required").min(1, "Minimum cooking time is 1 min"),
   difficulty: yup.string().required("Difficulty is required"),
 });
 
 let fileUploadInput = ref("");
-let uploadedFiles = ref([]);
-let objectURLs = ref([]);
+// let uploadedFiles = ref([]);
+const uploadedFile = ref(null);
+const previewURL = ref(null);
+// let objectURLs = ref([]);
 
 let searchTerm = ref("");
 let selectedIngredients = ref(new Object());
@@ -176,6 +170,9 @@ const modalState = ref({
   message: "Please wait..."
 });
 
+watch(uploadedFile, () => {
+  previewURL.value = URL.createObjectURL(uploadedFile.value);
+});
 
 const searchIngredients = computed(() => {
   if (searchTerm.value === "") {
@@ -194,6 +191,7 @@ const selectIngredient = (ingredient) => {
   selectedIngredients.value[ingredient] = {
     amount: 0,
     unit: "tsp",
+    error: false
   };
   searchTerm.value = "";
 };
@@ -216,53 +214,58 @@ const updateSteps = (e, index) => {
 };
 
 const handleFileSelection = (e) => {
-  // console.log(e.target.files);
-  // console.log(schema);
-  if (e.target.files.length + objectURLs.value.length > 5) {
-    alert("You can only upload 5 images at a time");
-    return;
-  }
+  // if (e.target.files.length + objectURLs.value.length > 5) {
+  //   alert("You can only upload 5 images at a time");
+  //   return;
+  // }
 
-  for (const file of e.target.files) {
-    objectURLs.value.push(URL.createObjectURL(file));
-    uploadedFiles.value.push(file);
-  }
+  // for (const file of e.target.files) {
+  //   objectURLs.value.push(URL.createObjectURL(file));
+  //   uploadedFiles.value.push(file);
+  // }
+  uploadedFile.value = e.target.files[0];
 };
 
-const removeImage = (index) => {
-  objectURLs.value.splice(index, 1);
-  uploadedFiles.value.splice(index, 1);
-};
+// const removeImage = (index) => {
+//   objectURLs.value.splice(index, 1);
+//   uploadedFiles.value.splice(index, 1);
+// };
 
-const formatBytes = (bytes, decimals = 2) => {
-  if (!+bytes) return "0 Bytes";
+// const formatBytes = (bytes, decimals = 2) => {
+//   if (!+bytes) return "0 Bytes";
 
-  const k = 1024;
-  const dm = decimals < 0 ? 0 : decimals;
-  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
+//   const k = 1024;
+//   const dm = decimals < 0 ? 0 : decimals;
+//   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
+//   const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-};
+//   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
+// };
 
 const updateIngredientInput = (e, key) => {
   selectedIngredients.value[key].amount = e.target.value;
-  // console.log("hh", selectedIngredients.value);
+  if (selectedIngredients.value[key].amount === "" || Number(selectedIngredients.value[key].amount) <= 0) {
+    selectedIngredients.value[key].error = true;
+  }
+  else {
+    selectedIngredients.value[key].error = false;
+  }
 };
 
 const updateIngredientSelect = (e, key) => {
   selectedIngredients.value[key].unit = e.target.value;
-  // console.log("ee", selectedIngredients.value);
 };
 
 const handleSubmit = async (values) => {
-  // console.log(values);
-  if (uploadedFiles.value.length === 0) {
+  console.log(values);
+  console.log(selectedIngredients.value);
+
+  if (uploadedFile.value === null) {
     modalState.value = {
       status: "failure",
       title: "Oops!",
-      message: "Please upload at least one image."
+      message: "Please upload an image for your recipe."
     }
     cbStatusModal.value.checked = true;
 
@@ -279,6 +282,21 @@ const handleSubmit = async (values) => {
     return;
   }
 
+  if (Object.values(selectedIngredients.value).filter(x => x.amount <= 0).length > 0) {
+    modalState.value = {
+      status: "failure",
+      title: "Oops!",
+      message: "Please ensure ingredient values are valid."
+    }
+    cbStatusModal.value.checked = true;
+    for (let key in selectedIngredients.value) {
+      if (selectedIngredients.value[key].amount <= 0) {
+        selectedIngredients.value[key].error = true;
+      }
+    }
+    return;
+  }
+
   if (instructionsSteps.value.length === 0) {
     modalState.value = {
       status: "failure",
@@ -289,6 +307,8 @@ const handleSubmit = async (values) => {
     return;
   }
 
+
+
   modalState.value = {
     status: "loading",
     title: "Loading",
@@ -298,9 +318,7 @@ const handleSubmit = async (values) => {
 
   // Upload files to S3
   let formData = new FormData();
-  for (const file of uploadedFiles.value) {
-    formData.append("files", file);
-  }
+  formData.append("files", uploadedFile.value);
   let { data: uploadResponse } = await useFetch("/express/upload", {
     headers: {
       "Content-Disposition": formData,
