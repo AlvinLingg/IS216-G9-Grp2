@@ -1,8 +1,6 @@
 <template>
   <div class="section p-5 max-w-6xl m-auto">
-    <div
-      class="flex flex-col md:flex-row md:flex-row gap-[100px] min-h-[400px] sm:p-10 justify-center"
-    >
+    <div class="flex flex-col md:flex-row md:flex-row gap-[100px] min-h-[400px] sm:p-10 justify-center">
       <div class="self-center">
         <h1 class="text-5xl font-black">NOM.NOM</h1>
         <div class="py-6 text-slate-600">
@@ -13,35 +11,23 @@
           <nuxt-link to="/explore">
             <button class="btn primary-color">Explore</button>
           </nuxt-link>
-          <nuxt-link to="/fridge"
-            ><button class="btn btn-ghost">My Fridge ›</button></nuxt-link
-          >
+          <nuxt-link to="/fridge"><button class="btn btn-ghost">My Fridge ›</button></nuxt-link>
         </div>
       </div>
       <div class="w-full md:w-[40%] rounded-3xl relative">
         <template v-if="recipesOfTheDay !== null">
           <Carousel>
-            <Slide
-              v-for="(recipe, index) in recipesOfTheDay.recipes"
-              :key="index"
-            >
+            <Slide v-for="(recipe, index) in recipesOfTheDay.recipes" :key="index">
               <div class="w-full mx-auto">
                 <nuxt-link :to="`/recipes/${recipe.id}`">
                   <div
-                    class="card bg-base-100 p-2 border rounded-2xl hover:cursor-pointer hover:shadow-md ease-in duration-150 mt-2"
-                  >
-                    <img
-                      class="h-[200px] object-cover rounded-lg"
-                      :src="recipe.image"
-                      alt=""
-                    />
+                    class="card bg-base-100 p-2 border rounded-2xl hover:cursor-pointer hover:shadow-md ease-in duration-150 mt-2">
+                    <img class="h-[200px] object-cover rounded-lg" :src="recipe.image" alt="" />
                     <div class="card-body pt-4 pb-2 px-2 gap-0">
                       <p class="text-[#d54215] font-bold text-xs uppercase">
                         Today's special
                       </p>
-                      <h2
-                        class="card-title truncate block text-md w-[95%] mx-auto"
-                      >
+                      <h2 class="card-title truncate block text-md w-[95%] mx-auto">
                         {{ recipe.title }}
                       </h2>
                       <p class="text-gray-500 text-sm">
@@ -61,21 +47,18 @@
             </template>
           </Carousel>
         </template>
+        <SkeletonRecipeCard :noOfLines="4" v-else />
       </div>
     </div>
     <div class="flex flex-col gap-5 mt-10">
       <h1 class="text-5xl font-bold">Popular recipes</h1>
-      <div
-        class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
-      >
+      <div class="grid gap-6 mt-2 lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 grid-cols-1">
         <template v-if="popularRecipesInfo !== null">
-          <RecipeCard
-            v-for="recipe in Object.values(popularRecipesInfo)"
-            :showIngredients="true"
-            :showPreparationTime="true"
-            :recipe="recipe"
-            @click="navigateTo(`/recipes/${recipe.id}`)"
-          />
+          <RecipeCard v-for="recipe in Object.values(popularRecipesInfo)" :showIngredients="true"
+            :showPreparationTime="true" :recipe="recipe" @click="navigateTo(`/recipes/${recipe.id}`)" />
+        </template>
+        <template v-else>
+          <SkeletonRecipeCard :noOfLines="3" v-for="n in 4" :key="n" />
         </template>
       </div>
       <nuxt-link to="/explore">
