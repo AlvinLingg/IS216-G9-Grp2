@@ -3,25 +3,15 @@
     <h1 class="text-5xl font-bold">What's in my fridge?</h1>
 
     <div class="my-5 gap-4">
-      <input
-        type="text"
-        class="input input-bordered w-full"
-        placeholder="Enter an ingredient"
-        v-model="searchTerm"
-      />
-      <ul
-        v-if="searchIngredients.length"
-        class="rounded bg-white border border-gray-300 px-4 py-2 space-y-1 z-10 absolute"
-      >
+      <input type="text" class="input input-bordered w-full" placeholder="Enter an ingredient" v-model="searchTerm" />
+      <ul v-if="searchIngredients.length"
+        class="rounded bg-white border border-gray-300 px-4 py-2 space-y-1 z-10 absolute">
         <li class="px-1 pt-1 pb-2 font-bold border-b border-gray-200">
           Showing {{ searchIngredients.length }} of
           {{ ingredients.length }} results
         </li>
-        <li
-          v-for="ingredient in searchIngredients"
-          @click="selectIngredient(ingredient)"
-          class="cursor-pointer hover:bg-gray-100 p-1"
-        >
+        <li v-for="ingredient in searchIngredients" @click="selectIngredient(ingredient)"
+          class="cursor-pointer hover:bg-gray-100 p-1">
           {{ ingredient }}
         </li>
       </ul>
@@ -30,24 +20,13 @@
     <div class="mt-5">
       <h2 class="font-bold text-slate-600">Fridge Information</h2>
       <div class="flex flex-wrap gap-2 mt-3">
-        <div
-          v-for="ingredient in selectedIngredients"
+        <div v-for="ingredient in selectedIngredients"
           class="badge primary-color p-5 cursor-pointer hover:bg-[#e94249] hover:border-[#e94249] hover:text-white"
-          @click="removeIngredient(ingredient)"
-        >
+          @click="removeIngredient(ingredient)">
           <span class="mr-2 font-semibold">{{ ingredient }}</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            class="inline-block w-4 h-4 stroke-current"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+            class="inline-block w-4 h-4 stroke-current">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </div>
       </div>
@@ -55,18 +34,11 @@
 
     <div class="mt-5">
       <h2 class="font-bold text-slate-600">Suggested Recipe</h2>
-      <div
-        class="grid gap-6 mt-3 lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 grid-cols-1"
-      >
+      <div class="grid gap-6 mt-3 lg:grid-cols-4 md:grid-cols-3 xs:grid-cols-2 grid-cols-1">
         <template v-if="suggestedRecipes !== undefined">
           <div v-for="recipe in Object.values(suggestedRecipes)">
-            <RecipeCard
-              :showIngredients="true"
-              :showPreparationTime="true"
-              :recipe="recipe"
-              :isFridgeRecipe="true"
-              @click="navigateTo(`/recipes/${recipe.id}`)"
-            />
+            <RecipeCard :showIngredients="true" :showPreparationTime="true" :recipe="recipe" :isFridgeRecipe="true"
+              @click="navigateTo(`/recipes/${recipe.id}`)" />
           </div>
         </template>
       </div>
@@ -84,7 +56,7 @@ const apiStore = useApiStore();
 let selected = ref({});
 let searchTerm = ref("");
 let selectedIngredients = ref(
-  new Set(["Water", "Flour", "Sugar", "Cooking Oil", "Salt"])
+  new Set(["water", "flour", "sugar", "cooking oil", "salt"])
 ); // common pantry items
 let strIngredients = computed(() =>
   Array.from(selectedIngredients.value).join(",")
