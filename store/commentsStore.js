@@ -24,15 +24,15 @@ export const useCommentsStore = defineStore("comments", () => {
       if (diffMins < 1) {
         return "Just now";
       } else if (diffMins < 2) {
-        return `${diffMins} minute ago`;
+        return `${diffMins} min. ago`;
       } else {
-        return `${diffMins} minutes ago`;
+        return `${diffMins} mins ago`;
       }
     } else if (diffHrs < 24) {
       if (diffHrs < 2) {
-        return `${diffHrs} hour ago`;
+        return `${diffHrs} hr. ago`;
       } else {
-        return `${diffHrs} hours ago`;
+        return `${diffHrs} hrs ago`;
       }
     } else if (diffDays < 365) {
       if (diffDays < 2) {
@@ -42,9 +42,9 @@ export const useCommentsStore = defineStore("comments", () => {
       }
     } else {
       if (diffYrs < 2) {
-        return `${diffYrs} year ago`;
+        return `${diffYrs} yr ago`;
       } else {
-        return `${diffYrs} years ago`;
+        return `${diffYrs} yrs ago`;
       }
     }
   }

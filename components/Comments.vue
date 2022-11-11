@@ -29,7 +29,6 @@ commentsStore.setCommentsScore(voteData);
 
 commentsStore.setComments([]);
 commentsStore.setComments(commentsArray.value);
-console.log(commentsArray.value);
 </script>
 
 <template>

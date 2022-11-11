@@ -32,7 +32,10 @@ const userLogin = async (values) => {
       separator: "",
       style: "capital",
     }) + getRandomInt(1000);
-  while (allProfileHandles.value.includes(newProfileHandle)) {
+  while (
+    allProfileHandles.value.includes(newProfileHandle) ||
+    newProfileHandle.length > 18
+  ) {
     newProfileHandle =
       uniqueNamesGenerator({
         dictionaries: [adjectives, colors],
@@ -60,7 +63,7 @@ const userLogin = async (values) => {
     loginSuccess.value = true;
     navigateTo("#");
     setTimeout(() => {
-    window.location.reload();
+      window.location.reload();
     }, 500);
   } catch (error) {
     console.log(error);

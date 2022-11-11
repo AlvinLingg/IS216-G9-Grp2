@@ -45,6 +45,7 @@ const addComment = async (values) => {
       createdAt: new Date().toISOString(),
       parentCommentId: "0",
       profileHandle: userStore.user.profileHandle,
+      profilePicture: userStore.user.profilePicture,
       recipeId: recipeId,
       userId: userStore.user.uniqueUserId,
     });

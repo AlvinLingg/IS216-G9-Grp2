@@ -20,7 +20,6 @@ export default defineEventHandler(async (event) => {
       uniqueUserId: body.uniqueUserId,
       email: body.email,
       profilePicture: "",
-      address: "",
       displayName: "",
       profileHandle: body.profileHandle,
     },

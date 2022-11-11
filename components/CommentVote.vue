@@ -64,19 +64,19 @@ voteCount.value = commentsStore.commentsScore.value[props.commentId].voteCount;
   <div class="vote-section inline-flex">
     <!-- Upvote -->
     <AngleLine
-      width="24"
-      height="24"
-      class="cursor-pointer hover:text-green-300 mx-1"
+      width="20"
+      height="20"
+      class="cursor-pointer hover:text-green-300 "
       :class="vote === 1 ? 'text-green-500' : ''"
       @click="handleUpvote"
     />
     <!-- Vote Count -->
-    <span class="mx-1">{{ voteCount }}</span>
+    <span class="mx-1 my-auto">{{ voteCount }}</span>
     <!-- Downvote -->
     <AngleLine
-      width="24"
-      height="24"
-      class="rotate-180 cursor-pointer hover:text-red-400 mx-1"
+      width="20"
+      height="20"
+      class="rotate-180 cursor-pointer hover:text-red-400"
       :class="vote === -1 ? 'text-red-600' : ''"
       @click="handleDownvote"
     />
