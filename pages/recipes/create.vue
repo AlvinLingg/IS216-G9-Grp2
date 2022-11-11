@@ -216,8 +216,8 @@ const updateSteps = (e, index) => {
 };
 
 const handleFileSelection = (e) => {
-  console.log(e.target.files);
-  console.log(schema);
+  // console.log(e.target.files);
+  // console.log(schema);
   if (e.target.files.length + objectURLs.value.length > 5) {
     alert("You can only upload 5 images at a time");
     return;
@@ -248,16 +248,16 @@ const formatBytes = (bytes, decimals = 2) => {
 
 const updateIngredientInput = (e, key) => {
   selectedIngredients.value[key].amount = e.target.value;
-  console.log("hh", selectedIngredients.value);
+  // console.log("hh", selectedIngredients.value);
 };
 
 const updateIngredientSelect = (e, key) => {
   selectedIngredients.value[key].unit = e.target.value;
-  console.log("ee", selectedIngredients.value);
+  // console.log("ee", selectedIngredients.value);
 };
 
 const handleSubmit = async (values) => {
-  console.log(values);
+  // console.log(values);
   if (uploadedFiles.value.length === 0) {
     modalState.value = {
       status: "failure",

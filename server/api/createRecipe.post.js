@@ -2,7 +2,7 @@ import db from "../../db";
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  console.log(body);
+  // console.log(body);
 
   const result = new Promise((resolve, reject) => {
     db.put(

@@ -10,7 +10,7 @@ const props = defineProps({
   <div class="toast toast-end">
     <div class="alert alert-success">
       <div class="mx-auto">
-        <span> {{ props.toastMessage }}</span>
+        <span> {{ props.toastMessage }} </span>
       </div>
     </div>
   </div>

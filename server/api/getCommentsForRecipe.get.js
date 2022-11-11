@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
 
   const profileHandleQueryParams = {
     TableName: "user",
-    IndexName: "profileHandle-index",
+    IndexName: "profileHandle-retrievePictureAndHandle",
   };
 
   const allProfileHandles = {};
@@ -16,7 +16,10 @@ export default defineEventHandler(async (event) => {
     .promise()
     .then((data) => {
       data.Items.forEach((item) => {
-        allProfileHandles[item.uniqueUserId] = item.profileHandle;
+        allProfileHandles[item.uniqueUserId] = {
+          profileHandle: item.profileHandle,
+          profilePicture: item.profilePicture,
+        };
       });
     })
     .catch((error) => {
@@ -47,10 +50,14 @@ export default defineEventHandler(async (event) => {
           commentId: item.commentId,
           commentBody: item.commentBody,
           userId: item.userId,
-          profileHandle: allProfileHandles[item.userId],
+          profileHandle: allProfileHandles[item.userId].profileHandle,
+          profilePicture: allProfileHandles[item.userId].profilePicture,
           createdAt: item.createdAt,
         });
       });
+      results.sort((a, b) =>
+        a.createdAt < b.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+      );
     })
     .catch((error) => {
       console.log(error);

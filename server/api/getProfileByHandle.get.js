@@ -4,21 +4,22 @@ export default defineEventHandler(async (event) => {
   const routeQuery = getQuery(event);
   const params = {
     TableName: "user",
-    IndexName: "profileHandle-index",
+    IndexName: "profileHandle-retrieveFullProfile",
     KeyConditionExpression: "profileHandle = :handle",
     ExpressionAttributeValues: {
       ":handle": routeQuery.handle,
     },
   };
 
-  const result = new Promise((resolve, reject) => {
-    db.query(params, (err, data) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data.Items);
-      }
+  let result = null;
+  await db
+    .query(params)
+    .promise()
+    .then((data) => {
+      result = data.Items;
+    })
+    .catch((error) => {
+      console.log(error);
     });
-  });
   return result;
 });

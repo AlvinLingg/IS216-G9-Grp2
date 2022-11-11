@@ -6,16 +6,16 @@ const route = useRoute();
 const recipeId = route.params.rid;
 const userStore = useUserStore();
 const commentsStore = useCommentsStore();
+const parentCommentId = ref("0");
 
-const {
-  data: commentsArray,
-  pending,
-  refresh: refreshCommentsFetch,
-} = await useFetch("/api/getCommentsForRecipe", {
-  method: "GET",
-  params: { recipeId: recipeId },
-  initialCache: false,
-});
+const { data: commentsArray, pending } = await useFetch(
+  "/api/getCommentsForRecipe",
+  {
+    method: "GET",
+    params: { recipeId: recipeId },
+    initialCache: false,
+  }
+);
 
 const { data: voteData } = await useFetch("/api/getCommentScore", {
   method: "GET",
@@ -29,50 +29,34 @@ commentsStore.setCommentsScore(voteData);
 
 commentsStore.setComments([]);
 commentsStore.setComments(commentsArray.value);
-const childComments = ref([]);
-
-const populateCommentsStore = () => {
-  let tempArray = [];
-  commentsArray.value
-    .filter((comment) => comment.parentCommentId == "0")
-    .forEach((element) => {
-      tempArray.push(element);
-    });
-  childComments.value = tempArray;
-};
-
-const refreshComments = () => {
-  refreshCommentsFetch();
-};
-
-watch(commentsArray, () => {
-  populateCommentsStore();
-});
-
-populateCommentsStore();
+console.log(commentsArray.value);
 </script>
 
 <template>
-  <!-- TODO: Upvoting and Downvoting -->
   <div class="container mx-auto">
     <LoginModal />
-    <!-- TODO: Add gif here maybe? -->
+    <!-- TODO: Add loading modal here maybe? -->
     <div v-if="pending">Loading Comments...</div>
     <div v-else>
       <h1
         v-if="commentsArray.length > 0"
-        class="text-3xl font-semibold leading-relaxed"
+        class="text-3xl font-semibold leading-relaxed mb-[10px]"
       >
-        Comments({{ commentsArray.length }})
+        Comments ({{ commentsArray.length }})
       </h1>
-      <h1 v-else class="text-3xl font-semibold leading-relaxed">
+      <h1 v-else class="text-3xl font-semibold leading-relaxed mb-[10px]">
         No comments yet!<br />
         Be the first to say something!
       </h1>
-      <CommentsForm @refreshComments="refreshComments()" />
+      <CommentsForm />
       <div class="child-comments">
-        <div v-for="comment in childComments">
-          <Comment :comment-Id="comment.commentId" :current-comment="comment" />
+        <div v-for="comment in commentsStore.comments">
+          <Comment
+            v-if="comment.parentCommentId == parentCommentId"
+            :comment-Id="comment.commentId"
+            :current-comment="comment"
+            :key="comment.commentId"
+          />
         </div>
       </div>
     </div>

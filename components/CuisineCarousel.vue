@@ -66,7 +66,7 @@ export default {
       const progressbar = document.getElementById("progressbar");
       const progressBarItemCount = progressbar.children.length;
       const slider = document.getElementById("slider");
-      console.log(slider);
+      // console.log(slider);
       const sliderindex = parseInt(
         getComputedStyle(slider).getPropertyValue("--slider-index")
       );

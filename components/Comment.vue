@@ -2,7 +2,7 @@
 import { useCommentsStore } from "~/store/commentsStore";
 import { useUserStore } from "~/store/userStore";
 import { Form, Field } from "vee-validate";
-import { v1 as uuidv1 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 
 const commentsStore = useCommentsStore();
 const commentsArray = commentsStore.comments;
@@ -31,10 +31,10 @@ const childComments = commentsArray.filter(
   (comment) => comment.parentCommentId === props.commentId
 );
 
-const addComment = async (values) => {
+const addCommentReply = async (values) => {
   submitted.value = true;
   let commentBody = values.replyBody;
-  let commentId = uuidv1() + props.currentComment.recipeId;
+  let commentId = uuidv4() + props.currentComment.recipeId;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
     body: {
@@ -122,9 +122,8 @@ const dateDifference = commentsStore.getDateDifference(
     <div class="grid grid-cols-[20px_calc(100%-20px)]">
       <!-- COLLAPSE BAR (+/-) -->
       <div class="collapse-bar">
-        <!-- TODO: Make unhighlightable (how??) -->
         <!-- TODO: Try to save comments expanded/collapsed state -->
-        <a class="collapse-button" @click="toggleCollapse">
+        <a class="collapse-button select-none" @click="toggleCollapse">
           {{ expanded ? "-" : "+" }}
         </a>
       </div>
@@ -139,6 +138,11 @@ const dateDifference = commentsStore.getDateDifference(
               :to="`/profile/${props.currentComment.profileHandle}`"
               class="text-blue-600 profile_handle"
             >
+              <ProfileIcon
+                :profilePicture="currentComment.profilePicture"
+                :profileHandle="currentComment.profileHandle"
+                :profilePage="false"
+              />
               {{ props.currentComment.profileHandle }}
             </nuxt-link>
             <span v-else>[deleted]</span>
@@ -201,7 +205,7 @@ const dateDifference = commentsStore.getDateDifference(
                 >Speaking as: {{ userStore.user.profileHandle }}</span
               >
             </label>
-            <Form @submit="addComment">
+            <Form @submit="addCommentReply">
               <Field
                 name="replyBody"
                 as="textarea"
@@ -224,6 +228,7 @@ const dateDifference = commentsStore.getDateDifference(
           <Comment
             :current-comment="repliedComment"
             :comment-id="repliedComment.commentId"
+            :key="comment.commentId"
           />
         </div>
 
@@ -242,6 +247,11 @@ const dateDifference = commentsStore.getDateDifference(
               :to="`/profile/${props.currentComment.profileHandle}`"
               class="text-blue-600 profile_handle"
             >
+              <ProfileIcon
+                :profilePicture="currentComment.profilePicture"
+                :profileHandle="currentComment.profileHandle"
+                :profilePage="false"
+              />
               {{ props.currentComment.profileHandle }}
             </nuxt-link>
             <span v-else>[deleted]</span>

@@ -19,7 +19,6 @@ if (userCookie?.value?.accessToken) {
     userCookie.value = null;
   } else if (data?.value?.Items) {
     userStore.setUser(data.value.Items[0]);
-    // TODO: (if have time) regenerate accessToken to cookie to refresh session time
   }
 }
 </script>

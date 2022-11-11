@@ -1,5 +1,5 @@
 <script setup>
-import { v1 as uuidv1 } from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import { useUserStore } from "~/store/userStore";
 import { Form, Field } from "vee-validate";
 import { useCommentsStore } from "~/store/commentsStore";
@@ -8,7 +8,7 @@ const commentsStore = useCommentsStore();
 const userStore = useUserStore();
 const route = useRoute();
 const recipeId = route.params.rid;
-const emit = defineEmits(["refreshComments"]);
+const commentText = ref("");
 
 const validateComment = (value) => {
   if (!value) {
@@ -19,7 +19,7 @@ const validateComment = (value) => {
 
 const addComment = async (values) => {
   let commentBody = values.commentBody;
-  let commentId = uuidv1() + recipeId;
+  let commentId = uuidv4() + recipeId;
   const { data } = await useFetch("/api/addComment", {
     method: "POST",
     body: {
@@ -36,9 +36,18 @@ const addComment = async (values) => {
       userVote: 1,
       voteCount: 1,
     };
-    toastMessage.value = "Comment successfully submitted!";
+    toastMessage.value = "Comment successfully posted!";
     showToast();
-    emit("refreshComments");
+    commentText.value = "";
+    commentsStore.addNewComment({
+      commentBody: commentBody,
+      commentId: commentId,
+      createdAt: new Date().toISOString(),
+      parentCommentId: "0",
+      profileHandle: userStore.user.profileHandle,
+      recipeId: recipeId,
+      userId: userStore.user.uniqueUserId,
+    });
   }
 };
 
@@ -58,7 +67,7 @@ const toastMessage = ref("");
     <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
     <div v-if="!userStore.user">
       <a href="#login-register-modal">
-        <div class="relative max-w-[500px] h-[100px] flex">
+        <div class="relative h-[100px] flex">
           <textarea
             class="textarea textarea-bordered w-full h-full top-0 left-0 cursor-pointer absolute"
           ></textarea>
@@ -75,7 +84,8 @@ const toastMessage = ref("");
           name="commentBody"
           as="textarea"
           placeholder="Add a comment"
-          class="textarea textarea-bordered max-w-[500px] w-full h-[100px] mr-10 block"
+          class="textarea textarea-bordered w-full h-[100px] mr-10 block"
+          v-model="commentText"
           :rules="validateComment"
         />
         <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-1 mb-3" />

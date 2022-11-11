@@ -8,7 +8,6 @@ import Reddit from "~icons/cib/reddit";
 import { useUserStore } from "~~/store/userStore";
 
 const route = useRoute();
-console.log(route.path);
 
 // URL to Share
 const UrlPath = "https://wad2-nomnom.vercel.app";
@@ -78,7 +77,7 @@ const handleClick = async () => {
     }
     isFavored = await getUserFavorites(); // re-update GET query
   } else {
-    console.log("User not logged in");
+    // console.log("User not logged in");
     hideToast.value = false;
     setTimeout(function () {
       hideToast.value = true;

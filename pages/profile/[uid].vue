@@ -5,17 +5,11 @@
     </div>
     <div v-else class="section p-10 max-w-6xl m-auto">
       <div class="flex gap-5 justify-center">
-        <div
-          v-if="userProfile.profilePicture === undefined"
-          class="inline-flex overflow-hidden relative justify-center items-center w-[100px] h-[100px] bg-gray-100 rounded-full dark:bg-gray-600"
-        >
-          <span class="font-medium text-gray-600 dark:text-gray-300">{{
-            userProfile.profileHandle.slice(0, 5)
-          }}</span>
-        </div>
-        <div v-else>
-          <div>hello</div>
-        </div>
+        <ProfileIcon
+          :profilePicture="userProfile.profilePicture"
+          :profileHandle="userProfile.profileHandle"
+          :profilePage="true"
+        />
 
         <div class="self-center">
           <h1
@@ -186,6 +180,6 @@ if (userProfile.value != undefined) {
     apiStore.apiIndex,
     favoritedRecipes.value.map((x) => x.rid).join(",")
   );
-  console.log(recipesToDisplay.value);
+  // console.log(recipesToDisplay.value);
 }
 </script>

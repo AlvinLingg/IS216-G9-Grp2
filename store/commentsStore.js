@@ -9,6 +9,9 @@ export const useCommentsStore = defineStore("comments", () => {
   function setComments(newComments) {
     comments.value = newComments;
   }
+  function addNewComment(newComment) {
+    comments.value.unshift(newComment);
+  }
   function getDateDifference(dateIsoString) {
     const currentDateTime = new Date();
     const pastDate = new Date(dateIsoString);
@@ -49,6 +52,7 @@ export const useCommentsStore = defineStore("comments", () => {
   return {
     comments,
     commentsScore,
+    addNewComment,
     getDateDifference,
     setComments,
     setCommentsScore,
