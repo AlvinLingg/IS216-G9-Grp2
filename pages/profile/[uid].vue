@@ -10,6 +10,8 @@ const favoritedRecipes = ref([]);
 const recipesToDisplay = ref([]);
 const userCreatedRecipes = ref([]);
 const userOwner = ref(false);
+const communityLiked = ref([]);
+const communityRecipesDisplay = ref([]);
 
 const fetchUserProfile = async () => {
   const { data } = await useFetch("/api/getProfileByHandle", {
@@ -41,8 +43,6 @@ if (userProfile.value != undefined) {
   };
 
   favoritedRecipes.value = await getUserFavorites();
-  const communityLiked = ref([]);
-  const communityRecipesDisplay = ref([]);
 
   for (let i = 0; i < favoritedRecipes.value.length; i++) {
     if (favoritedRecipes.value[i]["rid"].length == 13) {
@@ -66,10 +66,9 @@ if (userProfile.value != undefined) {
     return data;
   };
 
-  for (var like of communityLiked.value) {
+  for (let like of communityLiked.value) {
     const recipe = await getRecipeDetails(like.rid);
-    communityRecipesDisplay.value.push(recipe);
-    console.log("lol", recipe.value);
+    communityRecipesDisplay.value.push(recipe.value);
   }
 
   const fetchUserCreatedRecipes = async () => {
@@ -221,8 +220,8 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
             />
             <RecipeCard
               v-for="recipe in communityRecipesDisplay"
-              :recipe="recipe"
-              @click="navigateTo(`/community/recipes/${recipe.id}`)"
+              :recipe="recipe.Items[0]"
+              @click="navigateTo(`/community/recipes/${recipe.Items[0].id}`)"
             />
           </div>
         </div>
