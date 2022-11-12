@@ -9,6 +9,7 @@ const userStore = useUserStore();
 const favoritedRecipes = ref([]);
 const recipesToDisplay = ref([]);
 const userCreatedRecipes = ref([]);
+const userOwner = ref(false);
 
 const fetchUserProfile = async () => {
   const { data } = await useFetch("/api/getProfileByHandle", {
@@ -53,12 +54,14 @@ if (userProfile.value != undefined) {
       },
       initialCache: false,
     });
-    console.log(data.value);
     userCreatedRecipes.value = data.value;
   };
   fetchUserCreatedRecipes();
 }
-console.log(userCreatedRecipes);
+if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
+  userOwner.value = true;
+}
+console.log(userCreatedRecipes.value);
 </script>
 
 <template>
@@ -129,29 +132,32 @@ console.log(userCreatedRecipes);
       >
         <!-- TODO: ADD USER CREATED RECIPES -->
         <div
-          v-if="userStore.user"
+          v-if="userCreatedRecipes.length == 0"
           class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
         >
           <h1 class="text-3xl font-bold">Oops!</h1>
-          <p class="mt-3">Looks like you have not created any recipes.</p>
-          <p>Have a recipe you wanna share?</p>
-          <button
-            class="btn rounded-3xl primary-color mt-3"
-            @click="navigateTo('/recipes/create')"
-          >
-            Upload Recipe
-          </button>
+          <p class="mt-3">
+            Looks like
+            <span>{{ userOwner ? "you" : userProfile.profileHandle }}</span>
+            have not created any recipes.
+          </p>
+          <div v-if="userOwner">
+            <p>Have a recipe you wanna share?</p>
+            <button
+              class="btn rounded-3xl primary-color mt-3"
+              @click="navigateTo('/recipes/create')"
+            >
+              Upload Recipe
+            </button>
+          </div>
         </div>
 
         <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
-          <h1 class="text-3xl font-bold">Oops!</h1>
-          <p class="mt-3">
-            Looks like
-            <span class="font-bold">
-              {{ userProfile.profileHandle }}
-            </span>
-            has not created any recipes.
-          </p>
+          <RecipeCard
+            v-for="recipe in userCreatedRecipes"
+            :recipe="recipe"
+            @click="navigateTo(`/community/recipes/${recipe.id}`)"
+          />
         </div>
       </div>
 

@@ -2,7 +2,7 @@ import db from "../../db";
 
 export default defineEventHandler(async (event) => {
   const body = await useBody(event);
-  // console.log(body);
+  console.log(body.image);
 
   const result = new Promise((resolve, reject) => {
     db.put(
@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
           id: Date.now().toString(),
           cookingTime: body.cookingTime,
           difficulty: body.difficulty,
-          images: JSON.stringify(body.images.map((image) => image.url)),
+          image: body.image[0].url,
           instructions: JSON.stringify(body.instructions),
           recipeName: body.recipeName,
           servingSize: body.servingSize,

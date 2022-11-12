@@ -435,7 +435,7 @@ const handleSubmit = async (values) => {
       ...values,
       ingredientsNeeded: selectedIngredients.value,
       instructions: instructionsSteps.value,
-      images: uploadResponse.value.urls,
+      image: uploadResponse.value.urls,
       userId: userStore.user.uniqueUserId,
     },
   })
