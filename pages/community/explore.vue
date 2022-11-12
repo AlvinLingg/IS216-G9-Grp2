@@ -16,7 +16,6 @@ const communityRecipes = async () => {
 const allCommunityRecipe = ref(await communityRecipes());
 let recipesToDisplay = ref(null);
 let temp = [];
-console.log(allCommunityRecipe);
 for (let item of allCommunityRecipe["_value"]) {
   temp.push({
     title: item.recipeName,

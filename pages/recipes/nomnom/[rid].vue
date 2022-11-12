@@ -17,7 +17,6 @@ const item = recipe["value"]["Items"][0];
 
 // instructions
 const instructions = item["instructions"].slice(2, -2).split('","');
-console.log(instructions);
 
 // ingredients and other misc. details
 const payload = {
