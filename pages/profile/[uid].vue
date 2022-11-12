@@ -91,8 +91,8 @@
       </div>
       <div
         :class="{
-          'h-[100px] bg-blue mt-10 px-[1rem]': openTab === 1,
-          'h-[100px] bg-blue mt-10 px-[1rem] hidden': openTab !== 1,
+          'h-[100px] bg-blue mt-6 px-[1rem]': openTab === 1,
+          'h-[100px] bg-blue mt-6 px-[1rem] hidden': openTab !== 1,
         }"
       >
         <div

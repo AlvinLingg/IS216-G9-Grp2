@@ -185,7 +185,7 @@ const handleClick = async () => {
     </div>
 
     <div
-      class="toast toast-center justify-center"
+      class="toast toast-center justify-center z-50"
       :class="{ hidden: hideToast }"
     >
       <div class="alert alert-error w-[325px] justify-center">

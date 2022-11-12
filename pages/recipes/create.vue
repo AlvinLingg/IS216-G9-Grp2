@@ -437,7 +437,7 @@ const handleSubmit = async (values) => {
       modalState.value = {
         status: "success",
         title: "Success",
-        message: "Receipe created successfully!",
+        message: "Recipe created successfully!",
       };
     })
     .catch((err) => {
