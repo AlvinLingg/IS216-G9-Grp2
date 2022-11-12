@@ -14,7 +14,6 @@ const getRecipeDetails = async () => {
 };
 const recipe = ref(await getRecipeDetails());
 const item = recipe["value"]["Items"][0];
-console.log();
 
 // instructions
 const instructions = item["instructions"].slice(2, -2).split('","');
@@ -55,7 +54,7 @@ const payload = {
                 : '../assets/Img404.PNG'
             "
             :rid="rid"
-            nomnom="true"
+            :nomnom="true"
             :name="recipe.Items[0].recipeName"
           />
         </div>
@@ -63,7 +62,7 @@ const payload = {
           <RecipeDetails
             :recipes="payload"
             :instructions="instructions"
-            nomnom="true"
+            :nomnom="true"
           />
         </div>
       </div>

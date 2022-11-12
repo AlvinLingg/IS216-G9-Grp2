@@ -62,8 +62,6 @@ const addCommentReply = async (values) => {
       userVote: 1,
       voteCount: 1,
     };
-    toastMessage.value = "Comment successfully submitted!";
-    showToast();
     showReply.value = false;
     replied.value = true;
   }
@@ -79,10 +77,8 @@ const deleteComment = async () => {
     initialCache: false,
   });
   if (data) {
-    toastMessage.value = "Comment successfully deleted!";
     commentDeleted.value = true;
     showDeleteConfirmation.value = false;
-    showToast();
   }
 };
 
@@ -91,13 +87,6 @@ const validateReply = (value) => {
     return "Reply cannot be empty";
   }
   return true;
-};
-
-const showToast = () => {
-  success.value = true;
-  setTimeout(() => {
-    success.value = false;
-  }, 5000);
 };
 
 const expanded = ref(true);
@@ -109,7 +98,6 @@ const showDelete = userStore.user
   ? userStore.user.uniqueUserId === props.currentComment.userId
   : false;
 const showDeleteConfirmation = ref(false);
-const toastMessage = ref("");
 const commentDeleted = ref(false);
 const repliedComment = ref({});
 
@@ -126,7 +114,6 @@ const dateDifference = commentsStore.getDateDifference(
 
 <template>
   <div class="comment text-xs">
-    <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
     <div>
       <svg
         src="~/assets/expand.svg"

@@ -30,6 +30,17 @@ const props = defineProps({
     type: String,
   },
 });
+
+const dropdownOpen = ref(false);
+const toggleDropdown = (event) => {
+  dropdownOpen.value = !dropdownOpen.value;
+  if (!dropdownOpen.value) {
+    event.target.blur();
+  } else {
+    event.target.focus();
+  }
+};
+
 // Initialize isFavored
 let isFavored;
 
@@ -83,7 +94,6 @@ const handleClick = async () => {
     }
     isFavored = await getUserFavorites(); // re-update GET query
   } else {
-    // console.log("User not logged in");
     hideToast.value = false;
     setTimeout(function () {
       hideToast.value = true;
@@ -170,7 +180,16 @@ const handleClick = async () => {
         </div>
         <div class="card-actions justify-end mt-3">
           <div class="dropdown dropdown-bottom dropdown-end">
-            <label tabindex="0" class="btn m-1">
+            <label
+              tabindex="0"
+              class="btn m-1"
+              @click="toggleDropdown"
+              @blur="
+                () => {
+                  dropdownOpen = false;
+                }
+              "
+            >
               <share-solid class="text-xl mr-3" /> Share
             </label>
             <ul

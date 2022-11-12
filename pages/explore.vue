@@ -131,7 +131,7 @@ const apiStore = useApiStore();
 const intolerances = ref(intolerancesData);
 const cuisines = ref(cuisinesData);
 
-console.log("cuisines", cuisines.value);
+// console.log("cuisines", cuisines.value);
 
 let sortOptions = {
   popularity: "Popularity",

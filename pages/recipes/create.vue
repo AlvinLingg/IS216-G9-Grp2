@@ -353,8 +353,8 @@ const updateIngredientSelect = (e, key) => {
 };
 
 const handleSubmit = async (values) => {
-  console.log(values);
-  console.log(selectedIngredients.value);
+  // console.log(values);
+  // console.log(selectedIngredients.value);
 
   if (uploadedFile.value === null) {
     modalState.value = {

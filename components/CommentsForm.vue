@@ -36,8 +36,6 @@ const addComment = async (values) => {
       userVote: 1,
       voteCount: 1,
     };
-    toastMessage.value = "Comment successfully posted!";
-    showToast();
     commentText.value = "";
     commentsStore.addNewComment({
       commentBody: commentBody,
@@ -51,21 +49,10 @@ const addComment = async (values) => {
     });
   }
 };
-
-const showToast = () => {
-  success.value = true;
-  setTimeout(() => {
-    success.value = false;
-  }, 5000);
-};
-
-const success = ref(false);
-const toastMessage = ref("");
 </script>
 
 <template>
   <div>
-    <ToastCommentSuccess v-if="success" :toast-message="toastMessage" />
     <div v-if="!userStore.user">
       <a href="#login-register-modal">
         <div class="relative h-[100px] flex">

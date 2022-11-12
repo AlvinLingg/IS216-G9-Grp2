@@ -193,7 +193,6 @@ const validateHandle = async (e) => {
 
 const handleFileSelection = (e) => {
   uploadedFile.value = e.target.files[0];
-  // console.log(uploadedFile.value);
 };
 
 const saveProfile = async () => {
