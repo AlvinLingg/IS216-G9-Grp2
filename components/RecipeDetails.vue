@@ -21,7 +21,7 @@ const props = defineProps({
 <template>
   <template v-if="nomnom == false">
     <div
-      class="h-[750px] lg:h-[500px] xl:h-[600px]"
+      class="h-[1000px] lg:h-[500px] xl:h-[600px]"
       :class="{ 'h-[450px]': instructions.length == 0 }"
     >
       <div class="h-fit">
@@ -74,7 +74,7 @@ const props = defineProps({
   </template>
   <template v-else>
     <div
-      class="h-[750px] lg:h-[500px] xl:h-[600px]"
+      class="h-[1000px] lg:h-[500px] xl:h-[600px]"
       :class="{ 'h-[450px]': instructions.length == 0 }"
     >
       <div class="h-fit">
