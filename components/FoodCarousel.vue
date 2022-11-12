@@ -23,6 +23,12 @@ const props = defineProps({
   recipes: {
     type: Object,
   },
+  nomnom: {
+    type: Boolean,
+  },
+  name: {
+    type: String,
+  },
 });
 // Initialize isFavored
 let isFavored;
@@ -107,49 +113,60 @@ const handleClick = async () => {
         </div>
       </figure>
       <div class="card-body p-8 pb-5">
-        <h2 class="card-title">
-          {{ props.recipes.title }}
-        </h2>
-        <p class="text-gray-500">By: {{ props.recipes.sourceName }}</p>
+        <template v-if="props.nomnom == false">
+          <h2 class="card-title">
+            {{ props.recipes.title }}
+          </h2>
+          <p class="text-gray-500">By: {{ props.recipes.sourceName }}</p>
+        </template>
+        <template v-else>
+          <h2 class="card-title">
+            {{ props.name }}
+          </h2>
+          <p class="text-gray-500">By: NomNom community!</p>
+        </template>
         <div class="mt-2">
-          <div
-            class="badge badge-outline mr-3"
-            v-if="
-              props.recipes.vegetarian && props.recipes.vegetarian.length != 0
-            "
-          >
-            Vegetarian
-          </div>
-          <div
-            class="badge badge-outline mr-3"
-            v-if="props.recipes.vegan && props.recipes.vegan.length != 0"
-          >
-            Vegan
-          </div>
-          <div
-            class="badge badge-outline mr-3"
-            v-if="
-              props.recipes.glutenFree && props.recipes.glutenFree.length != 0
-            "
-          >
-            Gluten-Free
-          </div>
-          <div
-            class="badge badge-outline mr-3"
-            v-if="
-              props.recipes.dairyFree && props.recipes.dairyFree.length != 0
-            "
-          >
-            Dairy-Free
-          </div>
-          <div
-            class="badge badge-outline mr-3"
-            v-if="
-              props.recipes.sustainable && props.recipes.sustainable.length != 0
-            "
-          >
-            Sustainable
-          </div>
+          <template v-if="props.nomnom == false">
+            <div
+              class="badge badge-outline mr-3"
+              v-if="
+                props.recipes.vegetarian && props.recipes.vegetarian.length != 0
+              "
+            >
+              Vegetarian
+            </div>
+            <div
+              class="badge badge-outline mr-3"
+              v-if="props.recipes.vegan && props.recipes.vegan.length != 0"
+            >
+              Vegan
+            </div>
+            <div
+              class="badge badge-outline mr-3"
+              v-if="
+                props.recipes.glutenFree && props.recipes.glutenFree.length != 0
+              "
+            >
+              Gluten-Free
+            </div>
+            <div
+              class="badge badge-outline mr-3"
+              v-if="
+                props.recipes.dairyFree && props.recipes.dairyFree.length != 0
+              "
+            >
+              Dairy-Free
+            </div>
+            <div
+              class="badge badge-outline mr-3"
+              v-if="
+                props.recipes.sustainable &&
+                props.recipes.sustainable.length != 0
+              "
+            >
+              Sustainable
+            </div>
+          </template>
         </div>
         <div class="card-actions justify-end mt-3">
           <div class="dropdown dropdown-bottom dropdown-end">
@@ -160,24 +177,46 @@ const handleClick = async () => {
               tabindex="0"
               class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
             >
-              <li>
-                <a
-                  :href="`https://www.facebook.com/sharer/sharer.php?u=${UrlPath}${route.path}`"
-                  ><facebook-f class="text-xl mr-1" />Facebook</a
-                >
-              </li>
-              <li>
-                <a
-                  :href="`https://twitter.com/share?url=${UrlPath}${route.path}&text=Check%20this%20recipe%20out!%20%0A%0A${props.recipes.title}:%0A%0A`"
-                  ><twitter class="text-xl mr-1" />Twitter</a
-                >
-              </li>
-              <li>
-                <a
-                  :href="`https://reddit.com/submit?url=Check%20this%20recipe%20out!%20%0A%0A${UrlPath}${route.path}&title=${props.recipes.title}`"
-                  ><reddit class="text-xl mr-1" />Reddit</a
-                >
-              </li>
+              <template v-if="props.nomnom == false">
+                <li>
+                  <a
+                    :href="`https://www.facebook.com/sharer/sharer.php?u=${UrlPath}${route.path}`"
+                    ><facebook-f class="text-xl mr-1" />Facebook</a
+                  >
+                </li>
+                <li>
+                  <a
+                    :href="`https://twitter.com/share?url=${UrlPath}${route.path}&text=Check%20this%20recipe%20out!%20%0A%0A${props.recipes.title}:%0A%0A`"
+                    ><twitter class="text-xl mr-1" />Twitter</a
+                  >
+                </li>
+                <li>
+                  <a
+                    :href="`https://reddit.com/submit?url=Check%20this%20recipe%20out!%20%0A%0A${UrlPath}${route.path}&title=${props.recipes.title}`"
+                    ><reddit class="text-xl mr-1" />Reddit</a
+                  >
+                </li>
+              </template>
+              <template v-else>
+                <li>
+                  <a
+                    :href="`https://www.facebook.com/sharer/sharer.php?u=${UrlPath}${route.path}`"
+                    ><facebook-f class="text-xl mr-1" />Facebook</a
+                  >
+                </li>
+                <li>
+                  <a
+                    :href="`https://twitter.com/share?url=${UrlPath}${route.path}&text=Check%20this%20recipe%20out!%20%0A%0A${props.name}:%0A%0A`"
+                    ><twitter class="text-xl mr-1" />Twitter</a
+                  >
+                </li>
+                <li>
+                  <a
+                    :href="`https://reddit.com/submit?url=Check%20this%20recipe%20out!%20%0A%0A${UrlPath}${route.path}&title=${props.name}`"
+                    ><reddit class="text-xl mr-1" />Reddit</a
+                  >
+                </li>
+              </template>
             </ul>
           </div>
         </div>
