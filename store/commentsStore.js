@@ -3,14 +3,15 @@ import { defineStore } from "pinia";
 export const useCommentsStore = defineStore("comments", () => {
   const comments = ref([]);
   const commentsScore = ref({});
+  const commentsState = ref({});
+  function addNewComment(newComment) {
+    comments.value.unshift(newComment);
+  }
   function setCommentsScore(scoreObject) {
     commentsScore.value = scoreObject;
   }
   function setComments(newComments) {
     comments.value = newComments;
-  }
-  function addNewComment(newComment) {
-    comments.value.unshift(newComment);
   }
   function getDateDifference(dateIsoString) {
     const currentDateTime = new Date();
@@ -52,6 +53,7 @@ export const useCommentsStore = defineStore("comments", () => {
   return {
     comments,
     commentsScore,
+    commentsState,
     addNewComment,
     getDateDifference,
     setComments,

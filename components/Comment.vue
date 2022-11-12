@@ -19,6 +19,8 @@ const props = defineProps({
 
 const toggleCollapse = () => {
   expanded.value = !expanded.value;
+  commentsStore.commentsState[props.commentId] = expanded.value;
+  console.log(commentsStore.commentsState);
 };
 const toggleReply = () => {
   showReply.value = !showReply.value;
@@ -111,6 +113,12 @@ const showDeleteConfirmation = ref(false);
 const toastMessage = ref("");
 const commentDeleted = ref(false);
 const repliedComment = ref({});
+
+if (props.commentId in commentsStore.commentsState) {
+  expanded.value = commentsStore.commentsState[props.commentId];
+} else {
+  commentsStore.commentsState[props.commentId] = expanded.value;
+}
 
 const dateDifference = commentsStore.getDateDifference(
   props.currentComment.createdAt
