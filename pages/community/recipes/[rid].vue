@@ -15,6 +15,8 @@ const getRecipeDetails = async () => {
 const recipe = ref(await getRecipeDetails());
 const item = recipe["value"]["Items"][0];
 
+console.log(recipe);
+
 // instructions
 const instructions = item["instructions"].slice(2, -2).split('","');
 
@@ -30,7 +32,7 @@ const payload = {
 <template>
   <div>
     <div class="container mx-auto" v-if="recipe.Items.length != 0">
-      <div class="pl-6 mt-5 lg:mb-0">
+      <div class="pl-6 lg:mb-0">
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
@@ -38,7 +40,7 @@ const payload = {
             </li>
             <li>
               <span class="text-ellipsis w-36 overflow-hidden">{{
-                recipe.Items[0].recipeName
+                recipe.Items[0].title
               }}</span>
             </li>
           </ul>
@@ -63,11 +65,6 @@ const payload = {
             :instructions="instructions"
             :nomnom="true"
           />
-        </div>
-      </div>
-      <div class="grid grid-cols-1 p-6 lg:grid-cols-12 lg:p-6">
-        <div class="gap-y-0 lg:col-span-12 lg:mt-12 xl:mt-0">
-          <Comments />
         </div>
       </div>
     </div>

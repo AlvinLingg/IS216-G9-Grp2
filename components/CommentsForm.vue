@@ -76,7 +76,7 @@ const addComment = async (values) => {
           v-model="commentText"
           :rules="validateComment"
         />
-        <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-1 mb-3" />
+        <input type="submit" value="Submit" class="btn btn-sm mr-1 mt-3 mb-3" />
       </Form>
     </div>
   </div>

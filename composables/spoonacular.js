@@ -11,8 +11,12 @@ let rotatingApiKey = [
   "a860a8c74b4b4486b720489bdf725ea2",
   "68a68b250d204394a1682647a6dd070e",
   "c21c98fdd76344339b22475b8c366a95",
+  "e922e57d86ba4149961c79b3d5541710",
+  "8347a2bc42d442a5a0c1248fe0e2d59d",
   "8347a2bc42d442a5a0c1248fe0e2d59d",
   "968f2f73b7214545b22871c6c8cd418c",
+  "200af3cc45874d948a4ad0fa16b49362",
+  "3b92f3f9eac44246afe26b5cce93ec46",
 ];
 
 let baseURL = "https://api.spoonacular.com";

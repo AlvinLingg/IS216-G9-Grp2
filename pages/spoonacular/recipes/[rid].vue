@@ -12,7 +12,7 @@ const instructions = ref(
 <template>
   <div>
     <div class="container mx-auto" v-if="recipes != null">
-      <div class="pl-6 mt-5 lg:mb-0">
+      <div class="px-6 lg:mb-0">
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
@@ -38,13 +38,11 @@ const instructions = ref(
           />
         </div>
         <div class="mt-10 gap-y-0 ml-0 lg:mt-0 lg:col-span-8 lg:ml-12">
-          <RecipeDetails :recipes="recipes" :instructions="instructions" />
-        </div>
-      </div>
-      <!-- Comments -->
-      <div class="grid grid-cols-1 p-6 lg:grid-cols-12 lg:p-6">
-        <div class="gap-y-0 lg:col-span-12 lg:mt-12 xl:mt-0">
-          <Comments />
+          <RecipeDetails
+            :recipes="recipes"
+            :instructions="instructions"
+            :nomnom="false"
+          />
         </div>
       </div>
     </div>

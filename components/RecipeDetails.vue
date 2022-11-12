@@ -17,10 +17,12 @@ const props = defineProps({
     required: true,
   },
 });
-var obj = ref({});
+const obj = ref({});
 if (props.nomnom == true) {
-  obj = JSON.parse(props.recipes.extendedIngredients);
+  obj.value = JSON.parse(props.recipes.extendedIngredients);
 }
+
+const showMoreDirections = ref(false);
 </script>
 <template>
   <template v-if="nomnom == false">
@@ -32,7 +34,7 @@ if (props.nomnom == true) {
         <h1 class="text-3xl font-semibold leading-relaxed">
           {{ props.recipes.title }}
         </h1>
-        <p class="text-s text-gray-500">
+        <p class="text-gray-500">
           {{
             props.recipes.dishTypes.length != 0
               ? capitalizeFirstLetter(props.recipes.dishTypes[0])
@@ -50,30 +52,75 @@ if (props.nomnom == true) {
           }}
           serving(s)
         </p>
-        <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
       </div>
-      <div class="overflow-auto max-h-[25%] lg:max-h-[20%]">
-        <ul class="leading-loose text-s text-gray-500">
-          <li v-for="ingredients in props.recipes.extendedIngredients">
-            {{ ingredients.original }}
-          </li>
-        </ul>
-      </div>
-      <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
-      <div class="overflow-auto max-h-[47%] lg:max-h-[35%]">
+      <!-- Ingredients -->
+      <div class="py-5 rounded-3xl">
+        <h2 class="text-xl mb-2 font-semibold">Ingredients</h2>
         <ul
-          class="leading-loose text-s text-gray-500 pr-3"
-          v-if="instructions.length != 0"
+          class="leading-loose text-gray-500 list-inside lg:columns-3 md:columns-2"
         >
-          <li class="mb-3" v-for="step in props.instructions[0].steps">
-            <p class="font-semibold pb-2">Step {{ step.number }}</p>
-            <p class="leading-tight">{{ step.step }}</p>
+          <li
+            class="list-disc"
+            v-for="(ingredient, index) in props.recipes.extendedIngredients"
+          >
+            {{ ingredient.original }}
           </li>
         </ul>
+      </div>
+      <div class="mb-8">
+        <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
+
+        <div v-if="instructions.length != 0">
+          <ul class="leading-loose text-gray-500 pr-3">
+            <template v-if="props.instructions[0].steps.length < 3">
+              <li class="mb-3" v-for="step in props.instructions[0].steps">
+                <p class="font-semibold pb-2">Step {{ step.number }}</p>
+                <p class="leading-tight">{{ step.step }}</p>
+              </li>
+            </template>
+            <template v-else>
+              <template v-for="(step, index) in props.instructions[0].steps">
+                <li class="mb-3" v-if="index < 3">
+                  <p class="font-semibold pb-2">Step {{ step.number }}</p>
+                  <p class="leading-tight">{{ step.step }}</p>
+                </li>
+              </template>
+              <template v-if="showMoreDirections">
+                <li
+                  class="mb-3"
+                  v-for="step in props.instructions[0].steps.slice(
+                    3,
+                    props.instructions[0].steps.length
+                  )"
+                >
+                  <p class="font-semibold pb-2">Step {{ step.number }}</p>
+                  <p class="leading-tight">{{ step.step }}</p>
+                </li>
+              </template>
+            </template>
+          </ul>
+          <template v-if="props.instructions[0].steps.length >= 3">
+            <button
+              v-if="showMoreDirections"
+              class="btn grey-color px-8 mt-3 btn-action"
+              @click="showMoreDirections = false"
+            >
+              Show less
+            </button>
+            <button
+              v-else
+              class="btn grey-color px-8 mt-3 btn-action"
+              @click="showMoreDirections = true"
+            >
+              Show more
+            </button>
+          </template>
+        </div>
         <p class="mt-2 text-s text-gray-500" v-else>
           There are no instructions for this recipe :-(
         </p>
       </div>
+      <Comments />
     </div>
   </template>
   <template v-else>
@@ -103,30 +150,74 @@ if (props.nomnom == true) {
           }}
           serving(s)
         </p>
-        <h2 class="text-xl mt-5 mb-2 font-semibold">Ingredients</h2>
       </div>
-      <div class="overflow-auto max-h-[25%] lg:max-h-[20%]">
-        <ul class="leading-loose text-s text-gray-500">
-          <li v-for="(ingredients, key) in obj">
-            {{ obj[key]["amount"] }} ({{ obj[key]["unit"] }}) - {{ key }}
-          </li>
-        </ul>
-      </div>
-      <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
-      <div class="overflow-auto max-h-[47%] lg:max-h-[35%]">
+
+      <!-- Ingredients -->
+      <div class="py-5 rounded-3xl">
+        <h2 class="text-xl mb-2 font-semibold">Ingredients</h2>
         <ul
-          class="leading-loose text-s text-gray-500 pr-3"
-          v-if="instructions.length != 0"
+          class="leading-loose text-gray-500 list-inside lg:columns-3 md:columns-2"
         >
-          <li class="mb-3" v-for="(step, idx) in props.instructions">
-            <p class="font-semibold pb-2">Step {{ idx + 1 }}</p>
-            <p class="leading-tight">{{ step }}</p>
+          <li class="list-disc" v-for="(ingredients, key) in obj">
+            {{ obj[key]["amount"] }} {{ obj[key]["unit"] }} {{ key }}
           </li>
         </ul>
+      </div>
+      <div class="mb-8">
+        <h2 class="text-xl mt-5 mb-2 font-semibold">Directions</h2>
+
+        <div v-if="instructions.length != 0">
+          <ul class="leading-loose text-gray-500 pr-3">
+            <template v-if="props.instructions.length < 3">
+              <li class="mb-3" v-for="(step, index) in props.instructions">
+                <p class="font-semibold pb-2">Step {{ index + 1 }}</p>
+                <p class="leading-tight">{{ step }}</p>
+              </li>
+            </template>
+            <template v-else>
+              <template v-for="(step, index) in props.instructions">
+                <li class="mb-3" v-if="index < 3">
+                  <p class="font-semibold pb-2">Step {{ index + 1 }}</p>
+                  <p class="leading-tight">{{ step }}</p>
+                </li>
+              </template>
+              <template v-if="showMoreDirections">
+                <li
+                  class="mb-3"
+                  v-for="(step, index) in props.instructions.slice(
+                    3,
+                    props.instructions.length
+                  )"
+                >
+                  <p class="font-semibold pb-2">Step {{ index + 1 }}</p>
+                  <p class="leading-tight">{{ step }}</p>
+                </li>
+              </template>
+            </template>
+          </ul>
+          <template v-if="props.instructions.length >= 3">
+            <button
+              v-if="showMoreDirections"
+              class="btn grey-color px-8 mt-3 btn-action"
+              @click="showMoreDirections = false"
+            >
+              Show less
+            </button>
+            <button
+              v-else
+              class="btn grey-color px-8 mt-3 btn-action"
+              @click="showMoreDirections = true"
+            >
+              Show more
+            </button>
+          </template>
+        </div>
+
         <p class="mt-2 text-s text-gray-500" v-else>
           There are no instructions for this recipe :-(
         </p>
       </div>
+      <Comments />
     </div>
   </template>
 </template>

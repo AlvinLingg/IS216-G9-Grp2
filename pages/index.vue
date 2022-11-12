@@ -26,7 +26,7 @@
               :key="index"
             >
               <div class="w-full mx-auto">
-                <nuxt-link :to="`/recipes/spoonacular/${recipe.id}`">
+                <nuxt-link :to="`/spoonacular/recipes/${recipe.id}`">
                   <div
                     class="card bg-base-100 p-2 border rounded-2xl hover:cursor-pointer hover:shadow-md ease-in duration-150 mt-2"
                   >
@@ -75,7 +75,7 @@
             :showIngredients="true"
             :showPreparationTime="true"
             :recipe="recipe"
-            @click="navigateTo(`/recipes/spoonacular/${recipe.id}`)"
+            @click="navigateTo(`/spoonacular/recipes/${recipe.id}`)"
           />
         </template>
         <template v-else>

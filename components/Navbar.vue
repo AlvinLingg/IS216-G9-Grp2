@@ -55,8 +55,13 @@ const searchQuery = ref("");
               <nuxt-link to="/" class="text-slate-600">Home</nuxt-link>
             </li>
             <li>
-              <nuxt-link to="/explore" class="text-slate-600"
+              <nuxt-link to="/spoonacular/explore" class="text-slate-600"
                 >Explore</nuxt-link
+              >
+            </li>
+            <li>
+              <nuxt-link to="/community/explore" class="text-slate-600"
+                >Community</nuxt-link
               >
             </li>
             <li>
@@ -187,8 +192,20 @@ const searchQuery = ref("");
           >
         </li>
         <li>
-          <nuxt-link to="/explore" class="mx-auto" @click="toggleMenu()"
+          <nuxt-link
+            to="/spoonacular/explore"
+            class="mx-auto"
+            @click="toggleMenu()"
             >Explore</nuxt-link
+          >
+        </li>
+
+        <li>
+          <nuxt-link
+            to="/community/explore"
+            class="mx-auto"
+            @click="toggleMenu()"
+            >Community</nuxt-link
           >
         </li>
         <li>

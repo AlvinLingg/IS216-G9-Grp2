@@ -104,20 +104,19 @@ const handleClick = async () => {
 <template>
   <div>
     <div
-      class="card bg-base-100 shadow-xl w-full overflow-visible sm:w-4/5 md:w-3/5 lg:w-full"
+      class="card bg-base-100 p-2 rounded-2xl w-full shadow-md overflow-visible sm:w-4/5 md:w-3/5 lg:w-full"
     >
       <figure class="relative">
         <img
           :src="props.imageURL"
           class="rounded-xl object-cover w-[496px] h-[330px]"
+          alt=""
         />
         <div
           class="rounded-full p-4 cursor-pointer bg-white absolute right-6 top-6"
           :class="{
             'text-red-600': liked,
-            'hover:text-gray-600': liked,
             'text-gray-600': !liked,
-            'hover:text-red-600': !liked,
           }"
           @click="handleClick"
           style="box-shadow: -2px 8px 15px -7px rgba(0, 0, 0, 0.46)"
@@ -125,7 +124,7 @@ const handleClick = async () => {
           <heart-solid class="text-xl" />
         </div>
       </figure>
-      <div class="card-body p-8 pb-5">
+      <div class="card-body pt-8 pb-5">
         <template v-if="props.nomnom == false">
           <h2 class="card-title">
             {{ props.recipes.title }}
