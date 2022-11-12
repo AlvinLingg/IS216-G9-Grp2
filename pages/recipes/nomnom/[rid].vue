@@ -34,7 +34,7 @@ const payload = {
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
-              <nuxt-link to="/explore">Recipes</nuxt-link>
+              <nuxt-link to="/community/explore">Recipes</nuxt-link>
             </li>
             <li>
               <span class="text-ellipsis w-36 overflow-hidden">{{
