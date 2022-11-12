@@ -1,7 +1,11 @@
 <template>
   <div class="container mx-auto">
     <div class="section p-10 max-w-6xl m-auto">
-      <Form @submit="handleSubmit" :validation-schema="schema" v-slot="{ errors }">
+      <Form
+        @submit="handleSubmit"
+        :validation-schema="schema"
+        v-slot="{ errors }"
+      >
         <h1 class="text-5xl font-bold">Create a new recipe</h1>
 
         <!-- Upload Image -->
@@ -10,18 +14,38 @@
           <label class="label-title text-slate-600"> Upload Image </label>
           <div
             class="w-32 h-32 border-2 border-dashed rounded-xl cursor-pointer text-[#a5a5a5] hover:bg-blue-50 hover:border-blue-500 hover:text-blue-500 mt-2"
-            @click="$refs.fileUploadInput.click()">
-            <img v-if="uploadedFile !== null || previewURL !== null" :src="previewURL" alt=""
-              class="rounded-xl hover:opacity-75 object-cover w-full h-full" />
-            <svg v-else xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="{1.5}"
-              class="p-8" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round"
-                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+            @click="$refs.fileUploadInput.click()"
+          >
+            <img
+              v-if="uploadedFile !== null || previewURL !== null"
+              :src="previewURL"
+              alt=""
+              class="rounded-xl hover:opacity-75 object-cover w-full h-full"
+            />
+            <svg
+              v-else
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="{1.5}"
+              class="p-8"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
+              />
             </svg>
           </div>
 
-          <input class="hidden" type="file" ref="fileUploadInput" accept="image/png, image/gif, image/jpeg"
-            @change="handleFileSelection" />
+          <input
+            class="hidden"
+            type="file"
+            ref="fileUploadInput"
+            accept="image/png, image/gif, image/jpeg"
+            @change="handleFileSelection"
+          />
           <span class="text-red-500 text-sm">{{ errors.images }}</span>
         </div>
 
@@ -29,8 +53,14 @@
         <div class="mt-5">
           <div class="grid grid-cols-3 gap-5">
             <div class="flex flex-col col-span-3">
-              <label for="search" class="label-title text-slate-600">Recipe Name</label>
-              <Field type="text" class="p-3 mb-0.5 mt-2 w-full border border-gray-300  rounded-lg" name="recipeName" />
+              <label for="search" class="label-title text-slate-600"
+                >Recipe Name</label
+              >
+              <Field
+                type="text"
+                class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
+                name="recipeName"
+              />
               <span class="text-red-500 text-sm">{{ errors.recipeName }}</span>
             </div>
           </div>
@@ -42,25 +72,43 @@
             <label for="search" class="label-title text-slate-600">
               Which ingredients do you need?
             </label>
-            <input type="text" id="search" placeholder="Type here..." v-model="searchTerm"
-              class="p-3 mb-0.5 w-16S0 border border-gray-300  rounded-lg" />
+            <input
+              type="text"
+              id="search"
+              placeholder="Type here..."
+              v-model="searchTerm"
+              class="p-3 mb-0.5 w-16S0 border border-gray-300 rounded-lg"
+            />
           </div>
-          <ul v-if="searchIngredients.length"
-            class="rounded bg-white border border-gray-300 px-4 py-2 space-y-1 z-10 absolute">
+          <ul
+            v-if="searchIngredients.length"
+            class="rounded bg-white border border-gray-300 px-4 py-2 space-y-1 z-10 absolute"
+          >
             <li class="px-1 pt-1 pb-2 font-bold border-b border-gray-200">
               Showing {{ searchIngredients.length }} of
               {{ ingredients.length }} results
             </li>
-            <li v-for="ingredient in searchIngredients" @click="selectIngredient(ingredient)"
-              class="cursor-pointer hover:bg-gray-100 p-1">
+            <li
+              v-for="ingredient in searchIngredients"
+              @click="selectIngredient(ingredient)"
+              class="cursor-pointer hover:bg-gray-100 p-1"
+            >
               {{ ingredient }}
             </li>
           </ul>
           <div v-for="(item, key, index) in selectedIngredients" :key="index">
             <div class="flex text-lg pt-2 items-center">
-              <input class="input input-bordered w-full max-w-xs mr-4  rounded-lg" type="number" placeholder="0"
-                min="0.01" @change="updateIngredientInput($event, key)" />
-              <select class="select select-bordered w-full max-w-xs mr-4" @change="updateIngredientSelect($event, key)">
+              <input
+                class="input input-bordered w-full max-w-xs mr-4 rounded-lg"
+                type="number"
+                placeholder="0"
+                min="0.01"
+                @change="updateIngredientInput($event, key)"
+              />
+              <select
+                class="select select-bordered w-full max-w-xs mr-4"
+                @change="updateIngredientSelect($event, key)"
+              >
                 <option value="teaspoon">tsp</option>
                 <option value="tablespoon">tbsp</option>
                 <option value="millilitre">ml</option>
@@ -71,68 +119,107 @@
               </select>
               <span>of&nbsp;</span>
               <span class="mr-4">{{ key }}</span>
-              <span class="badge py-3 cursor-pointer bg-[#e94249] border-[#e94249]"
-                @click="removeIngredient(key)">remove</span>
-            </div><span v-if="selectedIngredients[key].error" class="text-red-500 text-sm">Ingredient value must be
-              greater than 0</span>
+              <span
+                class="badge py-3 cursor-pointer bg-[#e94249] border-[#e94249]"
+                @click="removeIngredient(key)"
+                >remove</span
+              >
+            </div>
+            <span
+              v-if="selectedIngredients[key].error"
+              class="text-red-500 text-sm"
+              >Ingredient value must be greater than 0</span
+            >
           </div>
-
         </div>
 
         <!-- Recipe Additional Information - Serving Size, Expected Cooking Time, Difficulty -->
         <div class="mt-5">
           <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
             <div class="flex flex-col">
-              <label for="search" class="label-title text-slate-600">Serving size</label>
-              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
-                name="servingSize" />
+              <label for="search" class="label-title text-slate-600"
+                >Serving size</label
+              >
+              <Field
+                type="number"
+                class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
+                name="servingSize"
+              />
               <span class="text-red-500 text-sm">{{ errors.servingSize }}</span>
             </div>
             <div class="flex flex-col">
-              <label for="search" class="label-title text-slate-600">Expected cooking time</label>
-              <Field type="number" class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
-                name="cookingTime" />
-              <span class="text-red-500 text-sm">{{
-                  errors.cookingTime
-              }}</span>
+              <label for="search" class="label-title text-slate-600"
+                >Expected cooking time (Minutes)</label
+              >
+              <Field
+                type="number"
+                class="p-3 mb-0.5 mt-2 w-full border border-gray-300 rounded-lg"
+                name="cookingTime"
+              />
+              <span class="text-red-500 text-sm">{{ errors.cookingTime }}</span>
             </div>
             <div class="flex flex-col">
-              <label for="search" class="label-title text-slate-600">Difficulty</label>
-              <Field as="select" class="select select-bordered mb-0.5 mt-2 w-full border" name="difficulty">
+              <label for="search" class="label-title text-slate-600"
+                >Difficulty</label
+              >
+              <Field
+                as="select"
+                class="select select-bordered mb-0.5 mt-2 w-full border"
+                name="difficulty"
+              >
                 <option value="easy">Easy</option>
                 <option value="intermediate">Intermediate</option>
-                <option value="hard">Hard</option>
-              </Field><span class="text-red-500 text-sm">{{ errors.difficulty }}</span>
+                <option value="hard">Hard</option> </Field
+              ><span class="text-red-500 text-sm">{{ errors.difficulty }}</span>
             </div>
           </div>
         </div>
 
         <div class="form-control my-2.5">
           <label class="label-title text-slate-600">Instructions</label>
-          <button class="btn mt-2 grey-color" @click.prevent="addStep">Add a step</button>
-          <div v-for="(instructionStep, index) in instructionsSteps" class="mt-5">
-            <div class="w-full bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-              <div class="flex justify-between items-center py-2 px-3 border-b dark:border-gray-600">
-                <span class="font-bold text-slate-600">Step {{ index + 1 }}</span><span
+          <button class="btn mt-2 grey-color" @click.prevent="addStep">
+            Add a step
+          </button>
+          <div
+            v-for="(instructionStep, index) in instructionsSteps"
+            class="mt-5"
+          >
+            <div class="w-full bg-gray-50 rounded-lg border border-gray-200">
+              <div class="flex justify-between items-center py-2 px-3 border-b">
+                <span class="font-bold text-slate-600"
+                  >Step {{ index + 1 }}</span
+                ><span
                   class="badge py-3 cursor-pointer font-bold text-slate-800 bg-transparent border-none"
-                  @click="removeStep(index)">x</span>
+                  @click="removeStep(index)"
+                  >x</span
+                >
               </div>
-              <div class="py-2 px-4 bg-white rounded-b-lg dark:bg-gray-800">
-                <textarea id="editor" rows="4"
-                  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400"
-                  placeholder="Describe the steps..." required :value="instructionStep"
-                  @input="updateSteps($event, index)"></textarea>
+              <div class="py-2 px-4 bg-white rounded-b-lg">
+                <textarea
+                  id="editor"
+                  rows="4"
+                  class="block px-0 w-full text-sm text-gray-800 bg-white border-0 focus:outline-none"
+                  placeholder="Describe the steps..."
+                  required
+                  :value="instructionStep"
+                  @input="updateSteps($event, index)"
+                ></textarea>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="w-full mt-5 text-right"><button class="btn primary-color rounded-full">Create Recipe</button>
-
+        <div class="w-full mt-5 text-right">
+          <button class="btn primary-color rounded-full">Create Recipe</button>
         </div>
       </Form>
     </div>
-    <input type="checkbox" id="my-modal" class="modal-toggle" ref="cbStatusModal" />
+    <input
+      type="checkbox"
+      id="my-modal"
+      class="modal-toggle"
+      ref="cbStatusModal"
+    />
     <StatusModal modalID="my-modal" :modalState="modalState" />
   </div>
 </template>
@@ -146,8 +233,14 @@ import * as yup from "yup";
 // define validation schema
 const schema = yup.object({
   recipeName: yup.string().required("Please enter a recipe name"),
-  servingSize: yup.number().required("Serving size is required").min(1, "Minimum serving size is 1"),
-  cookingTime: yup.number().required("Cooking time is required").min(1, "Minimum cooking time is 1 min"),
+  servingSize: yup
+    .number()
+    .required("Serving size is required")
+    .min(1, "Minimum serving size is 1"),
+  cookingTime: yup
+    .number()
+    .required("Cooking time is required")
+    .min(1, "Minimum cooking time is 1 min"),
   difficulty: yup.string().required("Difficulty is required"),
 });
 
@@ -167,7 +260,7 @@ const cbStatusModal = ref(null);
 const modalState = ref({
   status: "loading",
   title: "Loading",
-  message: "Please wait..."
+  message: "Please wait...",
 });
 
 watch(uploadedFile, () => {
@@ -191,7 +284,7 @@ const selectIngredient = (ingredient) => {
   selectedIngredients.value[ingredient] = {
     amount: 0,
     unit: "tsp",
-    error: false
+    error: false,
   };
   searchTerm.value = "";
 };
@@ -245,10 +338,12 @@ const handleFileSelection = (e) => {
 
 const updateIngredientInput = (e, key) => {
   selectedIngredients.value[key].amount = e.target.value;
-  if (selectedIngredients.value[key].amount === "" || Number(selectedIngredients.value[key].amount) <= 0) {
+  if (
+    selectedIngredients.value[key].amount === "" ||
+    Number(selectedIngredients.value[key].amount) <= 0
+  ) {
     selectedIngredients.value[key].error = true;
-  }
-  else {
+  } else {
     selectedIngredients.value[key].error = false;
   }
 };
@@ -265,8 +360,8 @@ const handleSubmit = async (values) => {
     modalState.value = {
       status: "failure",
       title: "Oops!",
-      message: "Please upload an image for your recipe."
-    }
+      message: "Please upload an image for your recipe.",
+    };
     cbStatusModal.value.checked = true;
 
     return;
@@ -276,18 +371,21 @@ const handleSubmit = async (values) => {
     modalState.value = {
       status: "failure",
       title: "Oops!",
-      message: "Please select at least one ingredient."
-    }
+      message: "Please select at least one ingredient.",
+    };
     cbStatusModal.value.checked = true;
     return;
   }
 
-  if (Object.values(selectedIngredients.value).filter(x => x.amount <= 0).length > 0) {
+  if (
+    Object.values(selectedIngredients.value).filter((x) => x.amount <= 0)
+      .length > 0
+  ) {
     modalState.value = {
       status: "failure",
       title: "Oops!",
-      message: "Please ensure ingredient values are valid."
-    }
+      message: "Please ensure ingredient values are valid.",
+    };
     cbStatusModal.value.checked = true;
     for (let key in selectedIngredients.value) {
       if (selectedIngredients.value[key].amount <= 0) {
@@ -301,19 +399,17 @@ const handleSubmit = async (values) => {
     modalState.value = {
       status: "failure",
       title: "Oops!",
-      message: "Please specify at least one step."
-    }
+      message: "Please specify at least one step.",
+    };
     cbStatusModal.value.checked = true;
     return;
   }
 
-
-
   modalState.value = {
     status: "loading",
     title: "Loading",
-    message: "Please wait..."
-  }
+    message: "Please wait...",
+  };
   cbStatusModal.value.checked = true;
 
   // Upload files to S3
@@ -336,18 +432,20 @@ const handleSubmit = async (values) => {
       instructions: instructionsSteps.value,
       images: uploadResponse.value.urls,
     },
-  }).then((res) => {
-    modalState.value = {
-      status: "success",
-      title: "Success",
-      message: "Receipe created successfully!"
-    }
-  }).catch((err) => {
-    modalState.value = {
-      status: "failure",
-      title: "Oops!",
-      message: "Failed to create recipe."
-    }
-  });
+  })
+    .then((res) => {
+      modalState.value = {
+        status: "success",
+        title: "Success",
+        message: "Receipe created successfully!",
+      };
+    })
+    .catch((err) => {
+      modalState.value = {
+        status: "failure",
+        title: "Oops!",
+        message: "Failed to create recipe.",
+      };
+    });
 };
 </script>
