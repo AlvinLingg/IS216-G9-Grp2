@@ -61,7 +61,6 @@ if (userProfile.value != undefined) {
 if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
   userOwner.value = true;
 }
-console.log(userCreatedRecipes.value);
 </script>
 
 <template>
@@ -152,7 +151,10 @@ console.log(userCreatedRecipes.value);
           </div>
         </div>
 
-        <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
+        <div
+          v-else
+          class="text-center p-16 bg-[#f3f4f6] rounded-3xl grid gap-4 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
+        >
           <RecipeCard
             v-for="recipe in userCreatedRecipes"
             :recipe="recipe"
