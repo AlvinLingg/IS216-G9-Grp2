@@ -111,7 +111,7 @@
         <RecipeCard
           v-for="recipe in recipesToDisplay"
           :recipe="recipe"
-          @click="navigateTo(`/recipes/spoonacular/${recipe.id}`)"
+          @click="navigateTo(`/spoonacular/recipes/${recipe.id}`)"
         />
       </template>
       <template v-else>
@@ -123,8 +123,8 @@
 
 <script setup>
 import AngleLine from "~icons/clarity/angle-line";
-import intolerancesData from "../data/intolerances.json";
-import cuisinesData from "../data/cuisines.json";
+import intolerancesData from "../../data/intolerances.json";
+import cuisinesData from "../../data/cuisines.json";
 import { useApiStore } from "~/store/apiStore";
 
 const apiStore = useApiStore();
