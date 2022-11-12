@@ -10,13 +10,14 @@ export default defineEventHandler(async (event) => {
         TableName: "recipe",
         Item: {
           id: Date.now().toString(),
-          recipeName: body.recipeName,
-          servingSize: body.servingSize,
           cookingTime: body.cookingTime,
           difficulty: body.difficulty,
-          ingredients: JSON.stringify(body.ingredients),
-          instructions: JSON.stringify(body.instructions),
           images: JSON.stringify(body.images.map((image) => image.url)),
+          instructions: JSON.stringify(body.instructions),
+          recipeName: body.recipeName,
+          servingSize: body.servingSize,
+          ingredients: JSON.stringify(body.ingredientsNeeded),
+          userId: body.userId,
         },
       },
       (err, data) => {

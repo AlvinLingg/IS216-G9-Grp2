@@ -1,3 +1,66 @@
+<script setup>
+import { useUserStore } from "~~/store/userStore";
+import { useApiStore } from "~/store/apiStore";
+const apiStore = useApiStore();
+const route = useRoute();
+const openTab = ref(0);
+const userProfile = ref({});
+const userStore = useUserStore();
+const favoritedRecipes = ref([]);
+const recipesToDisplay = ref([]);
+const userCreatedRecipes = ref([]);
+
+const fetchUserProfile = async () => {
+  const { data } = await useFetch("/api/getProfileByHandle", {
+    method: "GET",
+    params: {
+      handle: route.params.uid,
+    },
+    initialCache: false,
+  });
+  return data.value[0];
+};
+userProfile.value = await fetchUserProfile();
+
+const toggleTab = (index) => {
+  openTab.value = index;
+};
+
+// Likes and Created Recipes
+if (userProfile.value != undefined) {
+  const getUserFavorites = async () => {
+    const { data } = await useFetch("/api/getFavoriteByUID", {
+      initialCache: false,
+      method: "GET",
+      query: {
+        uid: `${userProfile.value["uniqueUserId"].slice(9)}`,
+      },
+    });
+    return data.value;
+  };
+
+  favoritedRecipes.value = await getUserFavorites();
+  recipesToDisplay.value = await getRecipeInformationBulk(
+    apiStore.apiIndex,
+    favoritedRecipes.value.map((x) => x.rid).join(",")
+  );
+
+  const fetchUserCreatedRecipes = async () => {
+    const { data } = await useFetch("/api/getRecipeByUser", {
+      method: "GET",
+      params: {
+        userId: userProfile.value.uniqueUserId,
+      },
+      initialCache: false,
+    });
+    console.log(data.value);
+    userCreatedRecipes.value = data.value;
+  };
+  fetchUserCreatedRecipes();
+}
+console.log(userCreatedRecipes);
+</script>
+
 <template>
   <div class="container mx-auto">
     <div v-if="userProfile === undefined" class="section p-10 max-w-6xl m-auto">
@@ -64,6 +127,7 @@
           'h-[100px] mt-6 px-[1rem] hidden': openTab !== 0,
         }"
       >
+        <!-- TODO: ADD USER CREATED RECIPES -->
         <div
           v-if="userStore.user"
           class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
@@ -78,6 +142,7 @@
             Upload Recipe
           </button>
         </div>
+
         <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
           <h1 class="text-3xl font-bold">Oops!</h1>
           <p class="mt-3">
@@ -89,6 +154,7 @@
           </p>
         </div>
       </div>
+
       <div
         :class="{
           'h-[100px] bg-blue mt-6 px-[1rem]': openTab === 1,
@@ -136,52 +202,3 @@
     </div>
   </div>
 </template>
-
-<script setup>
-import { useUserStore } from "~~/store/userStore";
-import { useApiStore } from "~/store/apiStore";
-const apiStore = useApiStore();
-const route = useRoute();
-const openTab = ref(0);
-const userProfile = ref({});
-const userStore = useUserStore();
-const favoritedRecipes = ref([]);
-const recipesToDisplay = ref([]);
-
-const fetchUserProfile = async () => {
-  const { data } = await useFetch("/api/getProfileByHandle", {
-    method: "GET",
-    params: {
-      handle: route.params.uid,
-    },
-    initialCache: false,
-  });
-  return data.value[0];
-};
-userProfile.value = await fetchUserProfile();
-
-const toggleTab = (index) => {
-  openTab.value = index;
-};
-
-// Likes
-if (userProfile.value != undefined) {
-  const getUserFavorites = async () => {
-    const { data } = await useFetch("/api/getFavoriteByUID", {
-      initialCache: false,
-      method: "GET",
-      query: {
-        uid: `${userProfile.value["uniqueUserId"].slice(9)}`,
-      },
-    });
-    return data.value;
-  };
-
-  favoritedRecipes.value = await getUserFavorites();
-  recipesToDisplay.value = await getRecipeInformationBulk(
-    apiStore.apiIndex,
-    favoritedRecipes.value.map((x) => x.rid).join(",")
-  );
-  // console.log(recipesToDisplay.value);
-}
-</script>

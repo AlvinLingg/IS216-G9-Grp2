@@ -227,8 +227,13 @@
 <script setup>
 import ingredients from "../../data/ingredients.json";
 import { Form, Field, validate } from "vee-validate";
+import { useUserStore } from "~/store/userStore";
 
 import * as yup from "yup";
+const userStore = useUserStore();
+
+// TODO: NoExist if user is not logged in
+// TODO: Only allow positive values for ingredients
 
 // define validation schema
 const schema = yup.object({
@@ -431,6 +436,7 @@ const handleSubmit = async (values) => {
       ingredientsNeeded: selectedIngredients.value,
       instructions: instructionsSteps.value,
       images: uploadResponse.value.urls,
+      userId: userStore.user.uniqueUserId,
     },
   })
     .then((res) => {

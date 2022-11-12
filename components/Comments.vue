@@ -35,7 +35,12 @@ commentsStore.setComments(commentsArray.value);
   <div class="container mx-auto">
     <LoginModal />
     <!-- TODO: Add loading modal here maybe? -->
-    <div v-if="pending">Loading Comments...</div>
+    <div v-if="pending">
+      <div class="text-center py-6">
+        <p class="font-bold text-3xl">Loading Comments...</p>
+      </div>
+      <div style="border-top-color: transparent" class="spinner"></div>
+    </div>
     <div v-else>
       <h1
         v-if="commentsArray.length > 0"
