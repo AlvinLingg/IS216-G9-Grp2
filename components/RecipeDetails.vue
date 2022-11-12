@@ -115,7 +115,7 @@ const props = defineProps({
           v-if="instructions.length != 0"
         >
           <li class="mb-3" v-for="(step, idx) in props.instructions">
-            <p class="font-semibold pb-2">Step {{ idx }}</p>
+            <p class="font-semibold pb-2">Step {{ idx + 1 }}</p>
             <p class="leading-tight">{{ step }}</p>
           </li>
         </ul>

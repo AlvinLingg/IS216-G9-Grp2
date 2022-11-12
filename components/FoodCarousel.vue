@@ -107,7 +107,10 @@ const handleClick = async () => {
       class="card bg-base-100 shadow-xl w-full overflow-visible sm:w-4/5 md:w-3/5 lg:w-full"
     >
       <figure class="relative">
-        <img :src="props.imageURL" class="rounded-xl" />
+        <img
+          :src="props.imageURL"
+          class="rounded-xl object-cover w-[496px] h-[330px]"
+        />
         <div
           class="rounded-full p-4 cursor-pointer bg-white absolute right-6 top-6"
           :class="{
