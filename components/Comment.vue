@@ -20,7 +20,6 @@ const props = defineProps({
 const toggleCollapse = () => {
   expanded.value = !expanded.value;
   commentsStore.commentsState[props.commentId] = expanded.value;
-  console.log(commentsStore.commentsState);
 };
 const toggleReply = () => {
   showReply.value = !showReply.value;
@@ -216,7 +215,6 @@ const dateDifference = commentsStore.getDateDifference(
     </div>
     <div v-if="expanded" class="grid grid-cols-[28px_calc(100%-28px)]">
       <div class="collapse-bar" @click="toggleCollapse">
-        <!-- TODO: Try to save comments expanded/collapsed state -->
         <a class="collapse-button"> </a>
       </div>
       <div class="comment-body pl-2">

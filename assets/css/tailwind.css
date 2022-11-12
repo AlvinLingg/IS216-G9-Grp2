@@ -23,3 +23,7 @@
 .spinner {
   @apply w-16 h-16 border-4 border-blue-400 border-solid rounded-full animate-spin mx-auto;
 }
+
+.check-handle-spinner {
+  @apply w-4 h-4 border-2 border-green-400 border-solid rounded-full animate-spin mx-auto;
+}

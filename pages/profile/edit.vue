@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto">
-    <div v-if="userStore.user === null" class="section p-10 max-w-6xl m-auto">
+    <div v-if="!userStore.user" class="section p-10 max-w-6xl m-auto">
       <NoExist />
     </div>
 
@@ -62,27 +62,49 @@
           <label class="label label-title text-slate-600">
             <span class="label-text">Handle</span>
           </label>
-          <input
-            type="text"
-            class="input input-bordered w-full"
-            @change="validateHandle($event)"
-            @keyup="validateHandle($event)"
-            @paste="validateHandle($event)"
-            v-model="userHandle"
-          />
-          <span v-if="!isHandleValid" class="mt-2 text-red-500 text-sm"
-            >That handle has been taken. Please choose another handle.
+          <div class="relative">
+            <input
+              type="text"
+              class="input input-bordered w-full"
+              @change="validateHandle($event)"
+              @keyup="validateHandle($event)"
+              @paste="validateHandle($event)"
+              v-model="userHandle"
+            />
+
+            <span
+              v-if="checkingDuplicateHandle"
+              style="border-top-color: transparent"
+              class="check-handle-spinner absolute bottom-[17px] right-[15px]"
+            ></span>
+          </div>
+          <span v-if="!isHandleValid" class="mt-2 text-red-500 text-sm">
+            That handle has been taken. Please choose another handle.
           </span>
-          <span v-if="isHandleEmpty" class="mt-2 text-red-500 text-sm"
-            >Profile handle cannot be empty. Please choose a handle.
+          <span v-if="isHandleEmpty" class="mt-2 text-red-500 text-sm">
+            Profile handle cannot be empty. Please choose a handle.
           </span>
-          <span v-if="isHandleTooLong" class="mt-2 text-red-500 text-sm"
-            >Profile handle is too long. Please choose a handle shorter than 18
+          <span v-if="isHandleTooLong" class="mt-2 text-red-500 text-sm">
+            Profile handle is too long. Please choose a handle shorter than 18
             characters.
+          </span>
+          <span v-if="isHandleIllegal" class="mt-2 text-red-500 text-sm">
+            Profile handle contains illegal characters. Please use only letters
+            and numbers.
           </span>
         </div>
         <div class="w-[150px] self-end">
-          <button class="btn btn-action primary-color" @click="saveProfile">
+          <button
+            class="btn btn-action primary-color"
+            @click="saveProfile"
+            :disabled="
+              isHandleEmpty ||
+              isHandleTooLong ||
+              isHandleIllegal ||
+              checkingDuplicateHandle ||
+              !isHandleValid
+            "
+          >
             Save Changes
           </button>
         </div>
@@ -100,14 +122,15 @@
 
 <script setup>
 import { useUserStore } from "~~/store/userStore";
-const route = useRoute();
 const userStore = useUserStore();
 const isHandleValid = ref(true);
 const isHandleEmpty = ref(false);
 const isHandleTooLong = ref(false);
-const userHandle = ref(userStore.user.profileHandle);
-const displayName = ref(userStore.user.displayName);
-const previewURL = ref(userStore.user.profilePicture);
+const isHandleIllegal = ref(false);
+const checkingDuplicateHandle = ref(false);
+const userHandle = ref(userStore?.user?.profileHandle);
+const displayName = ref(userStore?.user?.displayName);
+const previewURL = ref(userStore?.user?.profilePicture);
 const uploadedFile = ref(null);
 
 const cbStatusModal = ref(null);
@@ -119,8 +142,6 @@ const modalState = ref({
 });
 
 const validateHandle = async (e) => {
-  // make sure no illegal characters before sending api request
-  // no spaces etc
   if (e.target.value.length === 0) {
     isHandleEmpty.value = true;
     return;
@@ -128,16 +149,26 @@ const validateHandle = async (e) => {
     isHandleEmpty.value = false;
   }
 
-  // console.log("validateblock", e.target.value, userStore.user.profileHandle);
+  if (e.target.value.length > 18) {
+    isHandleTooLong.value = true;
+    return;
+  } else {
+    isHandleTooLong.value = false;
+  }
+
+  if (/^[A-Za-z0-9]*$/.test(e.target.value)) {
+    isHandleIllegal.value = true;
+    return;
+  } else {
+    isHandleIllegal.value = false;
+  }
+
   if (userStore.user.profileHandle === e.target.value) {
     isHandleValid.value = true;
     return;
   }
 
-  if (e.target.value.length > 18) {
-    isHandleTooLong.value = true;
-    return;
-  }
+  checkingDuplicateHandle.value = true;
 
   const { data } = await useFetch("/api/getProfileByHandle", {
     initialCache: false,
@@ -146,16 +177,17 @@ const validateHandle = async (e) => {
       handle: e.target.value,
     },
   });
-  // console.log(userStore.user.profileHandle);
-  // console.log("hehe", data.value);
+
   if (
     data.value === undefined ||
     data.value === null ||
     Object.keys(data.value).length == 1
   ) {
     isHandleValid.value = false;
+    checkingDuplicateHandle.value = false;
   } else {
     isHandleValid.value = true;
+    checkingDuplicateHandle.value = false;
   }
 };
 
@@ -165,8 +197,15 @@ const handleFileSelection = (e) => {
 };
 
 const saveProfile = async () => {
-  // console.log("submitted hand", userHandle.value);
-  // console.log("submitted display", displayName.value);
+  if (
+    !isHandleValid.value ||
+    isHandleEmpty.value ||
+    isHandleTooLong.value ||
+    isHandleIllegal.value
+  ) {
+    return;
+  }
+
   modalState.value = {
     status: "loading",
     title: "Loading",
