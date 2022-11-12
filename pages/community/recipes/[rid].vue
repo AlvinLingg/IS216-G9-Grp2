@@ -20,10 +20,10 @@ const instructions = item["instructions"].slice(2, -2).split('","');
 
 // ingredients and other misc. details
 const payload = {
-  title: item["recipeName"],
-  readyInMinutes: item["cookingTime"],
-  servings: item["servingSize"],
-  extendedIngredients: [],
+  title: item["title"],
+  readyInMinutes: item["readyInMinutes"],
+  servings: item["servings"],
+  extendedIngredients: item["extendedIngredients"],
   dishTypes: [],
 };
 </script>
@@ -48,13 +48,13 @@ const payload = {
         <div class="lg:col-span-4">
           <FoodCarousel
             :imageURL="
-              recipe.Items[0].images.length != 0
-                ? recipe.Items[0].images.slice(2, -2)
+              recipe.Items[0].image != null
+                ? recipe.Items[0].image
                 : '../assets/Img404.PNG'
             "
             :rid="rid"
             :nomnom="true"
-            :name="recipe.Items[0].recipeName"
+            :name="recipe.Items[0].title"
           />
         </div>
         <div class="mt-10 gap-y-0 ml-0 lg:mt-0 lg:col-span-8 lg:ml-12">

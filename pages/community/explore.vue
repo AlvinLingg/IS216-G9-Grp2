@@ -18,8 +18,8 @@ let recipesToDisplay = ref(null);
 let temp = [];
 for (let item of allCommunityRecipe["_value"]) {
   temp.push({
-    title: item.recipeName,
-    image: item.images.slice(2, -2),
+    title: item.title,
+    image: item.image,
     id: item.id,
   });
 }

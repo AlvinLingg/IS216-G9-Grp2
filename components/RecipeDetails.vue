@@ -17,6 +17,10 @@ const props = defineProps({
     required: true,
   },
 });
+var obj = ref({});
+if (props.nomnom == true) {
+  obj = JSON.parse(props.recipes.extendedIngredients);
+}
 </script>
 <template>
   <template v-if="nomnom == false">
@@ -103,8 +107,8 @@ const props = defineProps({
       </div>
       <div class="overflow-auto max-h-[25%] lg:max-h-[20%]">
         <ul class="leading-loose text-s text-gray-500">
-          <li v-for="ingredients in props.recipes.extendedIngredients">
-            {{ ingredients.original }}
+          <li v-for="(ingredients, key) in obj">
+            {{ obj[key]["amount"] }} ({{ obj[key]["unit"] }}) - {{ key }}
           </li>
         </ul>
       </div>

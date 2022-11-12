@@ -41,10 +41,36 @@ if (userProfile.value != undefined) {
   };
 
   favoritedRecipes.value = await getUserFavorites();
+  const communityLiked = ref([]);
+  const communityRecipesDisplay = ref([]);
+
+  for (let i = 0; i < favoritedRecipes.value.length; i++) {
+    if (favoritedRecipes.value[i]["rid"].length == 13) {
+      communityLiked.value.push(favoritedRecipes.value[i]);
+    }
+  }
+
   recipesToDisplay.value = await getRecipeInformationBulk(
     apiStore.apiIndex,
     favoritedRecipes.value.map((x) => x.rid).join(",")
   );
+
+  const getRecipeDetails = async (rid) => {
+    const { data, error } = await useFetch("/api/getRecipeDetails", {
+      initialCache: false,
+      method: "GET",
+      query: {
+        id: rid,
+      },
+    });
+    return data;
+  };
+
+  for (var like of communityLiked.value) {
+    const recipe = await getRecipeDetails(like.rid);
+    communityRecipesDisplay.value.push(recipe);
+    console.log("lol", recipe.value);
+  }
 
   const fetchUserCreatedRecipes = async () => {
     const { data } = await useFetch("/api/getRecipeByUser", {
@@ -192,6 +218,11 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
               v-for="recipe in Object.values(recipesToDisplay)"
               :recipe="recipe"
               @click="navigateTo(`/spoonacular/recipes/${recipe.id}`)"
+            />
+            <RecipeCard
+              v-for="recipe in communityRecipesDisplay"
+              :recipe="recipe"
+              @click="navigateTo(`/community/recipes/${recipe.id}`)"
             />
           </div>
         </div>
