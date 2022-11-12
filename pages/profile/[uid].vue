@@ -117,7 +117,7 @@
             <RecipeCard
               v-for="recipe in Object.values(recipesToDisplay)"
               :recipe="recipe"
-              @click="navigateTo(`/recipes/spoonacular/${recipe.id}`)"
+              @click="navigateTo(`/spoonacular/recipes/${recipe.id}`)"
             />
           </div>
         </div>

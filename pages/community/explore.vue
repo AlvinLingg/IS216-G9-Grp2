@@ -82,7 +82,7 @@ watch([selectedSortDirection], async () => {
         <RecipeCard
           v-for="recipe in recipesToDisplay"
           :recipe="recipe"
-          @click="navigateTo(`/recipes/nomnom/${recipe.id}`)"
+          @click="navigateTo(`/community/recipes/${recipe.id}`)"
         />
       </template>
       <template v-else>

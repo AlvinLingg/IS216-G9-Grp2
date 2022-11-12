@@ -65,7 +65,7 @@
               :showPreparationTime="true"
               :recipe="recipe"
               :isFridgeRecipe="true"
-              @click="navigateTo(`/recipes/spoonacular/${recipe.id}`)"
+              @click="navigateTo(`/spoonacular/recipes/${recipe.id}`)"
             />
           </div>
         </template>
