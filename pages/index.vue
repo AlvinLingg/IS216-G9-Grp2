@@ -1,5 +1,5 @@
 <template>
-  <div class="section p-5 max-w-6xl m-auto min-h-screen">
+  <div class="section p-5 max-w-6xl m-auto">
     <div
       class="flex flex-col md:flex-row md:flex-row gap-[100px] min-h-[400px] sm:p-10 justify-center"
     >
