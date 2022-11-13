@@ -91,7 +91,6 @@ const validateReply = (value) => {
 
 const expanded = ref(true);
 const showReply = ref(false);
-const success = ref(false);
 const submitted = ref(false);
 const replied = ref(false);
 const showDelete = userStore.user
@@ -186,6 +185,7 @@ const dateDifference = commentsStore.getDateDifference(
             :profilePicture="currentComment.profilePicture"
             :profileHandle="currentComment.profileHandle"
             :profilePage="false"
+            class="mr-[3px]"
           />
           {{ props.currentComment.profileHandle }}
         </nuxt-link>

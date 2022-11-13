@@ -94,18 +94,17 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
       <NoExist />
     </div>
     <div v-else class="section p-10 max-w-6xl m-auto">
-      <div class="flex gap-5 justify-center">
-        <ProfileIcon
-          :profilePicture="userProfile.profilePicture"
-          :profileHandle="userProfile.profileHandle"
-          :profilePage="true"
-        />
+      <div class="flex gap-5 justify-center flex-col xs:flex-row">
+        <div class="my-auto mx-auto xs:mx-0 basis-[100px] grow-0 shrink-0">
+          <ProfileIcon
+            :profilePicture="userProfile.profilePicture"
+            :profileHandle="userProfile.profileHandle"
+            :profilePage="true"
+          />
+        </div>
 
         <div class="self-center">
-          <h1
-            v-if="userProfile.displayName === undefined"
-            class="text-3xl font-bold"
-          >
+          <h1 v-if="!userProfile.displayName" class="text-3xl font-bold">
             {{ userProfile.profileHandle }}
           </h1>
           <h1 v-else class="text-3xl font-bold">
@@ -154,16 +153,17 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
           'h-[100px] mt-6 px-[1rem] hidden': openTab !== 0,
         }"
       >
-        <!-- TODO: ADD USER CREATED RECIPES -->
         <div
           v-if="userCreatedRecipes.length == 0"
-          class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
+          class="text-center p-0 xs:p-16 bg-[#ffffff] xs:bg-[#f3f4f6] rounded-3xl"
         >
           <h1 class="text-3xl font-bold">Oops!</h1>
           <p class="mt-3">
             Looks like
-            <span>{{ userOwner ? "you" : userProfile.profileHandle }}</span>
-            have not created any recipes.
+            <span>{{
+              userOwner ? "you have " : userProfile.profileHandle + " has "
+            }}</span>
+            not created any recipes.
           </p>
           <div v-if="userOwner">
             <p>Have a recipe you wanna share?</p>
@@ -178,7 +178,7 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
 
         <div
           v-else
-          class="text-center p-16 bg-[#f3f4f6] rounded-3xl grid gap-4 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
+          class="text-center p-0 xs:p-16 bg-[#ffffff] xs:bg-[#f3f4f6] rounded-3xl grid gap-4 mt-3 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1"
         >
           <RecipeCard
             v-for="recipe in userCreatedRecipes"
@@ -196,7 +196,7 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
       >
         <div
           v-if="userStore.user"
-          class="text-center p-16 bg-[#f3f4f6] rounded-3xl"
+          class="text-center p-0 xs:p-16 bg-[#ffffff] xs:bg-[#f3f4f6] rounded-3xl"
         >
           <div v-if="favoritedRecipes.length == 0">
             <h1 class="text-3xl font-bold">Oops!</h1>

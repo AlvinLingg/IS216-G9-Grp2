@@ -34,7 +34,6 @@ commentsStore.setComments(commentsArray.value);
 <template>
   <div class="container mx-auto">
     <LoginModal />
-    <!-- TODO: Add loading modal here maybe? -->
     <div v-if="pending">
       <div class="text-center py-6">
         <p class="font-bold text-3xl">Loading Comments...</p>

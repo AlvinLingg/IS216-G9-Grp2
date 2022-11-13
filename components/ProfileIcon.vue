@@ -27,6 +27,6 @@ let profileHandleLength = props.profilePage ? 5 : 1;
     v-else
     :src="props.profilePicture"
     :class="profilePage ? 'w-[100px] h-[100px]' : 'w-[28px] h-[28px]'"
-    class="object-cover rounded-full inline mr-[3px]"
+    class="object-cover rounded-full inline "
   />
 </template>
