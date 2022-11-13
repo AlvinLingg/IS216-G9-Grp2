@@ -239,10 +239,11 @@ useHead({
         <div v-else class="text-center p-16 bg-[#f3f4f6] rounded-3xl">
           <h1 class="text-3xl font-bold">Oops!</h1>
           <p class="mt-3">
+            Please log in to view
             <span class="font-bold">
               {{ userProfile.profileHandle }}
             </span>
-            likes are private!
+            likes!
           </p>
         </div>
       </div>
