@@ -37,7 +37,6 @@ export default defineNuxtConfig({
       jwtRefreshSecret: process.env.JWT_REFRESH_TOKEN_SECRET,
     },
   },
-  // serverMiddleware: ["~/api/index.js"],
   serverMiddleware: [
     {
       path: "/express",

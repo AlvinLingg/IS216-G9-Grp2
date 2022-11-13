@@ -21,6 +21,16 @@ if (userCookie?.value?.accessToken) {
     userStore.setUser(data.value.Items[0]);
   }
 }
+useHead({
+  link: [{ rel: "icon", type: "image/png", href: "/favicon.png" }],
+  meta: [
+    {
+      name: "description",
+      content: "A place to share your recipes and find new ones to try!",
+    },
+  ],
+  title: "NOM.NOM - A zero waste initiative powered by spoonacular API",
+});
 </script>
 
 <template>

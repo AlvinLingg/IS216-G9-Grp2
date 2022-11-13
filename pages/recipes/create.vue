@@ -455,4 +455,10 @@ const handleSubmit = async (values) => {
       };
     });
 };
+
+useHead({
+  title: userStore?.user
+    ? "Create and Share a Recipe Now! - NOM.NOM"
+    : "User Not Found - NOM.NOM",
+});
 </script>

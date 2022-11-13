@@ -13,8 +13,8 @@ const getRecipeDetails = async () => {
   return data;
 };
 const recipe = ref(await getRecipeDetails());
-var instructions = ref();
-var payload = ref(null);
+let instructions = ref();
+let payload = ref(null);
 
 const item = recipe["value"]["Items"][0];
 if (recipe.value.Count != 0) {
@@ -30,7 +30,16 @@ if (recipe.value.Count != 0) {
     dishTypes: [],
   };
 }
+
+console.log(payload);
+useHead({
+  title:
+    payload.value !== null
+      ? `${payload.title} - NOM.NOM`
+      : "Recipe Not Found - NOM.NOM",
+});
 </script>
+
 <template>
   <div>
     <div class="container mx-auto min-h-screen" v-if="recipe.Items.length != 0">

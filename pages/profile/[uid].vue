@@ -86,6 +86,12 @@ if (userProfile.value != undefined) {
 if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
   userOwner.value = true;
 }
+
+useHead({
+  title: userProfile?.value?.profileHandle
+    ? userProfile.value.profileHandle + " - NOM.NOM"
+    : "User Not Found - NOM.NOM",
+});
 </script>
 
 <template>

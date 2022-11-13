@@ -149,4 +149,8 @@ const removeIngredient = async (ingredient) => {
 
   suggestedRecipes.value = await findByIngredients(0, strIngredients.value, 8);
 };
+
+useHead({
+  title: `What's in my fridge? - NOM.NOM`,
+});
 </script>

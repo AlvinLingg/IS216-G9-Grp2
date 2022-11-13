@@ -234,5 +234,9 @@ watch(offset, async () => {
   );
   recipesToDisplay.value = recipesToDisplay.value.concat(temp.results);
 });
+
+useHead({
+  title:`Explore Recipes - NOM.NOM`
+})
 </script>
-<style></style>
+

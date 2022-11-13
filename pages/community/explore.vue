@@ -36,6 +36,10 @@ watch([selectedSortDirection], async () => {
     recipesToDisplay = temp;
   }
 });
+
+useHead({
+  title:`Explore Community Recipes - NOM.NOM`
+})
 </script>
 
 <template>

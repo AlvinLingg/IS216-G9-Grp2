@@ -252,7 +252,7 @@ const saveProfile = async () => {
       };
     })
     .catch((err) => {
-      console.log("err", err)
+      console.log("err", err);
       modalState.value = {
         status: "failure",
         title: "Oops!",
@@ -263,5 +263,11 @@ const saveProfile = async () => {
 
 watch(uploadedFile, () => {
   previewURL.value = URL.createObjectURL(uploadedFile.value);
+});
+
+useHead({
+  title: userStore?.user
+    ? "Edit Profile - " + userStore.user.profileHandle + " - NOM.NOM"
+    : "User Not Found - NOM.NOM",
 });
 </script>

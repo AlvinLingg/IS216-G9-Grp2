@@ -110,6 +110,10 @@ onBeforeMount(async () => {
     popularRecipesID.value.join(",")
   );
 });
+
+useHead({
+  title: `NOM.NOM - A zero waste initiative powered by spoonacular API`,
+});
 </script>
 
 <style>

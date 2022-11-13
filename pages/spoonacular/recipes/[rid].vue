@@ -8,7 +8,15 @@ const recipes = ref(await getRecipeInformation(apiStore.apiIndex, rid));
 const instructions = ref(
   await analyzeRecipeInstructions(apiStore.apiIndex, rid)
 );
+
+useHead({
+  title:
+  recipes?.value?.title != null
+      ? `${recipes?.value?.title} - NOM.NOM`
+      : "Recipe Not Found - NOM.NOM",
+});
 </script>
+
 <template>
   <div>
     <div class="container mx-auto min-h-screen" v-if="recipes != null">
@@ -55,4 +63,3 @@ const instructions = ref(
     </div>
   </div>
 </template>
-<style></style>

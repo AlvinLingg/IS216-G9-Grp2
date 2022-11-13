@@ -83,4 +83,8 @@ watch(offset, async () => {
     temp.results
   );
 });
+
+useHead({
+  title: `${searchQuery.value} - ${searchResults.value.totalResults} Results - NOM.NOM`,
+});
 </script>
