@@ -77,7 +77,7 @@ const searchQuery = ref("");
         <input
           type="text"
           placeholder="Search Recipes"
-          class="input bg-[#16161a0a] active:bg-white focus:bg-white w-full max-w-xs rounded-3xl hidden lg:inline-flex"
+          class="input bg-[#16161a0a] active:bg-white focus:bg-white w-full lg:max-w-[200px] xl:max-w-xs rounded-3xl hidden lg:inline-flex"
           v-model="searchQuery"
           @keyup.enter="navigateTo(`/search?q=${searchQuery}`)"
         />
