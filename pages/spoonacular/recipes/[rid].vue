@@ -11,7 +11,7 @@ const instructions = ref(
 
 useHead({
   title:
-  recipes?.value?.title != null
+    recipes?.value?.title != null
       ? `${recipes?.value?.title} - NOM.NOM`
       : "Recipe Not Found - NOM.NOM",
 });
@@ -24,7 +24,7 @@ useHead({
         <div class="text-sm breadcrumbs">
           <ul>
             <li>
-              <nuxt-link to="/explore">Recipes</nuxt-link>
+              <nuxt-link to="/spoonacular/explore">Recipes</nuxt-link>
             </li>
             <li>
               <span class="text-ellipsis w-36 overflow-hidden">{{
