@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div class="min-h-screen container mx-auto">
     <Html>
       <Head>
         <Title>Page not found :( - NOM.NOM</Title>
