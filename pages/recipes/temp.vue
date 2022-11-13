@@ -37,7 +37,6 @@ const testPOST = async () => {
 };
 
 const handleFileSelection = (e) => {
-  // console.log(e.target.files);
   uploadedFiles.value = e.target.files;
 };
 

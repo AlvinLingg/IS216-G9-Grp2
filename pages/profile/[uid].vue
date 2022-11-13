@@ -91,7 +91,11 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
 <template>
   <div class="container mx-auto">
     <div v-if="userProfile === undefined" class="section p-10 max-w-6xl m-auto">
-      <NoExist />
+      <NoExist
+        errorCode="404"
+        errorTitle="User Not Found"
+        errorMessage="Invalid user handle! Please check the URL and try again."
+      />
     </div>
     <div v-else class="section p-10 max-w-6xl m-auto">
       <div class="flex gap-5 justify-center flex-col xs:flex-row">

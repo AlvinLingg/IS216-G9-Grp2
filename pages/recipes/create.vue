@@ -1,6 +1,12 @@
 <template>
   <div class="container mx-auto">
-    <div class="section p-10 max-w-6xl m-auto">
+    <div v-if="!userStore.user" class="section p-10 max-w-6xl m-auto">
+      <NoExist
+        errorTitle="User Not Found"
+        errorMessage="Please login and try again!"
+      />
+    </div>
+    <div v-else class="section p-10 max-w-6xl m-auto">
       <Form
         @submit="handleSubmit"
         :validation-schema="schema"
@@ -228,12 +234,9 @@
 import ingredients from "../../data/ingredients.json";
 import { Form, Field, validate } from "vee-validate";
 import { useUserStore } from "~/store/userStore";
-
 import * as yup from "yup";
-const userStore = useUserStore();
 
-// TODO: NoExist if user is not logged in
-// TODO: Only allow positive values for ingredients
+const userStore = useUserStore();
 
 // define validation schema
 const schema = yup.object({
@@ -358,9 +361,6 @@ const updateIngredientSelect = (e, key) => {
 };
 
 const handleSubmit = async (values) => {
-  // console.log(values);
-  // console.log(selectedIngredients.value);
-
   if (uploadedFile.value === null) {
     modalState.value = {
       status: "failure",

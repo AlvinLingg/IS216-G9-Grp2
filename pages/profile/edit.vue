@@ -1,7 +1,10 @@
 <template>
   <div class="container mx-auto">
     <div v-if="!userStore.user" class="section p-10 max-w-6xl m-auto">
-      <NoExist />
+      <NoExist
+        errorTitle="User Not Found"
+        errorMessage="Please login and try again!"
+      />
     </div>
 
     <div v-else class="section p-10 max-w-6xl m-auto">
@@ -249,7 +252,7 @@ const saveProfile = async () => {
       };
     })
     .catch((err) => {
-      // console.log("err", err)
+      console.log("err", err)
       modalState.value = {
         status: "failure",
         title: "Oops!",

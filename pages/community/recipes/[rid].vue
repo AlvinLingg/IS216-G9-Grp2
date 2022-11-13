@@ -15,8 +15,6 @@ const getRecipeDetails = async () => {
 const recipe = ref(await getRecipeDetails());
 const item = recipe["value"]["Items"][0];
 
-console.log(recipe);
-
 // instructions
 const instructions = item["instructions"].slice(2, -2).split('","');
 
@@ -70,6 +68,7 @@ const payload = {
     </div>
     <div class="container mx-auto" v-else>
       <NoExist
+        errorCode="404"
         errorTitle="Recipe Not Found"
         errorMessage="This recipe does not exist or was removed!"
       />

@@ -48,8 +48,9 @@ const instructions = ref(
     </div>
     <div class="container mx-auto" v-else>
       <NoExist
+        errorCode="404"
         errorTitle="Recipe Not Found"
-        errorMessage="This recipe does not exist or was removed!"
+        errorMessage="This recipe was either removed or does not exist!"
       />
     </div>
   </div>
