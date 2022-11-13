@@ -41,7 +41,12 @@ let searchResults = ref(null);
 let offset = ref(0);
 let scrollComponent = ref(null);
 
-// searchResults.value = await searchRecipe(apiStore.apiIndex, searchQuery.value, 16, offset.value);
+searchResults.value = await searchRecipe(
+  apiStore.apiIndex,
+  searchQuery.value,
+  12,
+  offset.value
+);
 
 onMounted(() => {
   window.addEventListener("scroll", handleScroll);
