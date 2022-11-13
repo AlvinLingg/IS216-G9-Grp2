@@ -178,7 +178,9 @@ const showMoreDirections = ref(false);
               <template v-for="(step, index) in props.instructions">
                 <li class="mb-3" v-if="index < 3">
                   <p class="font-semibold pb-2">Step {{ index + 1 }}</p>
-                  <p class="leading-tight">{{ step }}</p>
+                  <p class="leading-tight">
+                    {{ step.replaceAll(/\\n|\\r\\n|\\n\\r|\\r/g, "") }}
+                  </p>
                 </li>
               </template>
               <template v-if="showMoreDirections">
@@ -189,8 +191,10 @@ const showMoreDirections = ref(false);
                     props.instructions.length
                   )"
                 >
-                  <p class="font-semibold pb-2">Step {{ index + 1 }}</p>
-                  <p class="leading-tight">{{ step }}</p>
+                  <p class="font-semibold pb-2">Step {{ index + 4 }}</p>
+                  <p class="leading-tight">
+                    {{ step.replaceAll(/\\n|\\r\\n|\\n\\r|\\r/g, "") }}
+                  </p>
                 </li>
               </template>
             </template>

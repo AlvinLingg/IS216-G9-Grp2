@@ -421,6 +421,7 @@ const handleSubmit = async (values) => {
   let formData = new FormData();
   formData.append("files", uploadedFile.value);
   let { data: uploadResponse } = await useFetch("/express/upload", {
+    initialCache: false,
     headers: {
       "Content-Disposition": formData,
     },
