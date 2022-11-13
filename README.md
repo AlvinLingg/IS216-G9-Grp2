@@ -40,7 +40,7 @@ NOM.NOM is a recipe-sharing website that allows users to search recipes based on
 
 
 ## Solution Architecture
-![image](https://user-images.githubusercontent.com/9499796/201516508-33b9405d-cf9d-4d1b-a44c-97c43ac86768.png)
+![image](https://user-images.githubusercontent.com/9499796/201516838-165f9d2b-fb1c-472c-a5e0-259a5198dc5a.png)
 
 ## Project Installation
 1. Clone the repository
