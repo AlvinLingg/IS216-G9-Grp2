@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto min-h-screen">
     <div v-if="!userStore.user" class="section p-10 max-w-6xl m-auto">
       <NoExist
         errorTitle="User Not Found"

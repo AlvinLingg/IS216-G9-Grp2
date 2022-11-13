@@ -1,5 +1,5 @@
 <template>
-  <div class="section p-10 max-w-6xl m-auto">
+  <div class="section p-10 max-w-6xl m-auto min-h-screen">
     <h1 class="text-5xl font-bold">What's in my fridge?</h1>
 
     <div class="my-5 gap-4">

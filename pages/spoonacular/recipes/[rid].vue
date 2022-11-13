@@ -11,7 +11,7 @@ const instructions = ref(
 </script>
 <template>
   <div>
-    <div class="container mx-auto" v-if="recipes != null">
+    <div class="container mx-auto min-h-screen" v-if="recipes != null">
       <div class="px-6 lg:mb-0">
         <div class="text-sm breadcrumbs">
           <ul>
@@ -46,7 +46,7 @@ const instructions = ref(
         </div>
       </div>
     </div>
-    <div class="container mx-auto" v-else>
+    <div class="container mx-auto min-h-screen" v-else>
       <NoExist
         errorCode="404"
         errorTitle="Recipe Not Found"

@@ -27,7 +27,7 @@ const showMoreDirections = ref(false);
 <template>
   <template v-if="nomnom == false">
     <div
-      class="h-[1000px] lg:h-[500px] xl:h-[600px]"
+      class="lg:min-h-[500px] xl:min-h-[600px] min-h-screen"
       :class="{ 'h-[450px]': instructions.length == 0 }"
     >
       <div class="h-fit">
@@ -125,8 +125,8 @@ const showMoreDirections = ref(false);
   </template>
   <template v-else>
     <div
-      class="h-[1000px] lg:h-[500px] xl:h-[600px]"
-      :class="{ 'h-[450px]': instructions.length == 0 }"
+      class="lg:min-h-[500px] xl:min-h-[600px] min-h-screen"
+      :class="{ 'min-h-[450px]': instructions.length == 0 }"
     >
       <div class="h-fit">
         <h1 class="text-3xl font-semibold leading-relaxed">

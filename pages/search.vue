@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="section p-5 max-w-6xl m-auto">
+    <div class="section p-5 max-w-6xl m-auto min-h-screen">
       <div class="flex flex-col gap-5">
         <div>
           <h1 class="text-5xl font-bold">Search recipes</h1>

@@ -1,12 +1,12 @@
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto min-h-screen">
     <div v-if="!userStore.user" class="section p-10 max-w-6xl m-auto">
       <NoExist
         errorTitle="User Not Found"
         errorMessage="Please login and try again!"
       />
     </div>
-    <div v-else class="section p-10 max-w-6xl m-auto">
+    <div v-else class="section p-10 max-w-6xl m-auto min-h-screen">
       <Form
         @submit="handleSubmit"
         :validation-schema="schema"

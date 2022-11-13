@@ -39,7 +39,7 @@ watch([selectedSortDirection], async () => {
 </script>
 
 <template>
-  <div class="section p-10 max-w-6xl m-auto">
+  <div class="section p-10 max-w-6xl m-auto min-h-screen">
     <h1 class="text-5xl font-bold">Browse community recipes</h1>
     <div class="flex mt-2">
       <div class="flex flex-row">

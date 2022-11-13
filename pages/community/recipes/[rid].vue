@@ -13,23 +13,27 @@ const getRecipeDetails = async () => {
   return data;
 };
 const recipe = ref(await getRecipeDetails());
+var instructions = ref();
+var payload = ref(null);
+
 const item = recipe["value"]["Items"][0];
+if (recipe.value.Count != 0) {
+  // instructions
+  instructions = item["instructions"].slice(2, -2).split('","');
 
-// instructions
-const instructions = item["instructions"].slice(2, -2).split('","');
-
-// ingredients and other misc. details
-const payload = {
-  title: item["title"],
-  readyInMinutes: item["readyInMinutes"],
-  servings: item["servings"],
-  extendedIngredients: item["extendedIngredients"],
-  dishTypes: [],
-};
+  // ingredients and other misc. details
+  payload = {
+    title: item["title"],
+    readyInMinutes: item["readyInMinutes"],
+    servings: item["servings"],
+    extendedIngredients: item["extendedIngredients"],
+    dishTypes: [],
+  };
+}
 </script>
 <template>
   <div>
-    <div class="container mx-auto" v-if="recipe.Items.length != 0">
+    <div class="container mx-auto min-h-screen" v-if="recipe.Items.length != 0">
       <div class="pl-6 lg:mb-0">
         <div class="text-sm breadcrumbs">
           <ul>
@@ -66,7 +70,7 @@ const payload = {
         </div>
       </div>
     </div>
-    <div class="container mx-auto" v-else>
+    <div class="container mx-auto min-h-screen" v-else>
       <NoExist
         errorCode="404"
         errorTitle="Recipe Not Found"

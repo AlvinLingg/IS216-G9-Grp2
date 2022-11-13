@@ -89,7 +89,7 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
 </script>
 
 <template>
-  <div class="container mx-auto">
+  <div class="container mx-auto min-h-screen">
     <div v-if="userProfile === undefined" class="section p-10 max-w-6xl m-auto">
       <NoExist
         errorCode="404"
@@ -153,8 +153,8 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
 
       <div
         :class="{
-          'h-[100px] mt-6 px-[1rem]': openTab === 0,
-          'h-[100px] mt-6 px-[1rem] hidden': openTab !== 0,
+          'min-h-[100px] mt-6 px-[1rem]': openTab === 0,
+          'min-h-[100px] mt-6 px-[1rem] hidden': openTab !== 0,
         }"
       >
         <div
@@ -194,8 +194,8 @@ if (userProfile?.value?.uniqueUserId == userStore?.user?.uniqueUserId) {
 
       <div
         :class="{
-          'h-[100px] bg-blue mt-6 px-[1rem]': openTab === 1,
-          'h-[100px] bg-blue mt-6 px-[1rem] hidden': openTab !== 1,
+          'min-h-[100px] bg-blue mt-6 px-[1rem]': openTab === 1,
+          'min-h-[100px] bg-blue mt-6 px-[1rem] hidden': openTab !== 1,
         }"
       >
         <div
