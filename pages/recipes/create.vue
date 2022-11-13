@@ -444,8 +444,12 @@ const handleSubmit = async (values) => {
       modalState.value = {
         status: "success",
         title: "Success",
-        message: "Recipe created successfully!",
+        message: "Redirecting to recipe page...",
       };
+
+      setTimeout(async () => {
+        await navigateTo(`/community/recipes/${res}`);
+      }, 2000);
     })
     .catch((err) => {
       modalState.value = {

@@ -4,11 +4,12 @@ export default defineEventHandler(async (event) => {
   const body = await useBody(event);
 
   const result = new Promise((resolve, reject) => {
+    let id = Date.now().toString();
     db.put(
       {
         TableName: "recipe",
         Item: {
-          id: Date.now().toString(),
+          id: id,
           readyInMinutes: body.cookingTime,
           difficulty: body.difficulty,
           image: body.image[0].url,
@@ -23,7 +24,7 @@ export default defineEventHandler(async (event) => {
         if (err) {
           reject(err);
         } else {
-          resolve(data);
+          resolve(id);
         }
       }
     );
