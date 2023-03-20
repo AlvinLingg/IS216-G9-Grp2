@@ -10,7 +10,7 @@
           <p>Find recipes by ingredients you have at home</p>
         </div>
         <div class="flex gap-5">
-          <nuxt-link to="/explore">
+          <nuxt-link to="/spoonacular/explore">
             <button class="btn primary-color">Explore</button>
           </nuxt-link>
           <nuxt-link to="/fridge"
@@ -82,7 +82,7 @@
           <SkeletonRecipeCard :noOfLines="3" v-for="n in 4" :key="n" />
         </template>
       </div>
-      <nuxt-link to="/explore">
+      <nuxt-link to="/spoonacular/explore">
         <button class="btn w-full grey-color btn-action">Explore</button>
       </nuxt-link>
     </div>
